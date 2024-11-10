@@ -6,13 +6,13 @@
             <field name="name">Customer Number</field>
             <field name="code">customer.number</field>
             <field name="prefix">C</field>
-            <field name="padding" eval="5"/>
+            <field name="padding" eval="4"/>
         </record>
-        <record id="sequence_customer_number" model="ir.sequence">
+        <record id="sequence_vendor_number" model="ir.sequence">
             <field name="name">Vendor Number</field>
             <field name="code">vendor.number</field>
             <field name="prefix">V</field>
-            <field name="padding" eval="5"/>
+            <field name="padding" eval="4"/>
         </record>
     </data>
 </odoo>
