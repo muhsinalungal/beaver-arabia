@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_payment_allocation,account.payment.allocation.all,model_account_payment_allocation,,1,1,1,1
+access_account_payment_allocation_line,account.payment.allocation.line.all,model_account_payment_allocation_line,,1,1,1,1
+access_account_payment_alloc_line,account.payment.alloc.line.all,model_account_payment_alloc_line,,1,1,1,1
+access_account_payment_register_line,account.payment.register.line.all,model_account_payment_register_line,,1,1,1,1

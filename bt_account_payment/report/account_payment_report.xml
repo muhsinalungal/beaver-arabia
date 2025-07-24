@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+       
+
+        <record id="action_report_payment_receipt_new" model="ir.actions.report">
+            <field name="name">Voucher</field>
+            <field name="model">account.extra.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bt_account_payment.report_payment_receipt_new</field>
+            <field name="report_file">bt_account_payment.report_payment_receipt_new</field>
+            <field name="binding_model_id" ref="model_account_extra_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+
+        <record id="action_report_adv_payment_receipt_new" model="ir.actions.report">
+            <field name="name">Voucher</field>
+            <field name="model">account.advance.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bt_account_payment.report_adv_payment_receipt_new</field>
+            <field name="report_file">bt_account_payment.report_adv_payment_receipt_new</field>
+            <field name="binding_model_id" ref="model_account_advance_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+         <record id="action_report_account_payment_receipt_new" model="ir.actions.report">
+            <field name="name">Voucher</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bt_account_payment.report_payment_receipt_acc</field>
+            <field name="report_file">bt_account_payment.report_payment_receipt_acc</field>
+            <field name="binding_model_id" ref="account.model_account_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+
+
+       
+
+    </data>
+</odoo>

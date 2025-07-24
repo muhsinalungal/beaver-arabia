@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'Stencil';
+  src: url(/bt_account_report_qrcode/static/src/fonts/STENCIL.woff);
+
+}
+@font-face {
+  font-family: 'Arial Narrow';
+  src: url(/bt_account_report_qrcode/static/src/fonts/Arial_Narrow.woff);
+
+}
+@font-face {
+  font-family: 'Cg Omega';
+  src: url(/bt_account_report_qrcode/static/src/fonts/CG_Omega_fed.woff);
+
+}
+@font-face {
+  font-family: 'Calibri';
+  src: url(/bt_account_report_qrcode/static/src/fonts/Calibri_Light.woff);
+
+}
+@font-face {
+  font-family: 'Times New Roman';
+  src: url(/bt_account_report_qrcode/static/src/fonts/TimesNewRomanPSMT.woff);
+
+}
+@font-face {
+  font-family: 'Baskerville';
+  src: url(/bt_account_report_qrcode/static/src/fonts/Baskerville.woff);
+
+}
+.footer_text
+{
+    font-family:Stencil !important;
+    text-align: center !important;
+    color: #000000 !important;
+    padding-top: 5px !important;
+}
+.table_row
+{
+  height: 40px;
+}

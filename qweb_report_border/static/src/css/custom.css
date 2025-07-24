@@ -1,0 +1,85 @@
+/* Adjusting the margin,padding to make it look good. You can remove or change it according to your needs */
+.o_background_header_cus{
+    margin-left: -15px;
+    margin-right: -15px;
+    border-top: 2px solid #000;
+    padding-left: 20px;
+    padding-top: 13px;
+    padding-right: 20px;
+}
+
+ /*Adjusting the margin,padding to make it look good. You can remove or change it according to your needs */
+.footer_custom_new{
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #000;
+
+     /*To Fix Footer overlapping page_border div */
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+}
+
+.o_background_header_cus_ls{
+    margin-left: -15px;
+    margin-right: -15px;
+    border-top: 2px solid #000;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-right: 5px;
+}
+
+ /*Adjusting the margin,padding to make it look good. You can remove or change it according to your needs */
+.footer_custom_new_ls{
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #000;
+
+     /*To Fix Footer overlapping page_border div */
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+}
+
+/* Adjusting the margin,padding to make it look good. You can remove or change it according to your needs */
+.page_custom{
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.page_border{
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+    /*border-bottom: 2px solid #000;*/
+    position: fixed;
+    z-index: 9999;
+/* If you don't get full page border, play around with the height */
+    height: 300mm;
+    left: 0px;
+    top:0;
+    width:100%
+}
+
+
+/* Magic happens here */
+.page_border_ls{
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+    /*border-bottom: 2px solid #000;*/
+    position: fixed;
+    z-index: 9999;
+/* If you don't get full page border, play around with the height */
+    height: 230mm;
+    left: 0px;
+    top:0;
+    width:100%
+}
+

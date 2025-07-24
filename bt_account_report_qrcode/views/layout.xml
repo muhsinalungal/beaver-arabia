@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="account_iternal_layout">
+		<t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <t t-if="company_id">
+                <t t-set="company" t-value="flase"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="false"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="false"/>
+            </t>
+        </t>
+		<div class="header">
+            <div class="row">
+                <div class="col-3">
+                    <span t-esc="false"/>
+                </div>
+                <div class="col-2 offset-2 text-center">
+                    <span t-esc="false"/>
+                </div>
+            </div>
+        </div>
+        <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+          <t t-raw="0"/>
+        </div>
+	</template>
+</odoo>

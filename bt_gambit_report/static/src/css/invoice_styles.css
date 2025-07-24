@@ -1,0 +1,24 @@
+.customone{
+    border-top: 2px solid black !important; 
+    width : 99% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    outline: 2px solid black !important;
+    outline-offset: -14px !important;
+}
+.full_border{
+	border-top: 2px solid black;
+    margin-left: -25px;
+    margin-right:-25px;
+    top:0px;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom:2px solid black;
+    height:1105px;
+    z-index: -1;
+    position:fixed;
+    width:98%;
+    outline: 2px solid black;
+    outline-offset: -14px;
+}
+

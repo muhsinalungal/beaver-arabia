@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+    <template id="account_invoice_report_template_arab">
+    	<t t-call="web.html_container">
+    		<t t-foreach="docs" t-as="o">
+        	<t t-call="bt_account_report_qrcode.account_iternal_layout">
+        		<div style="border: 2px solid black;">
+        		<div style="border: 1px solid black; margin-top:20px; margin-right:20px; margin-left:20px; margin-bottom:20px; background-color:white;">
+	                <t t-set="o" t-value="o.with_context(lang=lang)" />
+		                <div>
+		                	<table class="table table-sm o_main_table"   id="hash_config_table" style="height:20px">
+		                		<thead>
+			                        <tr>
+			                			<th class="text-center" style="margin-top:-1px;" scope="col"><h4><span style="font-size:1pt;font-family:Stencil;">TAX INVOICE</span><span style="font-size:25pt;font-family:Arial;">/فاتورة ضريبية</span></h4></th>
+		                			</tr>
+			                	</thead>
+			                </table>
+			            </div>
+		                <div>
+			                <table class="table table-sm o_main_table"   id="hash_config_table" style="height:0.5cm !important; margin-top:-30px;">
+		                        <thead>
+		                            <tr>
+		                                <th class="text-center" style="border: 1px solid black; height:0.5cm !important; vertical-align:middle;  width: 62.9%; font-size:8pt;font-family:Arial;" scope="col">Bill To/فاتورة الى</th>
+		                                <th class="text-center" style="border: 1px solid black; height:0.5cm !important; vertical-align:middle;  width: 13%; font-size:8pt;font-family:Arial Narrow;" scope="col">Invoice#/ فاتورة</th>
+		                                <th class="text-center" style="border: 1px solid black; height:0.5cm !important; vertical-align:middle;  width: 13%; font-size:8pt;font-family:Arial Narrow;" scope="col"><span>Invoice Date</span>/<span style="font-size:8pt;font-family:Arial;"> تاريخ الفاتورة</span></th>
+		                            </tr>
+		                        </thead>
+		                        
+		                    </table>
+	                    </div>
+	                    <div>
+	                    	<table  class="table table-sm o_main_table" style="margin-top:-16px; font-size:15pt; height:20px;" id="hash_config_table">
+		                        <thead>
+		                            <tr>
+		                                <td class="text-left; size:1;" style="border: 1px solid black;  vertical-align:middle; width: 17px%; height:1.5cm !important; font-family:Arial;font-size:8pt;font-style:normal;" scope="col">Company Name/ اسم الشركة</td>
+		                                <td class="text-left" style="border: 1px solid black; height:1cm !important; vertical-align:middle;  width: 46%;font-size:8pt; height:-1000mm;" scope="col"><b><span style=""  t-field="o.partner_id.name"/><br></br><span style="font-family:Calibri;" t-field="o.partner_id.arb_name"/></b></td>
+		                                <td class="text-center" style="border: 1px solid black; height:1cm !important; vertical-align:middle;  width: 13%;height:-1000mm; font-size:8pt;" scope="col"><b><span style="font-family:Arial Narrow;" t-field="o.name"/></b></td>
+		                            	<t t-if="o.invoice_date">
+		                            		<td class="text-center" style="border: 1px solid black; vertical-align:middle;  width: 13%;height:-1000mm; font-size:8pt;" scope="col"><span style="font-family:Arial Narrow;" t-esc="o['invoice_date'].strftime('%d-%b-%y')"/></td>
+		                            	</t>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+		                        	<tr>
+		                                <td class="text-left" style="border: 1px solid black; height:1.5cm !important; vertical-align:middle; font-family:Arial;font-size:8pt;width: 17%;" scope="col"><span>Address/ عنوان</span></td>
+		                                <td class="text-left" style="border: 1px solid black; height:1.5cm !important; vertical-align:middle;  width: 46%; font-size:8pt;" scope="col">
+			                                <span style="" t-field="o.partner_id.street" />,
+			                                <span style="" t-field="o.partner_id.street2" />,
+			                                <span style="" t-field="o.partner_id.city" />,
+			                                <span style="" t-field="o.partner_id.state_id" />,
+			                                <span style="" t-field="o.partner_id.country_id" />/
+			                                <span style="" t-field="o.partner_id.arb_street" />,
+			                                <span style="" t-field="o.partner_id.arb_street2" />,
+			                                <span style="" t-field="o.partner_id.arb_city" />,
+			                                <span style="" t-field="o.partner_id.arb_state_id" />,
+			                                <span style="" t-field="o.partner_id.arb_country_id" />
+		                                </td>
+		                                <td class="text-center" style="border: 1px solid black; height:1.5cm !important; vertical-align:middle; b width: 13%;font-family:Arial Narrow;font-size:8pt;" scope="col"><b><span>Your Ref#/ المرجع </span></b></td>
+		                            	<td class="text-center" style="border: 1px solid black; height:1.5cm !important; vertical-align:middle;  width: 1.2%;font-family:Arial Narrow;font-size:8pt;" scope="col"><b><span>Our Ref#/ مرجعنا</span></b></td>
+		                            </tr>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; height:1cm !important; vertical-align:middle;  width: 17%;font-family:Arial;font-size:8pt;" scope="col"><span>Phone/ هاتف</span></td>
+		                                <td class="text-left" style="border: 1px solid black; height:1cm !important; vertical-align:middle;  width: 46%;font-size:8pt;" scope="col"><span t-field="o.partner_id.mobile"/></td>
+		                                <td class="text-center" style="border: 1px solid black; height:1cm !important; vertical-align:middle;  width: 13%;font-size:8pt;" scope="col"><span t-field="o.your_ref_no"/></td>
+		                            	<td class="text-center" style="border: 1px solid black; height:1cm !important; vertical-align:middle;  width: 13.2%;font-size:8pt;" scope="col"><span t-field="o.our_ref_no"/></td>
+		                            	
+		                            </tr>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; height:1cm !important; vertical-align:middle;  width: 17%;font-family:Arial;font-size:8pt;" scope="col"><span>Email/ البريد الإلكتروني</span></td>
+		                                <td class="text-left" style="border: 1px solid black; height:1cm !important; vertical-align:middle;  width: 46%;font-size:8pt;" scope="col"><span t-field="o.partner_id.email"/></td>
+		                                <td class="text-center" style="border: 1px solid black; height:1cm !important; vertical-align:middle;  width: 13%;font-family:Arial Narrow;font-size:8pt;" scope="col"><b><span>VAT#/ ضريبة</span></b></td>
+		                            	<td class="text-center" style="border: 1px solid black; height:1cm !important; vertical-align:middle;  width: 13.2%;font-family:Arial Narrow;font-size:8pt;" scope="col"><b><span>Due Date/تاريخ الاستحقاق</span></b></td>
+		                            	
+		                            </tr>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle;  width: 17%;font-family:Arial;font-size:8pt; height:0.5cm !important;" scope="col"><span>Your VAT#/ ضريبة المر</span></td>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle;  width: 46%; font-size:8pt; height:0.5cm !important;" scope="col"><span t-field="o.partner_id.vat"/></td>
+		                                <td t-att-rowspan="2" class="text-center" style="border: 1px solid black; height:0.5cm !important; vertical-align:middle;   width: 13%; font-size:8pt; " scope="col"><center><span t-field="o.partner_id.vat"/></center></td>
+		                                <t t-if="o.invoice_date_due">
+		                            		<td t-att-rowspan="2" class="text-center" style="border: 0.1px solid black; height:0.5cm !important; vertical-align:middle;  font-family:Arial Narrow; width: 13.2%; font-size:8pt;" scope="col"><span t-esc="o['invoice_date_due'].strftime('%d-%b-%y')"/></td>
+		                            	</t>
+		                            </tr>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; height:0.5cm !important; vertical-align:middle;  width: 17%;font-family:Arial;font-size:8pt;" scope="col"><span>Attention/ انتباه</span></td>
+		                                <td class="text-left" style="border: 1px solid black; height:0.5cm !important; vertical-align:middle;  width: 46%;font-family:Arial Narrow;font-size:8pt;" scope="col"><span t-field="o.partner_id.vat"/></td>
+		                            </tr>
+		                        </tbody>
+		                    </table>
+			            </div>
+		            	<div>
+				            <table class="table table-bordered table-sm stub_lines" style="margin-top:-16px; " name="invoice_line_table">
+			                        <thead>
+			                            <tr style="background-color:grey;">
+ 			                            	<th style="border: 1px solid black;  width: 8%; font-size:8pt;color:white;font-family:Times New Roman; " name="th_description" class="text-center"><b><span>Item#/ بند</span></b></th>
+ 				                            <th style="border: 1px solid black;  width: 36.1%; font-size:8pt; color:white;font-family:Times New Roman;" name="th_description" class="text-center"><b><span>Description/ وصف</span></b></th>
+			                                <th style="border: 1px solid black;  width: 8.3%; font-size:8pt; color:white;font-family:Times New Roman;" name="th_unit" class="text-center"><b><span>Unit/ وحدة</span></b></th>
+			                                <th style="border: 1px solid black;  width: 10.2%; font-size:8pt;font-family:Times New Roman; color:white;" name="th_quantity" class="text-center"><b><span>Quantity/ كمية</span></b></th>
+			                                <th style="border: 1px solid black;  width: 12.9%; font-size:8pt;font-family:Times New Roman; color:white;" name="th_priceunit" t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"><b><span>Rate/ معدل</span></b></th>
+			                                <th style="border: 1px solid black;  width: 12.9%; font-size:8pt;font-family:Times New Roman; color:white;" name="th_subtotal" class="text-center">
+			                                    <span>Amount/ كمية</span>
+			                                </th>
+			                            </tr>
+			                        </thead>
+			                        <t t-set="i" t-value="1" />
+			                        <tbody class="invoice_tbody">
+			                        	<t t-set="current_subtotal" t-value="0"/>
+			                            <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
+			                            <t t-foreach="lines" t-as="line">
+			                            	 <t t-if="line.product_id.is_advance == false">
+			                                <tr style="background-color:white;">
+		                                		<td class="text-center" style="border: 1px solid black; vertical-align:middle; font-family:Arial Narrow;">
+		                                			<span t-esc="i"/> 
+											        <t t-set="i" t-value="i+1"/> 
+		                                		</td>
+		                                        <td style="border: 1px solid black; vertical-align:middle; font-family:Arial Narrow; font-size:8pt;" name="account_invoice_line_name"><span t-field="line.name" t-options="{'widget': 'text'}"/></td>
+		                                        <td style="border: 1px solid black; vertical-align:middle;  font-family:Arial Narrow; font-size:8pt;" class="text-center" name="account_invoice_line_unit"><span t-field="line.product_uom_id"/></td>
+		                                        <td style="border: 1px solid black; vertical-align:middle; font-family:Arial Narrow;font-size:8pt;" class="text-center">
+		                                            <span t-field="line.quantity"/>
+		                                        </td>
+		                                        <td style="border: 1px solid black;  vertical-align:middle; font-family:Arial Narrow; font-size:8pt;" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+		                                            <span class="text-nowrap" t-field="line.price_unit"/>
+		                                        </td>
+		                                        <td style="border: 1px solid black;  vertical-align:middle; font-family:Arial Narrow; font-size:8pt;" class="text-right o_price_total">
+		                                            <span class="text-nowrap" t-esc="'{:,.2f}'.format(line.price_subtotal)"/>
+		                                        </td>
+			                                </tr>
+			                            </t>
+			                                
+			                            </t>
+			                            <tr style="background-color:#B2BEB5;" class="table_row">
+			                                <td style="border: 1px solid black;  background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black; background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black; background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black; background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black; background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black; background-color:#D3D3D3;"></td>
+			                            </tr>
+			                            <tr style="background-color:#B2BEB5;" class="table_row">
+			                                <td style="border: 1px solid black; background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                            </tr>
+			                            <tr style="background-color:#B2BEB5;" class="table_row">
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                            </tr>
+			                            <tr style="background-color:#B2BEB5;" class="table_row">
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                            </tr>
+			                            <tr style="background-color:#B2BEB5;" class="table_row">
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                            </tr>
+			                            <tr style="background-color:#B2BEB5;" class="table_row">
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                            </tr>
+			                            <tr style="background-color:#B2BEB5;" class="table_row">
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                                <td style="border: 1px solid black;background-color:#D3D3D3;"></td>
+			                            </tr>
+			                        </tbody>
+			                </table>
+			            </div>
+			            <div>
+	                    	<table class="table table-sm o_main_table" style="margin-top:-17px;" id="hash_config_table">
+		                        <tbody>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle;  width: 43.8%; font-size:8pt;" scope="col"><b><u>Amount in Words / المبلغ في الكلمات</u></b></td>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle;  width: 18.4%;font-family:Arial; font-size:8pt;" scope="col">Total (Excl. VAT) /الإجمالي (بدون ضريبة القيمة المضافة) </td>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle;  width: 12.8%; font-size:8pt;" scope="col"><span>SAR</span></td>
+		                                <td class="text-right" style="border: 1px solid black; vertical-align:middle;  width: 12.8%;font-family:Arial Narrow; font-size:8pt;" scope="col"><span class="text-nowrap" t-field="o.total_excl_vat"/></td>
+		                            </tr>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle;  width: 43.8; font-size:8pt; font-family:Calibri;" scope="col"><b><span  t-esc="o.amount_to_arb(o.amount_total_after_ret)"/></b></td>
+		                                <td class="text-center" style="border: 1px solid black;vertical-align:middle;  width: 18.4%;font-family:Arial; font-size:8pt;" scope="col">Advance Deduction/ خصم مسبق </td>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle; width: 12.8%; font-size:8pt;" scope="col"><span>SAR</span></td>
+		                                <td class="text-right" style="border: 1px solid black; vertical-align:middle;  width: 12.8%;font-family:Arial Narrow; font-size:8pt;" scope="col"><span class="text-nowrap" t-field="o.total_adv_ded"/></td>
+		                            </tr> 
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle;  width: 43.8; font-size:8pt;" scope="col"><b><span t-esc="o.amount_to_text(o.amount_total_after_ret)" style="text-transform:capitalize;"/></b></td>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle;  width: 18.4%;font-family:Arial; font-size:8pt;" scope="col">Total Taxable Amt. (Excl VAT)/الإجمالي (باستثناء ضريبة القيمة المضافة) </td>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle;   width: 12.8%; font-size:8pt;" scope="col"><span>SAR</span></td>
+		                                <td class="text-right" style="border: 1px solid black; vertical-align:middle;  width: 12.8%;font-family:Arial Narrow; font-size:8pt;" scope="col"><span class="text-nowrap" t-esc="'{:,.2f}'.format(o.amount_untaxed)"/></td>
+		                            </tr>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle;  width: 43.8; font-size:8pt;" scope="col"><b>Note:</b> Invoice deemed to be accepted if no error/discrepancy is reported within Seven(7) days of delivery.</td>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle; width: 18.4%;font-family:Arial; font-size:8pt;" scope="col">Total VAT @ 15%/إجمالي ضريبة القيمة المضافة @ 15</td>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle;  width: 12.8%; font-size:8pt;" scope="col"><span>SAR</span></td>
+		                                <td class="text-right" style="border: 1px solid black; vertical-align:middle;  width: 12.8%;font-family:Arial Narrow; font-size:8pt;" scope="col"><span  t-esc="'{:,.2f}'.format(o.amount_tax)"/></td>
+		                            </tr>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle;  width: 43.8;font-family:Calibri; font-size:8pt;" scope="col"><b>ملاحظة: تعتبر الفاتورة مقبولة إذا لم يتم الإبلاغ عن أي خطأ / تعارض في غضون سبعة (7) أيام من التسليم.</b></td>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle;  width: 18.4%;font-family:Arial; font-size:8pt;" scope="col">Retention/احتفاظ </td>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle;  width: 12.8%; font-size:8pt;" scope="col"><span>SAR</span></td>
+		                                <td class="text-right" style="border: 1px solid black; vertical-align:middle;  width: 12.8%;font-family:Arial Narrow; font-size:8pt;" scope="col"><span t-field="o.less_retention"/></td>
+		                            </tr>
+		                            <tr>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle;  width: 43.8%;font-family:Arial; font-size:8pt;" scope="col"><b>Beneficiary Account Detail/ تفاصيل حساب المستفيد</b></td>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle;  width: 18.4%;font-family:Arial; font-size:8pt;" scope="col"><strong>Net Amount Incl. VAT/المبلغ الصافي ضريبة القيمة المضافة </strong></td>
+		                                <td class="text-center" style="border: 1px solid black; vertical-align:middle;  width: 12.8%; font-family:Arial; font-size:8pt;" scope="col"><b><span>SAR</span></b></td>
+		                                <td class="text-right" style="border: 1px solid black; vertical-align:middle; width: 12.8%;font-family:Arial Narrow; font-size:8pt;" scope="col"><b><span t-field="o.amount_total_after_ret"/></b></td>
+		                            </tr>
+		                        </tbody>
+		                    </table>
+			            </div>
+			            <div class="row">
+            				<div class="col-1" style="margin-top:-17px;">
+	                    	<table class="table table-sm o_main_table" style="align-items-right; table-layout: fixed; width: 692px; margin-top:-10px; font-size:8pt;font-family:Arial Narrow;" id="hash_config_table">
+		                        <thead>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black;border-color: #555d50; vertical-align:middle; width: 44.4%;font-family:Arial Narrow; font-size:8pt;" scope="col"><span>A/c. Name: GAMBIT GULF CONTRACTING COMPANY LTD.</span></td>
+		                            </tr>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle; border-color: #555d50; width: 44.4%;font-family:Arial Narrow; font-size:8pt;" scope="col"><span>IBAN # SA71 2000 0003 2739 1704 9940 </span></td>
+		                            </tr>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle; border-color: #555d50; width: 44.4%;font-family:Arial Narrow; font-size:8pt;" scope="col"><span>A/c. No. 3273917049940</span></td>
+		                            </tr>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle; border-color: #555d50; width: 44.4%;font-family:Arial Narrow; font-size:8pt;" scope="col"><span>Bank: Riyad Bank</span></td>
+		                            </tr>
+		                            <tr>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle; border-color: #555d50; width: 44.4%;font-family:Arial Narrow; font-size:8pt;" scope="col"><span>Branch: Dammam</span></td>
+		                            </tr>
+		                        </thead>
+		                    </table>
+		                    </div>
+		                    <div class="col-6 offset-5" style="margin-top:20px;">
+		                    <table class="table_qr_code"  style="align-items-right;  width: 448.5px; margin-top:-20px;" id="hash_config_table">
+			                    <thead>
+			                    	<tr>
+				                    <th >
+								        <t t-if="o.qr_in_report == True">
+								          <div class="text-center" style="width:150px;height:150px;float:right; vertical-align:middle; ">
+								              <span t-field="o.qr_code" t-options='{"widget": "image"}' />
+								          </div>
+								        </t>
+							     	</th>
+							     	</tr>
+						     	</thead>
+					     	</table>
+					     	</div>
+			            </div>
+			            <div>
+	                    	<table class="table table-sm o_main_table" style="table-layout: fixed; margin-top:-1px; border: 1px solid black; border-color: #555d50; width: 692px; font-size:8pt;" id="hash_config_table">
+		                        <thead>
+		                        	<tr>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle; border-color: #555d50; width: 25%;font-family:Arial; font-size:8pt;" scope="col"><b>Contact Person/ الشخص الذي يمكن الاتصال به </b></td>
+		                                <td class="text-left" style="border: 1px solid black; vertical-align:middle; border-color: #555d50; width: 10%;font-family:Arial Narrow; font-size:8pt;" scope="col">Rijo George</td>
+		                            </tr>
+		                        </thead>
+		                    </table>
+		                </div>
+			            <div>
+	                    	<table class="table table-bordered table-sm stub_lines" style="border: 1px solid black; border-color: #555d50; margin-top:-17px; margin-bottom: 200px; font-size:8pt; height: 30px;font-family:Arial Narrow;" id="hash_config_table">
+		                        <thead>
+		                            <tr>
+		                            	<th class="text-left" style="border: 1px solid black; vertical-align:middle; border-color: #555d50; width: 44.7%;font-family:Arial;font-size:8pt;" scope="col"><b><b>Rceived with Date/ Signature and Stamp/ رسيتد مع تاريخ / توقيع وختم /</b></b></th>
+		                                <th class="text-center" style="border: 1px solid black; vertical-align:middle; border-color: #555d50; width: 18.8%;font-family:Arial; font-size:8pt;" scope="col"><b><strong>Company Seal </strong></b></th>
+		                                <th class="text-center" style="border: 1px solid black; vertical-align:middle; border-color: #555d50; width: 26%;font-family:Arial; font-size:8pt;" scope="col"><b><span>Auth. Signatory</span></b></th>
+		                            </tr>
+		                        </thead>
+		                    </table>
+			            </div>
+			      </div>
+			      </div>
+			     </t>
+			   </t>
+			   </t>
+    </template>
+</odoo>

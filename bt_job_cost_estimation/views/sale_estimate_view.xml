@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	 <record id="form_view_sale_estimate_detail1" model="ir.ui.view">
+        <field name="name">sale.estimate.details.form</field>
+        <field name="model">sale.estimate</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" invisible="1"/>
+                    <button name="estimate_confirm" type="object" string="Confirm" states="draft,sent" class="btn-primary" groups=" sales_team.group_sale_salesman"/>
+                    <button name="estimate_approve" type="object" string="Approve" states="confirm" class="btn-primary" groups=" sales_team.group_sale_salesman"/>
+                    <button name="estimate_reject" type="object" string="Reject" states="confirm" groups=" sales_team.group_sale_salesman"/>
+                    <button name="estimate_to_quotation" type="object" string="Create Quotation"   class="btn-primary" attrs="{'invisible': ['|',('state', '!=', 'approve'),('quotation_created', '=', True)]}" />
+                    <button name="action_estimate_send" type="object" string="Send by Email" states="draft,sent,confirm,approve,quotesend" class="btn-primary" groups="sales_team.group_sale_salesman"/>
+                    <!--                    <button name="contract_close" type="object" string="Close" states='claim' class="btn-primary" groups="sales_team.group_sale_manager"/>-->
+                    <button name="reset_todraft" type="object" string="Reset to Draft" states="cancel,approve" groups=" sales_team.group_sale_salesman"/>
+
+                   <!--  <button string="Create Project" type="action" name="572" class="oe_highlight"  attrs="{'invisible': [('project_ref_id', '!=', False)]}" /> -->
+                   
+                    <button name="estimate_cancel" type="object" string="Cancel" states="draft,sent,reject"/>
+                    <button name="estimate_versioned" type="object" string="Create New Version" class="btn-primary" groups="sales_team.group_sale_manager"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirm,approve,reject,cancel" attrs="{'invisible': [('state', '=','versioned')]}"/>
+                </header>
+                <sheet>
+                    <field name="quotation_created" invisible="1"/>
+                     <div class="oe_button_box" name="button_box">
+                            <button type="object" name="action_view_quotation"
+                              class="oe_stat_button" icon="fa-book" attrs="{'invisible':[('quotation_created', '=', False)]}">
+                                <field name="quotation_count" string="Quotation" widget="statinfo" attrs="{'invisible':[('quotation_created', '=', False)]}"/>
+                            </button>
+                            <button type="object" name="action_view_estimates"
+                              class="oe_stat_button" icon="fa-book">
+                                <field name="estimate_line_count" string="Estimate Sheets" widget="statinfo"/>
+                            </button>
+                        </div>
+                    <widget name="web_ribbon" title="Quotation Created" bg_color="bg-success" attrs="{'invisible': [('quotation_created', '=', False)]}"/>
+
+                    
+                    <widget name="web_ribbon" title="Versioned" attrs="{'invisible': [('state', '!=', 'versioned')]}"/>
+                   
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" options="{'always_reload': True}" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="reference" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="tender_no" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="job_desc" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="contact_no" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="project_ref_id" readonly="1" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="sale_template_id"/>
+                             <field name="estimate_date" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                             <field name="rfq_ref"/>
+                             
+                           
+                             <field name="division_id" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                                 
+                            <field name="company_id" groups="base.group_multi_company" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" domain="[('parent_id', '=', company_id)]"/>
+                                  
+                                   
+                            <field name="user_id" widget="many2one_avatar_user" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <!-- <field name="currency_id" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/> -->
+                        </group>
+                        
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+	
+    <record id="tree_view_sale_estimate_detail1" model="ir.ui.view">
+        <field name="name">Estimates</field>
+        <field name="model">sale.estimate</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="estimate_date"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_sale_estimate_detail" model="ir.actions.act_window">
+        <field name="name">Estimates</field>
+        <field name="res_model">sale.estimate</field>
+        <field name="view_id" ref="tree_view_sale_estimate_detail1"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new estimate detail.
+            </p>
+        </field>
+    </record>
+    
+    
+</odoo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<record id="product_template_form_view_proj" model="ir.ui.view">
+		<field name="name">product.template.form.inherit.proj</field>
+		<field name="model">product.template</field>
+		<field name="priority">5</field>
+		<field name="inherit_id" ref="product.product_template_only_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='categ_id']" position="after">
+				<field name="forcast_type" invisible="0"/>
+			</xpath>
+		   
+		</field>
+	</record>
+
+<record id="product_template_form_view_bt_proj" model="ir.ui.view">
+		<field name="name">product.template.bt.form.inherit.proj</field>
+		<field name="model">product.template</field>
+		<field name="priority">5</field>
+		<field name="inherit_id" ref="product.product_template_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='categ_id']" position="after">
+				<field name="forcast_type" invisible="0"/>
+			</xpath>
+		</field>
+	</record>
+
+	<record id="stock.view_stock_move_line_detailed_operation_tree" model="ir.ui.view">
+		<field name="name">stock.move.line.operations.tree.inh</field>
+		<field name="model">stock.move.line</field>
+		<field name="priority">1000</field>
+		<field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='product_uom_id']" position="after">
+				<field name="unit_price" />
+				<field name="total" />
+			</xpath>
+		</field>
+	</record>
+
+	</data>
+</odoo>

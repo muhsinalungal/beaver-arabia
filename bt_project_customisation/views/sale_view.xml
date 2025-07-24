@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_bt" model="ir.ui.view">
+        <field name="name">view_project_quotation_order_form_bt</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+             <xpath expr="//button[@name='action_quotation_send']" position="after">
+                <button name="%(create_project_wizard_action_wiz)d" type="action" string="Create Project" states="sale" class="oe_highlight"/>
+               
+                    </xpath>
+           
+        </field>
+    </record>
+
+    <record id="sale_order_form_quote_bt" model="ir.ui.view">
+        <field name="name">sale.order.form.payment.bt</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_management.sale_order_form_quote"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='optional_products']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_stock_move_line_detailed_operation_tree_inh" model="ir.ui.view">
+        <field name="name">stock.move.line.operations.tree.inh</field>
+        <field name="model">stock.move.line</field>
+        <field name="priority">1000</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='qty_done']" position="after">
+                <field name="price_line_id" invisible="0"/>
+                <field name="unit_price" invisible="0"/>
+                <field name="total" invisible="0"/>
+            </xpath>
+        </field>
+    </record>
+
+     <record id="view_production_lot_form_inh" model="ir.ui.view">
+        <field name="name">stock.production.lot.form.inh</field>
+        <field name="model">stock.production.lot</field>
+        <field name="priority">1000</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='description']" position="after">
+               <page string="Price Details" name="price_details">
+                       <field name="price_line_ids" >
+                        <tree>
+                            <field name="date"/>
+                             <field name="unit_price" />
+                         </tree>
+                         </field> 
+                    </page> 
+            </xpath>
+        </field>
+    </record>
+
+                
+</odoo>

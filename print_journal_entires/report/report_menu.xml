@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="journal_entries_report_id">
+        <t t-call="web.html_container">
+		<t t-call="qweb_report_border.external_layout_standard_ls">
+<!--			<link rel='stylesheet' href="/journal_entries_print/static/src/css/report_css.css"/>-->
+            <t t-foreach="docs" t-as="o">
+                <div class="page" style="font-size:15px;">
+                <div>
+            	<t t-if="o.petty_cash_type == True or o.bank_cash_type == True">
+                	<t t-if="o.petty_cash_type == True">
+	                <h3><strong>PETTY CASH VOUCHER: <span t-field="o.name"/></strong></h3>
+		            </t>
+		             <t t-if="o.bank_cash_type == True">
+		                <h3><strong>TRANSFER VOUCHER: <span t-field="o.name"/></strong></h3>
+		            </t>
+		            <!-- <t t-if="o.payment_type == 'outbound' and o.journal_id.type == 'cash'">
+		                <h3><strong>CASH PAYMENT VOUCHER: <span t-field="o.name"/></strong></h3>
+		            </t>
+		             <t t-if="o.payment_type == 'inbound' and o.journal_id.type == 'cash'">
+		                <h3><strong>CASH RECEIPT VOUCHER: <span t-field="o.name"/></strong></h3>
+		            </t>
+		             <t t-if="o.payment_type == 'outbound' and o.journal_id.is_petty_cash == True">
+		                <h3><strong>CASH PAYMENT VOUCHER: <span t-field="o.name"/></strong></h3>
+		            </t>
+		             <t t-if="o.payment_type == 'inbound' and o.journal_id.is_petty_cash == True">
+		                <h3><strong>CASH RECEIPT VOUCHER: <span t-field="o.name"/></strong></h3>
+		            </t> -->
+		        </t>
+		        <t t-else="">
+		        	 <h3><strong>JOURNAL ENTRY: <span t-field="o.name"/></strong></h3>
+		        </t>
+				</div>
+					
+                	<div class="row mt64" style="margin-left:4.5px !important;margin-top:4px !important;">
+	            			<table width="100%" >
+	            				<t t-if="o.petty_cash_type == True or o.bank_cash_type == True">
+	            				<tr style="height:0.5cm !important;">
+	            					<t t-if="o.bank_cash_type == True">
+	            					<td>
+	            						<b>Pay To:</b> <span t-field="o.partner_name"/>
+	            					</td>
+	            				</t>
+	            				<t t-if="o.petty_cash_type == True">
+	            					<td>
+	            						<b>Employee:</b> <span t-field="o.employee_id.name"/>
+	            					</td>
+	            					<td>
+	            						<b>Date:</b> <span t-field="o.date"/>
+	            					</td>
+	            				</t>
+	            					
+	            					
+	            				<!-- </tr>
+							   
+	            				<tr> -->
+	            					<t t-if="o.petty_cash_type == True">
+	            					<td><b>GL Account:</b> <span t-field="o.petty_cash_account_id.name" />
+	            					</td>
+	            				</t>
+	            				<t t-if="o.bank_cash_type == True">
+	            					<td><b>GL Account:</b> <span t-field="o.gl_account_id.name" />
+	            					</td>
+	            				</t>
+	            				<td><b>Journal:</b> <span t-field="o.journal_id.name" />
+	            					</td>
+	            					
+	            				</tr>
+	            				<tr style="height:0.5cm !important;">
+	            					<td><b>Journal Code:</b> <span t-field="o.journal_code_id.name" />
+	            					</td>
+	            					<td>
+	            						<b>Amount:</b> <span t-field="o.petty_amnt"/>
+	            					</td>
+	            				<!-- </tr>
+	            				<tr> -->
+	            					
+	            					<t t-if="o.petty_cash_type == True">
+	            					<td>
+	            						<b>Balance: </b><span t-field="o.petty_balance_amnt"/>
+	            					</td>
+	            					<td>
+	            						<b>Reference:</b> <span t-field="o.ref"/>
+	            					</td>
+	            				</t>
+	            				<t t-if="o.bank_cash_type == True">
+	            					<td>
+	            						<b>Payment Mode:</b> <span t-field="o.payment_method"/>
+	            					</td>
+	            				</t>
+	            					
+	            				</tr>
+	            			</t>
+	            			<t t-else="">
+	            				<tr style="height:0.5cm !important;">
+	            					<td><b>Journal Code:</b> <span t-field="o.journal_code_id.name" />
+	            					</td>
+	            					<td><b>Journal: </b><span t-field="o.journal_id.name" />
+	            					</td>
+	            				</tr>
+	            				<tr style="height:0.5cm !important;">
+	            					<td>
+	            						<b>Reference:</b> <span t-field="o.ref"/>
+	            					</td>
+	            					<td>
+	            						<b>Date:</b> <span t-field="o.date"/>
+	            					</td>
+	            				</tr>
+	            			</t>
+
+	            			</table>                	
+                	</div>
+                	
+                	<div class="row" style="margin-top:4px !important;">
+                    <style>
+                    .tblbordr {
+                        text-align: center;
+                        border: 2px solid black;
+                    }
+                    </style>
+						
+                		<table width="100%" style="border: 1px solid black;">
+                			<thead style="height:0.5cm !important;">
+                				<tr style="height:0.5cm !important;">
+                					<th class="text-center" style="border: 1px solid black;" width="21%">Account</th>
+                					<!-- <th>Date</th>
+                					<th>Partner</th> -->
+                					<th class="text-center" style="border: 1px solid black;" width="27%">Label</th>
+                					
+                					<th class="text-center" style="border: 1px solid black;" width="8%">Debit</th>
+                					<th class="text-center" style="border: 1px solid black;" width="8%">Credit</th>
+                					<th class="text-center" style="border: 1px solid black;" width="6%">Department</th>
+                					<th class="text-center" style="border: 1px solid black;" width="8%">Employee</th>
+                					<t t-if="o.bank_cash_type != True">
+                					<th class="text-center" style="border: 1px solid black;" width="5%">Project</th>
+                					<th class="text-center" style="border: 1px solid black;" width="7%">Asset</th>
+                					<th class="text-center" style="border: 1px solid black;" width="5%">Accom</th>
+                					<th class="text-center" style="border: 1px solid black;" width="5%">Cost Center</th>
+                					</t>
+                				</tr>
+                			</thead>
+                			<tbody>
+                				 <t t-foreach="o.line_ids" t-as="line">
+                				 	<tr style="height:0.5cm !important;border: 1px solid black;">
+                				 		<td style="border: 1px solid black;border-bottom: 1px solid black !important;">
+                				 			<span t-field="line.account_id.name"/>
+                				 		</td>
+                				 		<!-- <td>
+                				 			<span t-field="line.date"/>
+                				 		</td>
+                				 		<td>
+                				 			<span t-field="line.partner_id.name"/>
+                				 		</td> -->
+                				 		<td style="border: 1px solid black;">
+                				 			<span t-field="line.name"/>
+                				 		</td>
+                				 		<td class="text-right" style="border: 1px solid black;">
+                				 			<span t-field="line.debit"/>
+                				 			
+                				 		</td>
+                				 		<td class="text-right" style="border: 1px solid black;">
+                				 			<span t-field="line.credit"/>
+                				 			
+                				 		</td>
+                				 		<td style="border: 1px solid black;"> 
+                				 			<span t-field="line.cost_center_id.name"/>
+                				 		</td>
+                				 		<td style="border: 1px solid black;">
+                				 			<span t-field="line.employee_id.name"/>
+                				 		</td>
+                				 		<t t-if="o.bank_cash_type != True">
+                				 		<td style="border: 1px solid black;">
+                				 			<span t-field="line.analytic_account_id.name"/>
+                				 		</td>
+                				 		<td style="border: 1px solid black;">
+                				 			<span t-field="line.asset_id.name"/>
+                				 		</td>
+                				 		<td style="border: 1px solid black;">
+                				 			<span t-field="line.accomadation_id.name"/>
+                				 		</td>
+                				 		<td style="border: 1px solid black;">
+                				 			<span t-field="line.budgetry_position_id.name"/>
+                				 		</td>
+                				 	</t>
+                				 	</tr>
+                				 </t>
+                			</tbody>
+                			
+							<tfooter style="border: 1px solid black;border-top: 1px solid black !important;">
+                				<tr style="height:0.5cm !important;">
+                					<td style="border: 1px solid black;border-top: 1px solid black !important;" class="text-center" colspan="2"><b>Total</b></td>
+                					<td style="border: 1px solid black;" class="text-right">
+                						<strong><span  t-esc="'{:,.2f}'.format(o.total_debit_credit().get('dr_total'))" /></strong>
+                					</td>
+                					<td style="border: 1px solid black;" class="text-right">
+                						<strong><span t-esc="'{:,.2f}'.format(o.total_debit_credit().get('cr_total'))"  /></strong>
+                					</td>
+                				</tr>
+                			</tfooter>
+                		</table>
+                	</div>
+                	
+	    					
+                 <div class="footer footer_custom_new">
+            <div class="last-page">
+                <!-- <div class="col-6" style="color:black;"> -->
+                    <table style="padding:5px;width: 120%;"><br></br>  
+                                   <tr>
+                                    <td  ><div style="padding:8px;border-top: 1px dashed;text-align: center; margin-right:10px;width: 25%; ">Prepared By</div></td>
+                                    <td  ><div style="padding:8px;border-top: 1px dashed;text-align: center; margin-right:10px;width: 25%; ">Verified By</div></td>
+                                    <td><div style="padding:8px;border-top: 1px dashed;text-align: center; margin-right:10px;width: 25% ">Authorised By</div></td>
+                                    <td><div style="padding:8px;border-top: 1px dashed;text-align: center;width: 25%">Approved by</div></td>
+                                    
+                                  </tr>
+                                  
+                            </table>
+                
+		                	<!-- <div class="row">
+		                		<div class="col-6" style="font-weight:bold;">Prepared‬‬ ‫‪By: </div>
+		                		<div class="col-6" style="font-weight:bold;">Authorised ‫‪By: </div>
+								<div class="col-6" style=" font-weight:bold;">Received By:</div>
+	    						
+	    					</div> -->
+	    					<!-- <br>
+	    					</br>
+	    					<br>
+	    					</br>
+	    					<div class="row">
+								<div class="col-6" style=" font-weight:bold;">Signature:__________________</div>
+								<div class="col-6" style=" font-weight:bold;">Signature:__________________</div>
+	    						<div class="col-6" style="font-weight:bold;">Signature:__________________</div>
+	    					</div>
+	    					<div class="row">
+								<div class="col-6" style=" font-weight:bold;">Stamp:</div>
+								<div class="col-6" style=" font-weight:bold;">Stamp:</div>
+	    						<div class="col-6" style="font-weight:bold;">Stamp:</div>
+	    					</div> -->
+	    				<!-- </div> -->
+                    </div>
+                </div>
+					
+                </div>
+            </t>
+			</t>
+        </t>
+    </template>
+    <record id="paperformat_je" model="report.paperformat">
+            <field name="name">Vouchers</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">330</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="base.paperformat_euro" model="report.paperformat">
+            <field name="name">A4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">35</field>
+            <field name="margin_bottom">32</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+    <!-- <report
+        id="journal_entries_moce_print_id"
+        model = "account.move"
+        string = "Voucher"
+        report_type = "qweb-pdf"
+        name = "print_journal_entires.journal_entries_report_id"  
+        file = "print_journal_entires.journal_entries_report_id"
+
+    /> -->
+    <record id="journal_entries_moce_print_id" model="ir.actions.report">
+            <field name="name">Petty Cash Vouchers</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">print_journal_entires.journal_entries_report_id</field>
+            <field name="report_file">print_journal_entires.journal_entries_report_id</field>
+            <!-- <field name="print_report_name">(object._get_report_base_filename())</field> -->
+            <field name="paperformat_id" ref="print_journal_entires.paperformat_je"/>
+           <!--  <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')</field> -->
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+           
+        </record>
+
+</odoo>

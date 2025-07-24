@@ -1,0 +1,76 @@
+<odoo>
+
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            
+
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_move_form_inh" model="ir.ui.view">
+        <field name="name">account.move.form.inh</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="bt_account_customisation.invoice_form_account_inherit"/>
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='partner_name']" position="before">
+                <field name="transfer_type"  attrs="{'invisible': [('bank_cash_type', '=',False)],'readonly': [('state', '!=', 'draft')],'required':[('bank_cash_type', '=',True)]}"/>
+            </xpath>
+             <xpath expr="//button[@name='action_post']" position="after">
+                 <field name="number_genrated" invisible="1"/>
+                    <button name="create_sequence" type="object" string="Generate Sequence" class="oe_highlight" attrs="{'invisible': [('number_genrated', '=', True)]}"/>
+                </xpath>
+            
+
+           
+        </field>
+    </record>
+
+    <record id="view_inherit_pay_form" model="ir.ui.view">
+        <field name="name">account.payment.order.form</field>
+        <field name="model">account.extra.payment</field>
+        <field name="inherit_id" ref="bt_account_payment.view_extra_payment_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//button[@name='button_post']" position="before">
+                 <field name="number_genrated" invisible="1"/>
+                <button string="Create Sequence" class="oe_highlight"
+                             name="create_sequence" type="object" invisible="0" attrs="{'invisible': [('number_genrated', '=', True)]}"/>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <record id="view_advance_payment_form_od_seq" model="ir.ui.view">
+        <field name="name">account.advance.payment.form.od.seq</field>
+        <field name="model">account.advance.payment</field>
+        <field name="inherit_id" ref="bt_account_payment.view_advance_payment_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//button[@name='button_post']" position="before">
+                 <field name="number_genrated" invisible="1"/>
+                <button string="Create Sequence" class="oe_highlight"
+                             name="create_sequence" type="object" invisible="0" attrs="{'invisible': [('number_genrated', '=', True)]}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_account_payment_form_od_seq" model="ir.ui.view">
+        <field name="name">account.payment.od.seq</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//button[@name='action_post']" position="before">
+                 <field name="number_genrated" invisible="1"/>
+                <button string="Create Sequence" class="oe_highlight"
+                             name="create_sequence" type="object" invisible="0" attrs="{'invisible': [('number_genrated', '=', True)]}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

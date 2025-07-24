@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="view_account_payment_form_inherit" model="ir.ui.view">
+            <field name="name">account.payment.form.inherits</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                
+
+
+		<xpath expr="//group[1]" position="after">
+                    <notebook>
+                    <page string="Outstanding Invoices" width="100%">
+                    	<field name="foreign_currency" invisible="1"/>		
+                       
+						<field name="invoice_line_ids" nolabel="1" string="Outstanding Invoices" width="100%">
+							<tree editable="top" create="false" delete="false" width="100%">
+								<field name="move_line_id" invisible="1"/>
+								<field name="type" invisible="1"/>
+								<field name="amount_residual" invisible="1"/>
+								<field name="sign" invisible="1"/>
+								<field name="company_currency_id" invisible="1"/>
+								<field name="currency_id" invisible="1"/>		
+								<field name="invoice_currency_id" invisible="1"/>							
+								<!-- <field name="partner_id" attrs="{'column_invisible': [('parent.partner_id', '=', False)]}" />	 -->						
+								<field name="invoice_id" width="50%"/>
+								<field name="date_invoice"/>
+								<field name="date_maturity"/>
+								<field name="invoice_amount"/>
+								<field name="amount_total" string="Foriegn Inv.Amt" attrs="{ 'column_invisible': [('parent.foreign_currency', '!=', True)]}" widget="monetary" options="{'currency_field': 'invoice_currency_id'}"/>
+								<field name="amount_balance" string="Foriegn Inv. Bal. Amt" attrs="{ 'column_invisible': [('parent.foreign_currency', '!=', True)]}" widget="monetary" options="{'currency_field': 'invoice_currency_id'}"/>
+								<field name="amount_residual_display"/>
+								<field name="allocate" widget="boolean_toggle"/>
+								<field name="allocate_amount" sum="Total"/>
+								<field name="allocate_amount_curr" sum="Total" string="Foriegn Allocate.Amt" attrs="{ 'column_invisible': [('parent.foreign_currency', '!=', True)]}" widget="monetary" options="{'currency_field': 'invoice_currency_id'}"/>
+							</tree>
+						</field>					
+					
+				</page>
+				 
+			</notebook>
+                 </xpath>
+			
+
+
+
+
+
+
+
+
+
+
+                
+				<!--  <xpath expr="//sheet/group/group[@name='group3']" position="before">
+				 	<group name="group_amt">
+					 	
+					 </group>
+				 </xpath>
+ -->
+
+             </field>
+         </record>
+
+ </odoo>

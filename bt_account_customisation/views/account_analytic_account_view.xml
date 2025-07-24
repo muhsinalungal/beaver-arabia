@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<record id="search_more_analytic_tree" model="ir.ui.view">
+        <field name="name">account.analytic.search.tree</field>
+        <field name="model">account.analytic.account</field>
+        <field name="arch" type="xml">
+            <tree string="Project Code">
+                <field name="name" string="Name"/>
+                <field name="code"/>
+                <field name="partner_id"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

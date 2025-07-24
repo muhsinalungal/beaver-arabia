@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+    <record id="rfq_ref_seq" model="ir.sequence">
+        <field name="name">RFQ Ref</field>
+        <field name="code">rfq.ref</field>
+        <field name="prefix">IN-RFQ</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False" />
+    </record>
+
+    <record model="crm.stage" id="stage_lead5">
+        <field name="name">Negotiation</field>
+        <field name="fold" eval="False"/>
+        <field name="is_won">False</field>
+        <field name="sequence">4</field>
+    </record>
+</odoo>

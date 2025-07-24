@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="font_assets_backend" name="font assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/bt_account_report_qrcode/static/src/css/font_style.css"/>
+           
+        </xpath>
+    </template>
+    <template id="invoice_report_assets_pdf" inherit_id="web.report_assets_pdf">
+        <xpath expr="link[last()]" position="after">
+            
+             <link rel="stylesheet" href="/bt_account_report_qrcode/static/src/css/font_style.css"/>
+        </xpath>
+    </template>
+</odoo>

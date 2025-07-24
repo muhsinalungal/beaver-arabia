@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="hr_timesheet_line_form_inh" model="ir.ui.view">
+        <field name="name">hr_timesheet.form.line.inh</field>
+        <field name="model">hr_timesheet.sheet</field>
+        <field name="inherit_id" ref="hr_timesheet_sheet.hr_timesheet_sheet_form"/>
+        <field name="arch" type="xml">
+            <xpath expr ="//page[2]/field[@name='timesheet_ids']/tree/field[@name='task_id']" position="after">
+                <field name="timesheet_type_id" options="{'no_create': True, 'no_create_edit':True}"  force_save="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- <record id="hr_timesheet_form_inh" model="ir.ui.view">
+        <field name="name">hr_timesheet.form.inh</field>
+        <field name="model">hr_timesheet.sheet</field>
+        <field name="inherit_id" ref="hr_timesheet_sheet.hr_timesheet_sheet_form"/>
+        <field name="arch" type="xml">
+            <field name="add_line_task_id" position="after">
+                <field name="add_line_timesheet_type_id" options="{'no_create': True, 'no_create_edit':True}" required="1"/>
+            </field>
+        </field>
+    </record> -->
+
+
+    <record id="hr_timesheet_type_tree" model="ir.ui.view">
+		<field name="name">hr.timesheet.type.tree</field>
+		<field name="model">hr.timesheet.type</field>
+		<field name="arch" type="xml">
+			<tree string="Timesheet Type">
+				<field name="name" />
+				<field name="max_hrs" />
+				<field name="percentage" />
+				<field name="account_id" />
+			</tree>
+		</field>
+	</record>
+	
+	<!-- HR Timesheet type form view -->
+	<record id="hr_timesheet_type_form" model="ir.ui.view">
+		<field name="name">hr.timesheet.type.form</field>
+		<field name="model">hr.timesheet.type</field>
+		<field name="arch" type="xml">
+			<form string="Timesheet Type">
+				<sheet>
+					<div>
+						<label for="name"/>
+						<h1>
+							<field name="name"/>
+						</h1>
+					</div>
+					<group>
+					<field name="max_hrs" widget='float_time'/>
+					<field name="percentage" />
+					<field name="account_id" />
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	
+	<!-- HR Timesheet type action -->
+	<record id="hr_timesheet_type_action"
+		model="ir.actions.act_window">
+		<field name="name">Timesheet Type</field>
+		<field name="res_model">hr.timesheet.type</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	
+	<menuitem id="hr_timesheet_type_action_menu" name="Timesheet Type"
+		parent="hr_timesheet.hr_timesheet_menu_configuration" action="hr_timesheet_type_action"
+		 />
+</odoo>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="report_estimate_information_job"
+                model="sale.project"
+                report_type="qweb-pdf"
+                string="Print Job Estimate"
+                name="bt_job_cost_estimation.estimate_print"
+                file="bt_job_cost_estimation.estimate_print"
+        />
+
+        <template id="estimate_print">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <h3>
+                                <center>Construction Estimate # -
+                                    <span t-field="doc.number"/>
+                                </center>
+                            </h3>
+                            <span t-field="doc.partner_id"
+                                  t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True, "phone_icons": True}'/>
+                            <br/>
+                            <div>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td>
+                                            <strong>Your Reference</strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="doc.reference"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Sales Person</strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="doc.user_id.name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Total Estimate</th>
+                                            <th class="text-center">Date of Estimate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span t-esc="doc.total_amount"
+                                                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="doc.estimate_date"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <div>
+                            <h3>Estimation Summary</h3>
+                            <table class="table table-condensed table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Quantity</th>
+                                        <th>Unit of Measure</th>
+                                        <th class="text-right">Sub Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.estimate_ids" t-as="estimate_line">
+                                        <td>
+                                            <span t-field="estimate_line.description"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="estimate_line.note"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="estimate_line.work_quantity"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="estimate_line.work_uom_id"/>
+                                        </td>
+
+                                        <td class="text-right">
+                                            <span t-field="estimate_line.subtotal"
+                                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div>
+                            <h3>Detailed Estimation</h3>
+                            <table class="table table-condensed table-bordered" width="100%">
+                                <tbody>
+                                    <tr t-foreach="doc.estimate_ids" t-as="estimate_line">
+                                        <td>
+                                            <span t-field="estimate_line.title"/>
+                                             <table class="table table-condensed table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Description</th>
+                                        <th>Quantity</th>
+                                        <th>UoM</th>
+                                        <th>Price</th>
+                                        <th>Sale Tax</th>
+                                        <th>Subtotal</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="estimate_line.estimate_line_ids" t-as="line">
+                                        <td>
+                                            <span t-field="line.product_id.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_description"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_description"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_qty"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_uom_id.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.num"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.subtotal"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

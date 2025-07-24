@@ -1,0 +1,131 @@
+<odoo>
+
+    <record id="view_account_journal_form" model="ir.ui.view">
+        <field name="name">account.journal.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="seq_code"/>
+            </xpath>
+            <xpath expr="//page[@name='advanced_settings']" position="after">
+                <page name="sequence" string="Sequence">
+                    <group>
+                        <group string="Sequence">
+                            <!-- <field name="sequence_number_next"/>
+                            <field name="sequence_id" required="0" attrs="{'readonly': 1}"/> -->
+                            <!-- <button name="create_journal_sequence" string="Set Sequence" type="object" class="oe_highlight"
+                                    attrs="{'invisible': [('sequence_id','!=',False),('refund_sequence_id','!=',False)]}"/> -->
+                             <field name="transfer_sequence_id"/>
+                              <field name="receipt_sequence_id"/>
+                               <field name="payment_sequence_id"/>
+                        </group>
+                        <!-- <group string="Refund Sequence">
+                            <field name="refund_sequence_number_next"/>
+                            <field name="refund_sequence_id" required="0" attrs="{'readonly': 1}"/>
+                        </group> -->
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+     <record id="account_payment_bt_form" model="ir.ui.view">
+        <field name="name">account.payment.bt.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_title']" position="replace">
+                <group col="4" colspan="4">
+               
+                          <span><b> <field name="name" readonly="1"/></b></span>
+                        </group>
+                        
+          </xpath>
+          <!--  <xpath expr="//div[@class='oe_title']" position="replace">
+               <field name="name" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+          </xpath> -->
+          <xpath expr="//field[@name='payment_type']" position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='partner_type']" position="attributes">
+            <attribute name="readonly">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='payment_method_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
+           <xpath expr="//field[@name='is_internal_transfer']" position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
+           <xpath expr="//field[@name='bank_reference']" position="replace">
+          </xpath>
+          <xpath expr="//field[@name='cheque_reference']" position="replace">
+          </xpath>
+          <xpath expr="//field[@name='ref']" position="replace">
+          </xpath>
+          <xpath expr="//group[@name='group3']" position="replace">
+          </xpath>
+           <xpath expr="//field[@name='company_id']" position="after">
+            
+           <!--  <field name="bank_reference" attrs="{'readonly': [('state', '!=', 'draft')]}"/> -->
+            
+                   
+                   
+            <!-- <field name="cheque_reference" attrs="{'readonly': [('state', '!=', 'draft')]}"/> -->
+            <field name="journal_code_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+            <field name="ref" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+          </xpath>
+           <xpath expr="//field[@name='journal_id']" position="before">
+            <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+
+          </xpath>
+          <xpath expr="//field[@name='journal_id']" position="after">
+            <field name="gl_account_id" readonly="1" force_save="1"/>
+            <field name="suitable_partner_ids" invisible="1" />
+
+          </xpath>
+          <xpath expr="//field[@name='partner_bank_id']" position="before">
+             <field name="foreign_currency" invisible="0"/>
+            <label for="foriegn_curr_amt" string="Foriegn Curr. Amt" attrs="{'invisible': [('foreign_currency', '=', False)]}"/>
+                    <div name="amount_div" class="o_row" attrs="{'invisible': [('foreign_currency', '=', False)]}">
+                                    <field name="foriegn_curr_amt" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <field name="foriegn_curr_id" options="{'no_create': True, 'no_open': True}" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" groups="base.group_multi_currency"/>
+                                </div>
+                    <!-- <field name="foriegn_curr_amt" /> -->
+                        <field name="foriegn_curr_rate" invisible="1"/>
+                        <field name="total_amt" attrs="{'invisible': [('foreign_currency', '=', False)]}"/>
+
+                   
+           
+                <label for="amount"/>
+                        <div name="amount_div" class="o_row">
+                            <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="currency_id" options="{'no_create': True, 'no_open': True}" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" groups="base.group_multi_currency"/>
+                        </div>
+                        <field name="allocated_amt" attrs="{'invisible': [('foreign_currency', '=', False)]}"/>
+                         <field name="exchange_amount_diff" attrs="{'invisible': [('foreign_currency', '=', False)]}"/>
+                    <field name="exchange_account_id" attrs="{'invisible': [('foreign_currency', '=', False)]}"/>
+
+                        <label for="payment_method"/>
+                        <div name="payment_div" class="o_row">
+                            <field name="payment_method" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <span class="oe_inline o_form_label mx-3 oe_read_only" t-if="payment_method === 'cheque'">   <b>Cheque No</b> </span>
+                            <span class="oe_inline o_form_label mr-3 ml-5 oe_edit_only"  t-if="payment_method === 'cheque'"> <b>Cheque No </b></span>
+                            <field name="cheque_reference" options="{'no_create': True, 'no_open': True}" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                        </div>
+                   
+                    </xpath>
+                    <xpath expr="//field[@name='partner_id']" position="replace">
+
+                     <div class="o_td_label">
+                            <label for="partner_id" string="Customer" style="font-weight:bold;" attrs="{'invisible': [('payment_type', 'not in', ('inbound'))]}"/>
+                            <label for="partner_id" string="Vendor" style="font-weight:bold;" attrs="{'invisible': [('payment_type', 'not in', ('outbound'))]}"/>
+                        </div>
+                            <field name="partner_id" nolabel="1"/>
+                        </xpath>
+
+      </field>
+    </record>
+
+</odoo>

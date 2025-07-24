@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+    
+        <!-- Sequences for Product Estimate -->
+        <record id="product_estimate_seq_job" model = "ir.sequence">
+            <field name="name">Product Estimate Sequence.seq</field>
+            <field name="code">product.estimate.seq.job</field>
+            <field name="prefix">PRO/EST/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+         <record id="project_estimate_seq_job" model = "ir.sequence">
+            <field name="name">Project Estimate Sequence.seq</field>
+            <field name="code">project.estimate.seq.job</field>
+            <field name="prefix">EST/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>
+ 

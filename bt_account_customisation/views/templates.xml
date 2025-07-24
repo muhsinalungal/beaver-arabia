@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="font_assets_backend" name="font assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/bt_account_customisation/static/src/css/invoice_line.css"/>
+           
+        </xpath>
+    </template>
+</odoo>

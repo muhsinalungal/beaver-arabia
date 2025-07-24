@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="bt_job_cost_estimation.form_view_estimate" model="ir.ui.view">
+        <field name="name">sale.estimate.form</field>
+        <field name="model">sale.estimate</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                 <widget name="web_ribbon" title="Versioned"
+                                attrs="{'invisible': [('state', '!=', 'versioned')]}"/>
+                    <div class="oe_title">
+                        <h1>
+                        	<div class="o_row">
+                                <field name="name" default_focus="1"
+                                       placeholder="Description" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                    	<group>
+                              	<field name="project_id" readonly="1" />
+                              	<field name="reference_number" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                             	<field name="sale_margin" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                             	<field name="state" invisible="1"/>
+                             	<field name="company_id" invisible="1"/>
+                             	 
+                          </group>
+                    	<group>
+	                    	<label for="quantity_from_detail" string="Quantity(From Detail)"/>
+	                          <div class="d-flex">
+	                              <field name="quantity_from_detail"  attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+	                              <span class="o_form_label mx-3"> </span>
+	                              <field name="work_uom_id" nolabel="1" colspan="3" placeholder="Unit" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+	                          </div>
+                           	<field name="work_quantity"  attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>	
+                          
+                          </group>
+
+                         
+                            
+                       
+                    </group>
+                    <field name="note" placeholder="Note" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                    <notebook>
+                        <page string="Rate Analysis For Unit Work">
+                            <field name="estimate_line_ids" nolabel="1" context="{'default_product_uom_id':work_uom_id,'default_project_id':project_id, 'default_description':name}" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" widget="section_and_note_one2many"> 
+                                <tree editable="bottom" decoration-danger="pricelist_active != True" limit= '20' >
+                                <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                                    </control>
+
+                                    <field name="display_type" invisible="1"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="project_id" invisible="1"/>
+                                	<field name="product_id"/>
+                                    <field name="name" widget="section_and_note_text" optional="show" string="Description"/>
+                                    <field name="description" invisible="1"/>
+                                    <field name="product_description" invisible="1" />
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="pricelist_id" invisible="1"/>
+                                    <field name="price_list_price" invisible="1"/>
+                                    <field name="pricelist_active" invisible="1"/>
+                                    <field name="price_unit" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}"  domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"/>
+                                    
+                                    <field name="subtotal" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="line_total" invisible="0"/>
+                                    <field name="price_tax" invisible="1"/>
+                                    <field name="cost" invisible="1"/>
+                                    <field name="estimate_id" invisible="1"/>
+
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Detailed Estimates">
+                            <field name="detailed_estimate_ids" nolabel="1" context="{'default_uom_id':work_uom_id,'default_estimate_id':'parent_id','default_project_id':project_id,}" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" >
+                                <tree editable="bottom">
+                                 	<field name="project_id" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="uom_id" />
+                                    <field name="number"/>
+                                    <field name="length1"/>
+                                    <field name="width"/>
+                                    <field name="height"/>
+                                    <field name="coefficient"/>
+                                    <field name="quantity" />
+                                    <field name="remarks" />
+                                    <field name="estimate_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right" colspan="2" name="subtotal">
+                        <field name="currency_id" invisible="1"/>
+                        <field name="cost_per_unit_work_excl" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        <field name="cost_per_unit_work" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        <field name="subtotal" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        <field name="discount" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                        <div class="oe_inline o_td_label">
+                            <label for="amount_total"/>
+                        </div>
+                        <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary'/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="bt_job_cost_estimation.tree_view_estimate" model="ir.ui.view">
+        <field name="name">sale.estimate.tree</field>
+        <field name="model">sale.estimate</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="price_update == True">
+            	<field name="name" />
+                <field name="work_quantity"/>
+                <field name="work_uom_id"/>
+                <field name="cost_per_unit_work" string="Unit Price" widget='monetary'
+                       options="{'currency_field': 'currency_id'}"/>
+                <field name="sale_margin"/>
+                <field name="discount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                <field name="subtotal" sum="Total" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+ 				<field name="state"/>
+ 				<field name="price_update" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_estimate_job_cost" model="ir.actions.act_window">
+        <field name="name">Estimate Sheet</field>
+        <field name="res_model">sale.estimate</field>
+        <field name="view_id" ref="tree_view_estimate"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new estimate.
+            </p>
+        </field>
+    </record>
+
+
+    <record id="sale_pricelist_form_inh_view" model="ir.ui.view">
+        <field name="name">product.pricelist.inherit.view</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='item_ids']" position="replace">
+                <field name="item_ids" nolabel="1" context="{'default_base':'list_price'}">
+                      <tree string="Pricelist Items" editable="bottom">
+                          <field name="product_tmpl_id" string="Products" required="1" attrs="{'readonly': [('flag', '=', True)]}" />
+                          <field name="product_id" string="Variants"
+                            groups="product.group_product_variant"
+                            domain="[('product_tmpl_id', '=', product_tmpl_id)]"
+                            options="{'no_create':1}" attrs="{'readonly': [('flag', '=', True)]}"/>
+                          <field name="min_quantity" attrs="{'readonly': [('flag', '=', True)]}"/>
+                          <field name="fixed_price" string="Price" attrs="{'readonly': [('flag', '=', True)]}"/>
+                          <field name="currency_id" invisible="1" />
+                          <field name="pricelist_id" invisible="1"/>
+                          <!-- Pricelist ID is here only for related fields to be correctly computed -->
+                          <field name="date_start" attrs="{'readonly': [('flag', '=', True)]}"/>
+                          <field name="date_end" attrs="{'readonly': [('flag', '=', True)]}"/>
+                          <field name="base" invisible="1"/>
+                          <field name="applied_on" invisible="1"/>
+                          <field name="company_id" invisible="1"/>
+                          <field name="flag" invisible="1"/>
+                          <button name="get_activate" type="object"
+                    icon="fa-check" title="Activate" attrs="{'invisible': [('flag', '=', True)]}"
+                    />
+
+                    <button name="get_deactivate" type="object"
+                    icon="fa-undo" title="Deactivate" groups="sales_team.group_sale_manager" attrs="{'invisible': [('flag', '=', False)]}"/>
+                      </tree>
+                  </field>
+            </xpath>
+            
+        </field>
+    </record>
+
+
+    <menuitem id="sale.menu_product_pricelist_main" name="Pricelists" parent="sale.product_menu_catalog" action="product.product_pricelist_action2" groups="product.group_product_pricelist,sales_team.group_sale_manager" sequence="3" active="True"/>
+</odoo>

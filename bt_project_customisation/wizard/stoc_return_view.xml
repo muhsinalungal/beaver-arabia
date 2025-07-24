@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+
+ <record id="view_stock_return_picking_form_inh" model="ir.ui.view">
+        <field name="name">Return lines</field>
+        <field name="model">stock.return.picking</field>
+        <field name="inherit_id" ref="stock.view_stock_return_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_return_moves']/tree/field[@name='quantity']" position="after">
+                    <field name="lot_ids" widget="many2many_tags"/>
+                    <field name="price_line_id" domain="[('lot_id', 'in', lot_ids)]"/>
+                    <field name="unit_price" />
+                </xpath>
+            </field>
+    </record>
+</odoo>

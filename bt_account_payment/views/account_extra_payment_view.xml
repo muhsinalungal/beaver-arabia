@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<record id="view_account_extra_payment_tree" model="ir.ui.view">
+            <field name="name">account.extra.payment.tree</field>
+            <field name="model">account.extra.payment</field>
+            <field name="arch" type="xml">
+                <tree edit="false" sample="1">
+                    <field name="date_done"/>
+                    <field name="name" string="Entry No"/>
+                    <field name="partner_name"/>
+                    <field name="ref" />
+                    <field name="payment_type"/>
+                    <field name="journal_id"/>
+                    
+                    <field name="amount"/>
+                    <field name="state" widget="badge" decoration-success="state == 'post'" decoration-info="state == 'draft'"/>
+                </tree>
+            </field>
+        </record>
+        
+       	<record id="account_extra_payment_search" model="ir.ui.view">
+	       	<field name="name">account.extra.payment.search</field>
+	       	<field name="model">account.extra.payment</field>
+	       	<field name="arch" type="xml">
+	           <search string="Search Payment">
+                   <field name="partner_name"/>
+	               <field
+	                   name="name"
+	                   filter_domain="[('name', 'ilike', self)]"
+	                   string="Referance"
+	               />
+	               <field name="journal_id" />
+	               <filter
+	                   name="draft"
+	                   string="Draft"
+	                   domain="[('state', '=', 'draft')]"
+	               />
+                   <separator/>
+	               <filter
+	                   name="post"
+	                   string="Posted"
+	                   domain="[('state', '=', 'post')]"
+	               />
+                   <separator/>
+	               <filter
+	                   name="inbound"
+	                   string="Receive Money"
+	                   domain="[('payment_type', '=', 'inbound')]"
+	               />
+                   <separator/>
+	               <filter
+	                   name="outbound"
+	                   string="Send Money"
+	                   domain="[('payment_type', '=', 'outbound')]"
+	               />
+	               <group string="Group By" name="groupby">
+	                   <filter
+	                       name="payment_type_groupby"
+	                       string="Payment Type"
+	                       context="{'group_by': 'payment_type'}"
+	                   />
+	                   <filter
+	                       name="journal_groupby"
+	                       string="Journal"
+	                       context="{'group_by': 'journal_id'}"
+	                   />
+	                   <filter
+	                       name="date_groupby"
+	                       string="Date"
+	                       context="{'group_by': 'date_done'}"
+	                   />
+	                  
+	                   <filter
+	                       name="state_groupby"
+	                       string="State"
+	                       context="{'group_by': 'state'}"
+	                   />
+	               </group>
+	           </search>
+	       </field>
+		</record>
+    
+		<record id="view_extra_payment_form" model="ir.ui.view">
+            <field name="name">account.extra.payment.form</field>
+            <field name="model">account.extra.payment</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Extra Payment">
+                <header>
+                    <button string="Post"  class="oe_highlight"
+                            name="button_post" type="object" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                	<div class="oe_button_box" name="button_box">
+                    	<button name="button_journal_entry" type="object"
+                            class="oe_stat_button" icon="fa-bars" string="Journal Entry"
+                            attrs="{'invisible': [('state', '!=', 'post')]}">
+                        </button>
+                    </div>
+                    <div class="oe_title oe_inline">
+                        <!-- <label for="name" class="oe_edit_only"/> -->
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    
+                    <group>
+
+                        <group>
+                            <field name="payment_type" widget="radio" attrs="{'readonly': [('state', '!=', 'draft')]}" invisible="1"/>
+                                
+                                <div class="o_td_label">
+                                    <label for="partner_name" string="Receipt From" style="font-weight:bold;" attrs="{'invisible': [('payment_type', 'not in', ('inbound'))]}"/>
+                                    <label for="partner_name" string="Pay To" style="font-weight:bold;" attrs="{'invisible': [('payment_type', 'not in', ('outbound'))]}"/>
+                                </div>
+
+                                 <field name="partner_name" nolabel="1"/>
+                                <label for="payment_method"/>
+                                <div name="payment_div" class="o_row">
+                                    <field name="payment_method" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <span class="oe_inline o_form_label mx-3 oe_read_only" t-if="payment_method === 'cheque'">   <b>Cheque No</b> </span>
+                                    <span class="oe_inline o_form_label mr-3 ml-5 oe_edit_only"  t-if="payment_method === 'cheque'"> <b>Cheque No </b></span>
+                                    <field name="cheq_no" options="{'no_create': True, 'no_open': True}" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                </div>
+
+                                    <field name="journal_code_id" 
+                                options="{'no_quick_create':True,'no_create_edit':True}" />
+                                 <field name="ref" 
+                                 />
+                                 <field name="suitable_partner_ids" invisible="1"/>
+                                 
+                        </group>
+                        <group>
+                            <field name="suitable_journal_ids" invisible="1"/>
+                            <field name="date_done"  required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="journal_id"   widget="selection"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="gl_account_id"  readonly="1" force_save="1"/>
+                            <!-- <label for="payment_method"/>
+                        <div name="payment_div" class="o_row">
+                            <field name="payment_method" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <span class="oe_inline o_form_label mx-3 oe_read_only" t-if="payment_method === 'cheque'">   <b>Cheque No</b> </span>
+                            <span class="oe_inline o_form_label mr-3 ml-5 oe_edit_only"  t-if="payment_method === 'cheque'"> <b>Cheque No </b></span>
+                            <field name="cheq_no" options="{'no_create': True, 'no_open': True}" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                        </div> -->
+                            <!--  <field name="payment_method"   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                              <field name="cheq_no"    attrs="{'readonly': [('state', '!=', 'draft')],'invisible': [('payment_method', 'not in', ('cheque'))]}"/> -->
+                              <label for="amount"/>
+                                <div name="amount_div" class="o_row">
+                                    <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                   
+                                    <field name="currency_id" options="{'no_create': True, 'no_open': True}" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                </div>
+                               <!-- <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/> -->
+                            
+                            
+                            <field name='company_id' options="{'no_create': True}" groups="base.group_multi_company" invisible="1"/>
+                            <!-- <field name="currency_id" invisible="0"/> -->
+
+                        
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Transactions" name="payment_line_ids">
+                            <field name="line_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                <tree string="Pament lines"
+                                      editable="bottom"
+                                      limit="10" >
+                                      <field name='company_id' options="{'no_create': True}" groups="base.group_multi_company" invisible="1"/>
+                                      <field name="cost_center" invisible="1"/>
+                                        <field name="employee" invisible="1"/>
+                                        <field name="asset" invisible="1"/>
+                                        <field name="project" invisible="1"/>
+                                        <field name="accomodation" invisible="1"/>
+                                    
+                                    <field name="destination_account_id" required="1" width="180pt"/>
+                                    <field name="name" width="310pt"/>
+                                    <field name="budgetry_position" invisible="1"/>
+                                    <field name="budgetry_position_id" width="90pt"  attrs="{'required': [('budgetry_position', '=', True)]}"  domain="[('account_ids', 'in', destination_account_id)]" />
+
+
+                                    <field name="cost_center_id" string="Department"
+                                options="{'no_quick_create':True,'no_create_edit':True}"  attrs="{'required': [('cost_center', '=', True)]}" width="90pt"/>
+                                <field name="analytic_account_id" 
+                                options="{'no_quick_create':True,'no_create_edit':True}" attrs="{'required': [('project', '=', True)]}" width="70pt"/>
+                                 <field name="employee_id"  attrs="{'required': [('employee', '=', True)]}"
+                                options="{'no_quick_create':True,'no_create_edit':True}" width="70pt"/>
+
+                                    
+                                 <field name="asset_id" 
+                                options="{'no_quick_create':True,'no_create_edit':True}" attrs="{'required': [('asset', '=', True)]}" width="70pt"/>
+                                <field name="accomadation_id" 
+                                options="{'no_quick_create':True,'no_create_edit':True}" attrs="{'required': [('accomodation', '=', True)]}" width="65pt"/>
+                                    <field name="amount" width="90pt"/>
+                                     <field name="tax_ids" widget="many2many_tags" string="Tax Rate"
+                                               domain="[('company_id', '=', parent.company_id),('type_tax_use', '=','purchase')]"
+                                            
+                                               options="{'no_create': True}"
+                                               optional="show" width="65pt" attrs="{'column_invisible': [('parent.payment_type', '=', 'inbound')]}"/>
+                                    <field name="taxed_amount" width="85pt" attrs="{'column_invisible': [('parent.payment_type', '=', 'inbound')]}"/>
+                                    <field name="total_amount" width="105pt" attrs="{'column_invisible': [('parent.payment_type', '=', 'inbound')]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <div style="margin-top:-20px">
+                    <group class="oe_subtotal_footer oe_right" colspan="4" name="total_cost" attrs="{'invisible': [('payment_type', '=', 'inbound')]}">
+                  
+                        <div class="oe_inline o_td_label">
+                            <label for="taxable_amount" string="Total Taxable Amt"/>
+                        </div>
+                        <field name="taxable_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                        <div class="oe_inline o_td_label">
+                            <label for="vat_amount" string="Total VAT"/>
+                        </div>
+                        <field name="vat_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                         <div class="oe_inline o_td_label">
+                            <label for="total_amount" string="Net Amount(Incl.Vat)"/>
+                        </div>
+                        <field name="total_amount" nolabel="1"  class="oe_subtotal_footer_separator" />
+                         
+                    </group>
+                </div>
+                    <div class="oe_clear"/>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_account_extra_payments" model="ir.actions.act_window">
+            <field name="name">Debit Order</field>
+            <field name="res_model">account.extra.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{
+                'default_payment_type': 'inbound',
+                'search_default_inbound': 1,
+            }</field>
+            <field name="view_id" ref="view_account_extra_payment_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                  Register a payment
+                </p><p>
+                  User can do Multiple Payments
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_account_extra_payments_send" model="ir.actions.act_window">
+           <field name="name">Payment Order</field>
+           <field name="res_model">account.extra.payment</field>
+           <field name="view_mode">tree,form</field>
+           <field name="context">{
+               'default_payment_type': 'outbound',
+               'search_default_outbound': 1,
+           }</field>
+           <field name="view_id" ref="view_account_extra_payment_tree"/>
+           <field name="help" type="html">
+               <p class="o_view_nocontent_smiling_face">
+                 Register a payment
+               </p><p>
+                 User can do Multiple Payments
+               </p>
+           </field>
+        </record>
+        
+        
+        <menuitem id="menu_action_account_extra_payment" action="action_account_extra_payments" sequence="15" parent="account.menu_finance_receivables"/>
+    	<menuitem id="menu_action_account_extra_payment_send" action="action_account_extra_payments_send" sequence="15" parent="account.menu_finance_payables"/>
+    
+    
+    </data>
+</odoo>

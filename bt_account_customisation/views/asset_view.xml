@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_asset_group_tree" model="ir.ui.view">
+        <field name="name">asset.group.tree</field>
+        <field name="model">asset.group</field>
+            <field name="arch" type="xml">
+                <tree string="Asset Group" editable="top">
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_asset_group" model="ir.actions.act_window">
+            <field name="name">Asset Groups</field>
+            <field name="res_model">asset.group</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Asset Group.
+                </p>
+            </field>
+        </record>
+
+        <record id="asset_type_view_form_inherit_bt" model="ir.ui.view">
+            <field name="name">asset.type.view.form.inherit.bt</field>
+            <field name="model">account.asset.category</field>
+            <field name="inherit_id" ref="base_accounting_kit.view_account_asset_category_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                   
+                    <group>
+                         <field name="code" required="1"/>
+                         <field name="asset_group_id" required="1"/>
+                    </group>
+               
+                </xpath>
+              
+            </field>
+        </record>
+
+        <record id="asset_view_form_inherit_bt" model="ir.ui.view">
+            <field name="name">asset.view.form.inherit.bt</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="base_accounting_kit.view_account_asset_asset_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="replace">
+           
+                         <field name="code" string="Asset ID"/>
+                        
+                </xpath>
+                 <xpath expr="//field[@name='code']" position="after">
+           
+                         <field name="ref" />
+                        
+                </xpath>
+              
+            </field>
+        </record>
+
+        <record id="asset_view_tree_inherit_bt" model="ir.ui.view">
+            <field name="name">asset.view.tree.inherit.bt</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="base_accounting_kit.view_account_asset_asset_purchase_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+           
+                         <field name="code" string="Asset ID"/>
+                        
+                </xpath>
+              
+            </field>
+        </record>
+
+    <menuitem id="menu_asset_group" name="Asset Groups" parent="account.account_management_menu"
+              action="action_asset_group" sequence="6"/>
+
+    </data>
+</odoo>

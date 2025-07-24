@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<data>
+
+  
+
+	<record id="invoice_form_account_inherit" model="ir.ui.view">
+		<field name="name">account.invoice.form.inherits</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form"/>
+		<field name="arch" type="xml">
+
+			<!--  <button name="action_post" string="Post" class="oe_highlight"
+                        type="object" groups="account.group_account_invoice"
+                        attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'entry')]}"/>
+                <button name="action_post" string="Confirm" class="oe_highlight"
+                        type="object" groups="account.group_account_invoice"
+                        attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '=', 'entry')]}"/> -->
+        <xpath expr="//button[@name='action_post']" position="attributes">
+				 <attribute name="groups">account.group_account_manager</attribute>
+			</xpath>
+
+			<xpath expr="//field[@name='invoice_date']"
+						position="after">
+						<field name="receipt_date"  attrs="{'invisible': [('move_type', 'in', ('in_invoice', 'in_refund','out_refund', 'in_receipt','entry'))], 'readonly': [('state', '!=', 'draft')]}"
+				 />
+			 </xpath>
+
+			<xpath expr="//field[@name='invoice_date']" position="after">
+				<field name="reversed_entry_ids" string="Vendor Bills" widget="many2many_tags"     domain="[('move_type','=', 'in_invoice')]"  attrs="{'invisible':[('move_type', '!=', 'in_refund')],'readonly': [('state', '!=', 'draft')]}"/>
+			</xpath>
+
+			<xpath expr="//field[@name='invoice_date']" position="after">
+				<field name="reversed_entry_ids" string="Invoices" widget="many2many_tags"  domain="[('move_type','=', 'out_invoice')]" attrs="{'invisible':[('move_type', '!=', 'out_refund')],'readonly': [('state', '!=', 'draft')]}"/>
+			</xpath>
+
+			 <xpath expr="//label[@for='ref']"
+						position="replace">
+						
+                      <label for="ref" string="Bill Reference" attrs="{'invisible':[('move_type', 'not in', ('in_invoice', 'in_receipt'))]}"/>
+			 </xpath>
+
+			 <xpath expr="//field[@name='ref']"
+						position="replace">
+						
+                        <field name="ref" nolabel="1" attrs="{'invisible':[('move_type', 'not in', ('in_invoice', 'in_receipt', ))]}"/>
+			 </xpath>
+
+			 <xpath expr="//group[@id='header_right_group']/field[@name='date']"
+						position="replace">
+						
+                      <field name="date" string="Accounting Date" attrs="{'invisible': [('move_type', 'in', ('out_invoice', 'out_refund', 'out_receipt','in_refund'))],'readonly': [('state', '!=', 'draft')]}"/>
+
+			 </xpath>
+			 <xpath expr="//group[@id='header_right_group']/div[1]"
+						position="replace">
+				<div class="o_td_label">
+                    <label for="invoice_date" string="Invoice Date" style="font-weight:bold;" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_receipt'))]}"/>
+                    <label for="invoice_date" string="Accounting Date" style="font-weight:bold;" attrs="{'invisible': [('move_type', 'not in', ('out_refund', 'in_refund'))]}"/>
+                    <label for="invoice_date" string="Bill Date" style="font-weight:bold;" attrs="{'invisible': [('move_type', 'not in', ('in_invoice','in_receipt'))]}"/>
+                </div>
+				</xpath>
+			<xpath expr="//group[@id='header_right_group']/label[1]"
+						position="replace">
+				 <label for="invoice_payment_term_id" string="Due Date" attrs="{'invisible': [('move_type', 'not in', ('out_invoice','in_invoice','out_receipt', 'in_receipt'))]}"/>
+				</xpath>
+			<xpath expr="//group[@id='header_right_group']/div[2]"
+						position="replace">
+				 <div class="d-flex" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'in_invoice','out_receipt', 'in_receipt'))]}">
+                            <field name="invoice_date_due" force_save="1" placeholder="Date" attrs="{'invisible': [('invoice_payment_term_id', '!=', False)]}"/>
+                            <span class="o_form_label mx-3 oe_edit_only" attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('invoice_payment_term_id', '!=', False)]}"> or </span>
+                            <field name="invoice_payment_term_id" placeholder="Terms"/>
+                        </div>
+				</xpath>
+			 <xpath expr="//group[@id='header_right_group']/div[3]"
+						position="after">
+						<field name="bank_cash_type" invisible="1"/>
+						<field name="suitable_partner_ids" invisible="1"/>
+				<!--  <field name="payment_method" attrs="{'invisible': [('bank_cash_type', '=',False)],'readonly': [('state', '!=', 'draft')],}" />
+				  <field name="cheq_no"    attrs="{'readonly': [('state', '!=', 'draft')],'invisible': [('payment_method', 'not in', ('cheque'))]}"/> -->
+							 <label for="gl_account_id" string="GL Account" attrs="{'invisible': [('bank_cash_type', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+							<div name="gl_account_id" class="d-flex" attrs="{'invisible': [('bank_cash_type', '=', False)], 'readonly': [('state', '!=', 'draft')]}">
+								<field name="gl_account_id"  attrs="{'invisible': [('bank_cash_type', '=', False)],'readonly': [('state', '!=', 'draft')] }" readonly="1" force_save="1"/>
+							   
+							</div>
+
+						  <label for="payment_method" string="Payment Mode" attrs="{'invisible': [('bank_cash_type', '=',False)],'readonly': [('state', '!=', 'draft')],}"/>
+							<div name="payment_method" class="d-flex" attrs="{'invisible': [('bank_cash_type', '=',False)],'readonly': [('state', '!=', 'draft')],}">
+								<field name="payment_method"  attrs="{'invisible': [('bank_cash_type', '=',False)],'readonly': [('state', '!=', 'draft')],}" />
+								<span class="oe_inline o_form_label mx-3 oe_read_only" t-if="payment_method === 'cheque'">   <b> </b> </span>
+								<span class="oe_inline o_form_label mr-3 ml-5 oe_edit_only"  t-if="payment_method === 'cheque'"> <b>Cheque No </b></span>
+								<field name="cheq_no"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+							   
+							</div>
+							 <label for="petty_amnt" string="Amount" attrs="{'invisible': [('bank_cash_type', '=',False)],'readonly': [('state', '!=', 'draft')],}"/>
+							<div name="petty_amnt" class="d-flex" attrs="{'invisible': [('bank_cash_type', '=',False)],'readonly': [('state', '!=', 'draft')],}">
+								<field name="petty_amnt"  attrs="{'invisible': [('bank_cash_type', '=',False)],'readonly': [('state', '!=', 'draft')],}" />
+							</div>
+
+
+
+						
+						   <field name="petty_cash_type" invisible="1"/>
+						
+							<label for="petty_cash_account_id" string="Petty Cash Code" attrs="{'invisible': [('petty_cash_type', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+							<div name="petty_cash_account_id" class="d-flex" attrs="{'invisible': [('petty_cash_type', '=', False)], 'readonly': [('state', '!=', 'draft')]}">
+								<field name="petty_cash_account_id"  attrs="{'invisible': [('petty_cash_type', '=', False)], }" readonly="1" force_save="1"/>
+							   
+							</div>
+
+							<label for="petty_amnt" string="Amount" attrs="{'invisible': [('petty_cash_type', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+							<div name="petty_amnt" class="d-flex" attrs="{'invisible': [('petty_cash_type', '=', False)], 'readonly': [('state', '!=', 'draft')]}">
+								<field name="petty_amnt"  attrs="{'invisible': [('petty_cash_type', '=', False)], 'readonly': [('state', '!=', 'draft')]}" />
+								<span class="oe_inline o_form_label mx-3 oe_read_only"  >  <b>Balance </b> </span>
+								<span class="oe_inline o_form_label mr-3 ml-5 oe_edit_only"> <b>Balance </b></span>
+								<field name="petty_balance_amnt"  attrs="{'invisible': [('petty_cash_type', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+							   
+							</div>
+
+					   
+
+			 </xpath>
+
+
+			<xpath expr="//field[@name='partner_id']"
+						position="after">
+			
+				<field name="partner_name" attrs="{'readonly': [('state', '!=', 'draft')],'invisible':  [('bank_cash_type', '=', False)],}" />
+				<field name="employee_id" 
+				options="{'no_quick_create':True,'no_create_edit':True}" attrs="{'readonly': [('state', '!=', 'draft')],'invisible':  [('petty_cash_type', '=', False)],}" />
+
+				<field name="analytic_account_id" context="{'tree_view_ref': 'bt_account_customisation.search_more_analytic_tree'}"
+				options="{'no_quick_create':True,'no_create_edit':True}" attrs="{'readonly': [('state', '!=', 'draft')],'invisible': [('move_type', 'in', ('entry','in_invoice','in_refund','out_refund'))]}" />
+				 <field name="journal_code_id" 
+				attrs="{'readonly': [('state', '!=', 'draft')],'required': [('move_type', 'in', ('out_invoice','in_invoice'))]}"/>
+				<field name="invoice_type_id" 
+				attrs="{'readonly': [('state', '!=', 'draft')],'invisible': [('move_type', 'in', ('entry'))], 'required': [('move_type', 'in', ('out_invoice','in_invoice'))]}" invisible="0"/> 
+				<field name="our_ref_no" 
+				attrs="{'invisible': [('move_type', 'not in', ('out_invoice','in_invoice'))], 'readonly': [('state', '!=', 'draft')]}"  />
+				 <field name="your_ref_no" 
+				attrs="{'invisible': [('move_type', 'not in', ('out_invoice','in_invoice'))], 'readonly': [('state', '!=', 'draft')]}" />
+				 <field name="purchase_id" 
+				attrs="{'invisible': [('move_type', 'not in', ('in_invoice'))], 'readonly': [('state', '!=', 'draft')]}" />
+  
+		
+			</xpath>
+
+			<xpath expr="//field[@name='partner_id']" position="after">
+				<field name="sales_person" attrs="{'invisible': [('move_type', 'not in', ('out_invoice','in_invoice'))]}"/>
+			</xpath>
+		   
+			 <xpath expr="//form/sheet/notebook/page/field[@name='invoice_line_ids']/tree[1]" position="replace">
+				<tree editable="bottom" class="o_css_invoice_line" string="Journal Items" default_order="sequence, date desc, move_name desc, id">
+				<control>
+					<create name="add_line_control" string="Add a line"/>
+					<create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+					<create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+				</control>
+
+				<!-- Displayed fields -->
+				<field name="sequence" widget="handle"/>
+				<field name="move_name" invisible="1"/>
+				<field name="product_id"
+			optional="show" 
+			domain="context.get('default_move_type') in ('out_invoice', 'out_refund', 'out_receipt') and [('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)] or [('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)] " />
+				<field name="account_id" string="Account ID"
+					   groups="account.group_account_readonly"
+					   options="{'no_create': True}"
+					   domain="[('deprecated', '=', False), ('user_type_id.type', 'not in', ('receivable', 'payable')), ('company_id', '=', parent.company_id), ('is_off_balance', '=', False)]"
+					   attrs="{'required': [('display_type', '=', False)]}"/>
+			   <!-- <field name="acc_desc" width="100%"/> -->
+				<field name="name" string="Description" widget="section_and_note_text" attrs="{'required': [('parent.move_type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}" />
+				
+			   
+				<field name="analytic_tag_ids"
+					   domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+					   groups="analytic.group_analytic_tags"
+					   optional="show"
+					   widget="many2many_tags" invisible="1"/>
+				
+				<field name="product_uom_category_id" invisible="1"/>
+				<field name="cost_center" invisible="1"/>
+				<field name="cost_center_new" invisible="1"/>
+				<field name="employee" invisible="1"/>
+				<field name="asset" invisible="1"/>
+				<field name="project" invisible="1"/>
+				<field name="accomodation" invisible="1"/>
+			   
+				<!--  <field name="asset_category_id" string="Purchase Type" attrs="{'column_invisible': [('parent.move_type', '!=', 'in_invoice')]}" width="100%" invisible="1"/> -->
+				<!-- <field name="start_date" attrs="{'invisible': [('parent.move_type', '!=', 'out_invoice')]}" width="100%" invisible="1"/>
+				 <field name="end_date" attrs="{'invisible': [('parent.move_type', '!=', 'out_invoice')]}" width="100%" invisible="1"/> -->
+				<field name="budgetry_position_id" string="Cost Center" 
+				  domain="[('account_ids', 'in', account_id)]" attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice','out_refund','in_refund'))],'required': [('cost_center_new', '=', True),('parent.move_type', 'in', ('in_invoice','in_refund'))]}"/>
+				 <field name="cost_center_id" string="Department"
+				 attrs="{'required': [('cost_center', '=', True)]}"/>
+				 <field name="analytic_account_id" string="Project"
+					   domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+					   
+					   optional="show"  attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice','out_invoice','in_refund','out_refund'))],'required': [('project', '=', True),('parent.move_type', 'in', ('in_invoice','in_refund'))]}" />
+						  
+				<field name="employee_id"  attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice','in_refund'))],'required': [('employee', '=', True),('parent.move_type', 'in', ('in_invoice','in_refund'))]}" />
+				<field name="asset_profile_id" attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice','in_refund'))],'required': [('asset', '=', True),('parent.move_type', 'in', ('in_invoice','in_refund'))]}" />
+				<field name="asset_id" attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice','in_refund'))],'required': [('asset', '=', True),('parent.move_type', 'in', ('in_invoice','in_refund'))]}" />
+				<field name="department_id" width="100%" invisible="1"/>
+				<field name="accomadation_id" string="Accommodation" attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice','in_refund'))],'required': [('accomodation', '=', True),('parent.move_type', 'in', ('in_invoice','in_refund'))]}" />
+				<field name="site_id" width="100%"  attrs="{'column_invisible': [('parent.move_type', '!=', 'in_invoice')]}" string="Division" invisible="1"/> 
+				<field name="product_uom_id" string="UoM"  optional="show" domain="[]"/>
+				<field name="unit" attrs="{'invisible': [('parent.move_type', '!=', 'out_invoice')]}" width="100%" invisible="1"/>
+				<!-- <field name="days" width="100%" invisible="1"/> -->
+				<field name="category" width="100%" invisible="1" string="Unit"/>
+				<field name="quantity" string="Qty"/>
+				<field name="price_unit" string="Rate"/>
+				<field name="start_date" attrs="{'column_invisible': [('parent.move_type', '!=', 'out_invoice')]}" width="100%" />
+				<field name="end_date" attrs="{'column_invisible': [('parent.move_type', '!=', 'out_invoice')]}" width="100%" />
+				<field name="price_value_new" invisible="1"/>
+<!--				<field name="total_new"/>-->
+				<field name="days" attrs="{'column_invisible': [('parent.move_type', '!=', 'out_invoice')]}" width="50%"/>
+<!--				<field name="hours" attrs="{'column_invisible': [('parent.move_type', '!=', 'out_invoice')]}" width="50%"/>-->
+
+				<field name="discount" string="Disc.%" optional="hide" invisible="1"/>
+				<field name="price_subtotal" 
+					   string="Sub Total" 
+					  />
+				<field name="tax_ids" widget="many2many_tags" string="Tax Rate"
+					   domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
+					   context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
+					   options="{'no_create': True}"
+					   optional="show"/>
+				<field name="taxed_amount" string="VAT Amount" optional="hide"/>
+				<field name="price_total"
+					   string="Total" 
+					   />
+
+				<!-- Others fields -->
+				<field name="partner_id" invisible="1"/>
+				<field name="amount_currency" invisible="1"/>
+				<field name="currency_id" invisible="1"/>
+				<field name="debit" invisible="1"/>
+				<field name="credit" invisible="1"/>
+				<field name="date" invisible="1"/>
+				<field name="date_maturity" invisible="1"/>
+
+				<field name="tax_line_id" invisible="1"/>
+				<field name="tax_repartition_line_id" invisible="1"/>
+				<field name="tax_tag_ids" invisible="1"/>
+				<field name="tax_base_amount" invisible="1"/>
+				<field name="tax_exigible" invisible="1"/>
+				<field name="company_id" invisible="1"/>
+				<field name="company_currency_id" invisible="1"/>
+				<field name="recompute_tax_line" invisible="1" force_save="1"/>
+				<field name="display_type" force_save="1" invisible="1"/>
+				<field name="is_rounding_line" invisible="1"/>
+				<field name="exclude_from_invoice_tab" invisible="1"/>
+				<field name="account_internal_type" invisible="1"/>
+				<field name="account_internal_group" invisible="1"/>
+			</tree>
+		</xpath>
+				<xpath expr="//group[@class='oe_subtotal_footer oe_right']"
+						position="replace">
+					<group col="4">
+						<group style="margin-top:-10px;" class="oe_subtotal_footer oe_right"
+								attrs="{'invisible': ['|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+														   ('payment_state' ,'=', 'invoicing_legacy')]}"  >
+								<field name="amount_tax" invisible="1"/>
+								<field name="total_excl_vat" invisible="0" readonly="1" attrs="{'invisible': ['|',('amount_tax', '=', 0),('move_type', 'not in', ('out_invoice'))]}"/>
+								<field name="total_adv_ded" invisible="0" readonly="1" attrs="{'invisible': ['|',('amount_tax', '=', 0),('move_type', 'not in', ('out_invoice'))]}"/>
+								<field name="amount_untaxed" attrs="{'invisible': [('amount_tax', '=', 0)]}" string="Total Taxable Amt"/>
+								<field name="amount_by_group" widget="tax-group-custom-field" nolabel="1" colspan="2" attrs="{'invisible': [('amount_tax', '=', 0)]}"/>
+								<field name="less_retention" invisible="0" readonly="1" string="Retention" attrs="{'invisible': ['|',('amount_tax', '=', 0),('move_type', 'not in', ('out_invoice'))]}"/>
+								<field name="amount_total_after_ret" attrs="{'invisible': [('less_retention', '=', 0)]}"/>
+								<field name="amount_total" attrs="{'invisible': [('amount_tax', '!=', 0)]}"/>
+								<field name="amount_total" class="oe_subtotal_footer_separator" attrs="{'invisible': [('amount_tax', '=', 0)]}"/>
+								<field name="invoice_payments_widget" colspan="2" nolabel="1" widget="payment"/>
+								<field name="amount_residual" class="oe_subtotal_footer_separator" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+						</group>
+						
+						<group  style="margin-top:101px;" class="oe_subtotal_footer oe_left"   attrs="{'invisible': [('move_type', 'not in', ('out_invoice'))]}" >
+								<field name="retention_perc" style="width:50px;" attrs="{'invisible': ['|',('amount_tax', '=', 0),('move_type', 'not in', ('out_invoice'))]}"/>
+						</group>
+						<group class="oe_subtotal_footer oe_right" style="margin-top:0px;"  attrs="{'invisible': [('move_type', 'not in', ('in_invoice','out_invoice'))]}" >
+					  			<field name="company_currency_id" width="100%" style="width:100%%"  attrs="{'invisible': [('move_type', 'not in', ('in_invoice'))]}"/>
+								<field name="amount_total_signed" width="100%"   style="width:100%%" string="Amount in SAR" attrs="{'invisible': [('move_type', 'not in', ('in_invoice'))]}"/>
+								<field name="amount_residual_signed" width="100%"   style="width:100%%" string="Amount Due in SAR" attrs="{'invisible': [('move_type', 'not in', ('in_invoice'))]}"/>
+					</group>
+						
+					</group>
+					
+
+					   
+						
+					</xpath>
+			
+			<xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_total']" position="attributes">
+				 <attribute name="groups"></attribute>
+			</xpath>
+		  
+			 <xpath expr="//field[@name='partner_bank_id']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//label[@for='invoice_vendor_bill_id']" position="attributes">
+				 <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'draft'), ('move_type', 'in', ('in_invoice','out_invoice','in_refund', 'in_receipt','entry'))]}</attribute>
+			</xpath>
+			<!-- <xpath expr="//field[@name='purchase_vendor_bill_id']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath> -->
+			
+			
+
+			<xpath expr="//form/sheet/notebook/page/field[@name='invoice_line_ids']/form/sheet" position="replace">
+				<sheet>
+				<field name="product_uom_category_id" invisible="1"/>
+					<field name="display_type" invisible="1"/>
+					<field name="parent_state" invisible="1"/>
+					<group>
+						<group id="header_left_group">
+							<field name="partner_id" invisible="1"/>
+							<field name="company_id" invisible="1"/>
+							<field name="product_id" widget="many2one_barcode"/>
+							<field name="quantity"/>
+							<!-- <field name="asset_category_id" string="Purchase Type" attrs="{'invisible': [('parent.move_type', '!=', 'in_invoice')]}"/> -->
+							<field name="account_id" options="{'no_create': True}" domain="[('company_id', '=', company_id)]" readonly="0"/>
+							<field name="discount" groups="product.group_discount_per_so_line"/>
+							<field name="currency_id" invisible="1"/>
+							<!-- <field name="analytic_tag_ids" groups="analytic.group_analytic_tags" widget="many2many_tags"/> -->
+							
+							 <field name="analytic_account_id" />
+						</group>
+						<group id="header_right_group">
+							<field name="product_uom_id" groups="uom.group_uom"/>
+							 <field name="price_unit"/>
+							
+							<field name="tax_ids" widget="many2many_tags"/>
+							<field name="price_subtotal"
+										   string="Subtotal"/>
+							<field name="price_total"
+										   string="Total"/>
+						   
+						</group>
+					</group>
+				<group>
+				   <group id="header_left_group">
+						
+						<field name="site_id"/>
+					   
+						<field name="employee_id" />
+					   
+						<field name="asset_id"/>
+						
+						<field name="start_date" />
+						<field name="unit" />
+						<field name="days" />
+					</group>
+					<group id="header_right_group">
+						<field name="cost_center_id"/>
+						 <field name="department_id" />
+						 <field name="accomadation_id" string="Accommodation"/>
+						  <field name="end_date" />
+						<field name="category"/>
+					</group>
+				</group>
+				 <label for="name" string="Description" attrs="{'invisible': [('display_type', '!=', False)]}"/>
+					<label for="name" string="Section" attrs="{'invisible': [('display_type', '!=', 'line_section')]}"/>
+					<label for="name" string="Note" attrs="{'invisible': [('display_type', '!=', 'line_note')]}"/>
+					<field name="name" widget="text"/>
+				</sheet>
+			</xpath>
+
+		   <!--  <xpath expr="//field[@name='line_ids']/tree/field[@name='analytic_tag_ids']" position="after">
+				<field name="cost_center_id"
+				options="{'no_quick_create':True,'no_create_edit':True}" invisible="0"/>
+				 <field name="analytic_account_id"
+				options="{'no_quick_create':True,'no_create_edit':True}" invisible="0"/>
+					<field name="site_id" string="Site"
+				options="{'no_quick_create':True,'no_create_edit':True}" invisible="1"/>
+				 <field name="employee_id" 
+				options="{'no_quick_create':True,'no_create_edit':True}" attrs="{'column_invisible': [('parent.move_type', '!=', 'entry')]}"/>
+				<field name="asset_id" invisible="0"/>
+				<field name="accomadation_id" invisible="0"/>
+						
+				<field name="start_date" invisible="1"/>
+				<field name="unit" invisible="1"/>
+				<field name="days" invisible="1"/>
+				<field name="department_id" invisible="1"/>
+				 
+				 <field name="taxed_amount" string="Tax Amount" invisible="1"/>
+				  <field name="end_date" invisible="1"/>
+				<field name="category" invisible="1"/>
+			</xpath>
+			<xpath expr="//field[@name='line_ids']/tree/field[@name='analytic_tag_ids']" position="attributes">
+			   <attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//field[@name='line_ids']/tree/field[@name='tax_ids']" position="after">
+			   <field name="taxed_amount" string="VAT Amount" invisible="0"/>
+			</xpath> -->
+
+			<xpath expr="//form/sheet/notebook/page/field[@name='line_ids']/tree[1]" position="replace">
+
+			<tree editable="bottom" class="o_css_line_ids" string="Journal Items" decoration-muted="display_type in ('line_section', 'line_note')" default_order="seq,sequence, date desc, move_name desc, id" >
+									<!-- Displayed fields -->
+									
+			       <field name="seq" invisible="0" widget="handle"/>
+			       <field name="account_id"
+				 attrs="{
+				'required': [('display_type', 'not in', ('line_section', 'line_note'))],
+				'invisible': [('display_type', 'in', ('line_section', 'line_note'))],'readonly': [
+				                             '|', '|',
+							('display_type', 'in', ('line_section', 'line_note')),
+							('tax_line_id', '!=', False),
+							'&amp;',
+							('parent.move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+							('account_internal_type', 'in', ('receivable', 'payable')),
+							]
+							 }"
+							 domain="[('deprecated', '=', False), ('company_id', '=', parent.company_id)]" force_save="1"/>
+				<field name="partner_id"
+				domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"
+			        attrs="{'column_invisible': [('parent.move_type', '!=', 'entry')]}" invisible="1"/>
+				<field name="name" widget="section_and_note_text" optional="show"/>
+				<field name="cost_center" invisible="1"/>
+				<field name="employee" invisible="1"/>
+				<field name="asset" invisible="1"/>
+				<field name="project" invisible="1"/>
+				<field name="accomodation" invisible="1"/>
+				<field name="cost_center_new" invisible="1"/>
+				<field name="price_value_new" invisible="1"/>
+								   
+				<field name="analytic_tag_ids"
+				optional="show"
+				groups="analytic.group_analytic_tags"
+				widget="many2many_tags"
+				attrs="{'invisible': [('display_type', 'in', ('line_section', 'line_note'))]}" invisible="1"/>
+				<field name="date_maturity"
+				optional="hide"
+				invisible="context.get('view_no_maturity')"
+				attrs="{'invisible': [('display_type', 'in', ('line_section', 'line_note'))]}"/>
+				<field name="amount_currency"
+				groups="base.group_multi_currency"
+				optional="hide"/>
+				<field name="currency_id" options="{'no_create': True}"
+					   groups="base.group_multi_currency"
+					   attrs="{'column_invisible': [('parent.move_type', '!=', 'entry')]}" invisible="1"/>
+
+				<field name="debit"
+					   sum="Total Debit"
+					   attrs="{'invisible': [('display_type', 'in', ('line_section', 'line_note'))]}"/>
+				<field name="credit"
+					   sum="Total Credit"
+					   attrs="{'invisible': [('display_type', 'in', ('line_section', 'line_note'))]}"/>
+				<field name="tax_ids" widget="many2many_tags"
+					   optional="show"
+					   domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain)]"
+					   context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
+					   options="{'no_create': True}"
+					   force_save="1"
+					   attrs="{'column_invisible': [('parent.bank_cash_type', '=', True)],'readonly': [
+							'|', '|',
+							('display_type', 'in', ('line_section', 'line_note')),
+							('tax_line_id', '!=', False),
+							'&amp;',
+							('parent.move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+							('account_internal_type', 'in', ('receivable', 'payable')),
+						]}"/>
+				<field name="taxed_amount" string="VAT Amount" optional="hide"/>
+				<field name="cost_center_id" string="Department"
+				attrs="{'readonly': [
+							'|', '|',
+							('display_type', 'in', ('line_section', 'line_note')),
+							('tax_line_id', '!=', False),
+							'&amp;',
+							('parent.move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+							('account_internal_type', 'in', ('receivable', 'payable')),('account_id', 'not in', (276,319))
+						],'required': [('cost_center', '=', True),('parent.move_type', '=', 'entry')]}"/>
+				 <field name="analytic_account_id"
+				options="{'no_quick_create':True,'no_create_edit':True}" attrs="{'column_invisible': [('parent.bank_cash_type', '=', True)],'readonly': [
+							'|', '|',
+							('display_type', 'in', ('line_section', 'line_note')),
+							('tax_line_id', '!=', False),
+							'&amp;',
+							('parent.move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+							('account_internal_type', 'in', ('receivable', 'payable')),('account_id', 'not in', (276,319))
+						],'required': [('project', '=', True),('parent.bank_cash_type', '=', False),('parent.move_type', '=', 'entry')]}"/>
+					<field name="site_id" string="Site"
+				options="{'no_quick_create':True,'no_create_edit':True}" attrs="{'column_invisible': [('parent.move_type', '!=', 'entry')]}" invisible="1"/>
+
+
+				 <field name="employee_id"
+				options="{'no_quick_create':True,'no_create_edit':True}" attrs="{'column_invisible': [('parent.move_type', '!=', 'entry')],'readonly': [
+							'|', '|',
+							('display_type', 'in', ('line_section', 'line_note')),
+							('tax_line_id', '!=', False),
+							'&amp;',
+							('parent.move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+							('account_internal_type', 'in', ('receivable', 'payable')),('account_id', 'not in', (276,319))
+						],'required': [('employee', '=', True),('parent.move_type', '=', 'entry')]}"/>
+				<field name="asset_id" attrs="{'column_invisible': [('parent.bank_cash_type', '=', True)],'readonly': [
+							'|', '|',
+							('display_type', 'in', ('line_section', 'line_note')),
+							('tax_line_id', '!=', False),
+							'&amp;',
+							('parent.move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+							('account_internal_type', 'in', ('receivable', 'payable')),('account_id', 'not in', (276,319))
+						],'required': [('asset', '=', True),('parent.bank_cash_type', '=', False),('parent.move_type', '=', 'entry')]}"/>
+				<field name="accomadation_id" string="Accommodation"  attrs="{'column_invisible': [('parent.bank_cash_type', '=', True)],'readonly': [
+							'|', '|',
+							('display_type', 'in', ('line_section', 'line_note')),
+							('tax_line_id', '!=', False),
+							'&amp;',
+							('parent.move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+							('account_internal_type', 'in', ('receivable', 'payable')),('account_id', 'not in', (276,319))
+						],'required': [('accomodation', '=', True),('parent.bank_cash_type', '=', False),('parent.move_type', '=', 'entry')]}"/>
+			 <field name="budgetry_position_id" string="Cost Center"
+		  domain="[('account_ids', 'in', account_id)]" attrs="{'column_invisible': [('parent.bank_cash_type', '=', True)],'readonly': [
+			'|', 
+				('display_type', 'in', ('line_section', 'line_note')),
+				('tax_line_id', '!=', False),
+				'&amp;',
+				('parent.move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+				
+				],'required': [('cost_center_new', '=', True),('parent.move_type', '=', 'entry'),('parent.bank_cash_type', '!=', True)]}"/>
+
+			<field name="product_id" attrs="{'column_invisible': [('parent.bank_cash_type', '=', True)],'readonly': [
+			'|', 
+				('display_type', 'in', ('line_section', 'line_note')),
+				('tax_line_id', '!=', False),
+				'&amp;',
+				('parent.move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+				
+				]}" string="Cost Center" domain="[('gl_account_id', '=', account_id)]" invisible="1"/>
+									
+							<field name="start_date" attrs="{'invisible': [('parent.move_type', 'not in', 'out_invoice')]}" invisible="1"/>
+							<field name="unit" invisible="1"/>
+							<field name="days" attrs="{'invisible': [('parent.move_type', 'not in', 'out_invoice')]}" invisible="1"/>
+							<field name="department_id" invisible="1"/>
+							 
+							 <field name="taxed_amount" string="Tax Amount" invisible="1"/>
+							  <field name="end_date" attrs="{'invisible': [('parent.move_type', 'not in', 'out_invoice')]}" invisible="1"/>
+							<field name="category" invisible="1"/>
+											   
+							<field name="tax_fiscal_country_id" invisible="1"/>
+							<field name="tax_tag_ids" widget="many2many_tags" string="Tax Grids" optional="show" domain="[('country_id', '=', tax_fiscal_country_id), ('applicability', '=', 'taxes')]" invisible="1"/>
+
+							<!-- Buttons -->
+							<button name="action_automatic_entry"
+									type="object"
+									icon="fa-calendar"
+									string="Cut-Off"
+									aria-label="Change Period"
+									class="float-right"
+									attrs="{'invisible': [('account_internal_group', 'not in', ('income', 'expense'))], 'column_invisible': ['|', ('parent.move_type', '=', 'entry'), ('parent.state', '!=', 'posted')]}"
+									context="{'hide_automatic_options': 1, 'default_action': 'change_period'}"/>
+
+							<!-- Others fields -->
+							<field name="payment_id" invisible="1"/>
+
+							<!-- <field name="product_id" invisible="1"/> -->
+							<field name="quantity" invisible="1"/>
+							<field name="product_uom_category_id" invisible="1"/>
+							<field name="product_uom_id" invisible="1"/>
+							<field name="price_unit" invisible="1"/>
+							<field name="discount" invisible="1"/>
+							<field name="price_subtotal" invisible="1"/>
+							<field name="price_total" invisible="1"/>
+
+							<field name="sequence" invisible="1"/>
+							<field name="move_name" invisible="1"/>
+							<field name="date" invisible="1"/>
+							<field name="tax_line_id" invisible="1"/>
+							<field name="tax_group_id" invisible="1"/>
+							<field name="tax_repartition_line_id" invisible="1" force_save="1"/>
+							<field name="tax_base_amount" invisible="1" force_save="1"/>
+							<field name="tax_exigible" invisible="1" force_save="1"/>
+							<field name="company_id" invisible="1"/>
+							<field name="company_currency_id" invisible="1"/>
+							<field name="recompute_tax_line" invisible="1" force_save="1"/>
+							<field name="display_type" force_save="1" invisible="1"/>
+							<field name="is_rounding_line" invisible="1"/>
+							<field name="exclude_from_invoice_tab" invisible="1"/>
+							<field name="account_internal_type" invisible="1"/>
+							<field name="account_internal_group" invisible="1"/>
+						</tree>
+					</xpath>
+
+				<xpath expr="//notebook"
+						position="after">
+
+				 <div style="margin-top:-20px">
+				<group class="oe_subtotal_footer oe_right" colspan="4" name="total_cost_pt" attrs="{'invisible': [('petty_cash_type', '=', False)]}">
+			  
+					<div class="oe_inline o_td_label">
+						<label for="pt_taxable_amount" string="Total Taxable Amt"/>
+					</div>
+					<field name="pt_taxable_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+					<div class="oe_inline o_td_label">
+						<label for="pt_vat_amount" string="Total VAT"/>
+					</div>
+					<field name="pt_vat_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+					 <div class="oe_inline o_td_label">
+						<label for="pt_total_amount" string="Net Amount(Incl.Vat)"/>
+					</div>
+					<field name="pt_total_amount" nolabel="1"  class="oe_subtotal_footer_separator" />
+					 
+				</group>
+			</div>
+		</xpath>
+		</field>
+	</record>
+
+	<record id="view_move_form_inherit_bt_purchase" model="ir.ui.view">
+	<field name="name">account.move.inherit.bt.purchase</field>
+	<field name="model">account.move</field>
+	<field name="inherit_id" ref="purchase.view_move_form_inherit_purchase"/>
+	<field name="arch" type="xml">
+		<!-- Auto-complete could be done from either a bill either a purchase order -->
+		
+		<xpath expr="//label[@for='purchase_vendor_bill_id']" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</xpath>
+	   
+	</field>
+</record>
+ 
+
+
+ <record id="view_account_move_filter_inherit" model="ir.ui.view">
+	<field name="name">account.move.filter</field>
+	<field name="model">account.move</field>
+	<field name="inherit_id" ref="account.view_account_invoice_filter"/>
+	<field name="arch" type="xml">
+		<field name="partner_id" position="after">
+			<field name="invoice_type_id"/>
+		</field>
+		<group>
+			<filter string="Invoice Type" domain="[]" name="inv_type_id_filter" context="{'group_by':'invoice_type_id'}"/>
+		</group>
+	</field>
+</record>
+
+<record id="product_template_form_view" model="ir.ui.view">
+		<field name="name">product.template.form.inherit</field>
+		<field name="model">product.template</field>
+		<field name="priority">5</field>
+		<field name="inherit_id" ref="product.product_template_only_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='categ_id']" position="after">
+				<field name="is_advance" invisible="0"/>
+				<field name="gl_account_id" invisible="0"/>
+			</xpath>
+		   
+		</field>
+	</record>
+
+<record id="product_template_form_view_bt" model="ir.ui.view">
+		<field name="name">product.template.bt.form.inherit</field>
+		<field name="model">product.template</field>
+		<field name="priority">5</field>
+		<field name="inherit_id" ref="product.product_template_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='categ_id']" position="after">
+				<field name="is_advance" invisible="0"/>
+				<field name="gl_account_id" invisible="0"/>
+			</xpath>
+		</field>
+	</record>
+
+</data>
+</odoo>

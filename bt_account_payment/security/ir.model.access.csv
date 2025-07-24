@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_extra_payment_all,account.extra.payment.all,model_account_extra_payment,,1,1,1,1
+access_account_extra_payment_line_all,account.extra.payment.line.all,model_account_extra_payment_line,,1,1,1,1
+access_account_advance_payment_all,account.advance.payment.all,model_account_advance_payment,,1,1,1,1

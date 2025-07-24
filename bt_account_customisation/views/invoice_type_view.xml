@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_invoice_type_tree" model="ir.ui.view">
+        <field name="name">inv.type.tree</field>
+        <field name="model">invoice.type</field>
+            <field name="arch" type="xml">
+                <tree string="Types" editable="top">
+                    <field name="name"/>
+                    <field name="description"/>
+
+                    <field name="category"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_invoice_type" model="ir.actions.act_window">
+            <field name="name">Invoice Type</field>
+            <field name="res_model">invoice.type</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Invoice Type.
+                </p>
+            </field>
+        </record>
+
+    <menuitem id="menu_invoice_type" name="Invoice Types" parent="account.account_account_menu"
+              action="action_invoice_type"/>
+
+    </data>
+</odoo>

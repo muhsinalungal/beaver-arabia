@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	 <record id="form_view_sale_template" model="ir.ui.view">
+        <field name="name">sale.template.form</field>
+        <field name="model">sale.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page string="WORK ACTIVITY MATRIX">
+                            <field name="template_line_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="name"/>
+                                </tree>
+                        </field>
+                        </page>
+                        <page string="Default Cost">
+                            <field name="fixed_cost_line_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="name"/>
+                                    <field name="cost" widget="monetary"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="bt_job_cost_estimation.tree_view_sale_template" model="ir.ui.view">
+        <field name="name">sale.template</field>
+        <field name="model">sale.template</field>
+        <field name="arch" type="xml">
+            <tree >
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_sale_template" model="ir.actions.act_window">
+        <field name="name">Sale Template</field>
+        <field name="res_model">sale.template</field>
+        <field name="view_id" ref="tree_view_sale_template"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a sale template.
+            </p>
+        </field>
+    </record>
+
+</odoo>

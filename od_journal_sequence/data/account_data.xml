@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Payment sequences -->
+        <record id="sequence_payment_customer_invoice" model="ir.sequence">
+            <field name="name">Payments customer invoices sequence</field>
+            <field name="code">account.payment.customer.invoice</field>
+            <field name="prefix">CUST.IN/%(range_year)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="sequence_payment_customer_refund" model="ir.sequence">
+            <field name="name">Payments customer credit notes sequence</field>
+            <field name="code">account.payment.customer.refund</field>
+            <field name="prefix">CUST.OUT/%(range_year)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="sequence_payment_supplier_invoice" model="ir.sequence">
+            <field name="name">Payments supplier invoices sequence</field>
+            <field name="code">account.payment.supplier.invoice</field>
+            <field name="prefix">SUPP.OUT/%(range_year)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="sequence_payment_supplier_refund" model="ir.sequence">
+            <field name="name">Payments supplier credit notes sequence</field>
+            <field name="code">account.payment.supplier.refund</field>
+            <field name="prefix">SUPP.IN/%(range_year)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="sequence_payment_transfer" model="ir.sequence">
+            <field name="name">Payments transfer sequence</field>
+            <field name="code">account.payment.transfer</field>
+            <field name="prefix">TRANS/%(range_year)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+
+         <record id="sequence_receipt_transfer" model="ir.sequence">
+            <field name="name">Receipt sequence</field>
+            <field name="code">account.receipt.transfer</field>
+            <field name="prefix">%(y)s%(month)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        <record id="sequence_receipt_bank" model="ir.sequence">
+            <field name="name">Bank Receipt transfer sequence</field>
+            <field name="code">account.receipt.bank</field>
+            <field name="prefix">%(y)s%(month)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        <record id="sequence_receipt_petty" model="ir.sequence">
+            <field name="name">Petty Receipt transfer sequence</field>
+            <field name="code">account.receipt.petty</field>
+            <field name="prefix">%(y)s%(month)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        <record id="sequence_pay_transfer" model="ir.sequence">
+            <field name="name">Payment Order transfer sequence</field>
+            <field name="code">pay.receipt.transfer</field>
+            <field name="prefix">%(y)s%(month)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        <record id="sequence_pay_transfer_bnk" model="ir.sequence">
+            <field name="name">Payment Order transfer sequence</field>
+            <field name="code">pay.receipt.transfer.bank</field>
+            <field name="prefix">%(y)s%(month)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        <record id="sequence_pay_transfer_petty" model="ir.sequence">
+            <field name="name">Payment Order transfer sequence</field>
+            <field name="code">pay.receipt.transfer.petty</field>
+            <field name="prefix">%(y)s%(month)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        <record id="sequence_payments" model="ir.sequence">
+            <field name="name">Petty Cash Payments sequence</field>
+            <field name="code">payments.sequencer</field>
+            <field name="prefix">%(y)s%(month)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        <record id="sequence_payments_cash" model="ir.sequence">
+            <field name="name">Cash Payments sequence</field>
+            <field name="code">payments.sequencer.cash</field>
+            <field name="prefix">%(y)s%(month)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        <record id="sequence_payments_bank" model="ir.sequence">
+            <field name="name">Bank Payments sequence</field>
+            <field name="code">payments.sequencer.bank</field>
+            <field name="prefix">%(y)s%(month)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+
+         <record id="sequence_journal_entry" model="ir.sequence">
+            <field name="name">Journal Entry sequence</field>
+            <field name="code">journal.entry.sequence</field>
+            <field name="prefix">JE-%(y)s%(month)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        <record id="sequence_vendor" model="ir.sequence">
+            <field name="name">Vendor sequence</field>
+            <field name="code">vendor.sequence</field>
+            <field name="prefix">V</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        <record id="sequence_customer" model="ir.sequence">
+            <field name="name">Customer sequence</field>
+            <field name="code">customer.sequence</field>
+            <field name="prefix">C</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+
+    </data>
+</odoo>

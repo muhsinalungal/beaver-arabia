@@ -1,0 +1,182 @@
+.o_list_view .o_list_table tbody > tr > td:not(.o_list_record_selector):not(.o_handle_cell):not(.o_list_button) {
+    border: solid 1px !important;
+    border-color: #BEBDB8 !important;
+}
+.o_list_view .o_list_table thead > tr > th:not(.o_list_record_selector):not(.o_handle_cell):not(.o_list_button) {
+    border: solid 1px !important;
+    border-color: #BEBDB8 !important;
+}
+.o_list_view .o_list_table tbody > tr > td{
+    color: #000000 !important;
+}
+
+.o_css_invoice_line [data-name="product_id"] {
+	width: 50pt !important;
+	max-width: 50pt !important;
+}
+
+.o_css_invoice_line [data-name="account_id"] {
+	width: 190pt !important;
+	max-width: 190pt !important;
+}
+
+.o_css_invoice_line [data-name="name"] {
+	width: 240pt !important;
+	max-width: 240pt !important;
+}
+
+.o_css_invoice_line [data-name="budgetry_position_id"] {
+	width: 85pt !important;
+	max-width: 85pt !important;
+}
+
+.o_css_invoice_line [data-name="cost_center_id"] {
+	width: 105pt !important;
+	max-width: 105pt !important;
+}
+
+.o_css_invoice_line [data-name="analytic_account_id"] {
+	width: 60pt !important;
+	max-width: 60pt !important;
+}
+
+.o_css_invoice_line [data-name="employee_id"] {
+	width: 75pt !important;
+	max-width: 75pt !important;
+}
+
+.o_css_invoice_line [data-name="asset_profile_id"] {
+	width: 73pt !important;
+	max-width: 73pt !important;
+}
+
+.o_css_invoice_line [data-name="asset_id"] {
+	width: 75pt !important;
+	max-width: 75pt !important;
+}
+
+.o_css_invoice_line [data-name="accomadation_id"] {
+	width: 70pt !important;
+	max-width: 70pt !important;
+}
+
+.o_css_invoice_line [data-name="product_uom_id"] {
+	width: 40pt !important;
+	max-width: 40pt !important;
+}
+
+.o_css_invoice_line [data-name="quantity"] {
+	width: 65pt !important;
+	max-width: 65pt !important;
+}
+
+.o_css_invoice_line [data-name="price_unit"] {
+	width: 90pt !important;
+	max-width: 90pt !important;
+}
+.o_css_invoice_line [data-name="start_date"] {
+	width: 80pt !important;
+	max-width: 80pt !important;
+}
+.o_css_invoice_line [data-name="end_date"] {
+	width: 80pt !important;
+	max-width: 80pt !important;
+}
+.o_css_invoice_line [data-name="days"] {
+	width: 30pt !important;
+	max-width: 30pt !important;
+}
+
+.o_css_invoice_line [data-name="price_subtotal"] {
+	width: 100pt !important;
+	max-width: 100pt !important;
+}
+
+.o_css_invoice_line [data-name="tax_ids"] {
+	width: 70pt !important;
+	max-width: 70pt !important;
+}
+
+.o_css_invoice_line [data-name="price_total"] {
+	width: 100pt !important;
+	max-width: 100pt !important;
+}
+
+.o_css_line_ids [data-name="account_id"] {
+	width: 220px !important;
+	max-width: 220px !important;
+}
+
+.o_css_line_ids [data-name="name"] {
+	width: 330px !important;
+	max-width: 330px !important;
+}
+
+.o_css_line_ids [data-name="debit"] {
+	width: 115px !important;
+	max-width: 115px !important;
+}
+
+.o_css_line_ids [data-name="credit"] {
+	width: 115px !important;
+	max-width: 115px !important;
+}
+
+.o_css_line_ids [data-name="tax_ids"] {
+	width: 90px !important;
+	max-width: 90px !important;
+}
+
+.o_css_line_ids [data-name="cost_center_id"] {
+	width: 75pt !important;
+	max-width: 75pt !important;
+}
+
+.o_css_line_ids [data-name="analytic_account_id"] {
+	width: 75px !important;
+	max-width: 75px !important;
+}
+
+.o_css_line_ids [data-name="employee_id"] {
+	width: 85px !important;
+	max-width: 85px !important;
+}
+
+.o_css_line_ids [data-name="asset_id"] {
+	width: 80px !important;
+	max-width: 80px !important;
+}
+
+.o_css_line_ids [data-name="accomadation_id"] {
+	width: 55pt !important;
+	max-width: 55pt !important;
+}
+
+.o_css_line_ids [data-name="budgetry_position_id"] {
+	width: 100px !important;
+	max-width: 100px !important;
+}
+
+
+
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

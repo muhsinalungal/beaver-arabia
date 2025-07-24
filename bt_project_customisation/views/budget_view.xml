@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="budget_form_inh_for_2d_matrix" model="ir.ui.view">
+		<field name="name">Budget Form Inherited 2D matrix</field>
+		<field name="model">budget.budget</field>
+		<field name="inherit_id" ref="base_account_budget.crossovered_budget_view_form"/>
+		<field name="arch" type="xml">
+
+			<xpath expr="/form/header/button[@name='action_budget_confirm']" position="after">
+            		<button name="%(budget_line_wizard_action)d" type="action" string="Add Budget Lines" states="draft" class="oe_highlight"/>
+            	</xpath>
+        	<xpath expr ="//page[1]/field[@name='budget_line']/tree/field[@name='general_budget_id']" position="before">
+                <field name="category_id" options="{'no_create': True, 'no_create_edit':True}"  force_save="1"/>
+            </xpath>
+            <xpath expr ="//page[1]/field[@name='budget_line']/tree/field[@name='paid_date']" position="after">
+                <field name="qty"/>
+                <field name="unit_price"/>
+            </xpath>
+            <xpath expr="//div[@class='oe_title']" position="before">
+	            <div class="oe_button_box" name="button_box">
+                            <button type="object" name="action_view_budget_lines"
+                              class="oe_stat_button" icon="fa-book" string="Planning">
+                               <!--  <field name="quotation_count" string="Quotation" widget="statinfo" attrs="{'invisible':[('quotation_created', '=', False)]}"/> -->
+                            </button>
+                           
+                        </div>
+	           
+            </xpath>
+           <!--  <xpath expr ="//page[1]/field[@name='budget_line']" position='attributes'>
+            			<attribute name="widget">one2many_list</attribute>
+                       <attribute name="context">{‘group_by’:'category_id'}</attribute>
+                     </xpath> -->
+             <xpath expr="//field[@name='creating_user_id']" position="before">
+				<field name="project_id" attrs="{'readonly':[('state','!=','draft')]}" required="0"/>
+				
+			</xpath>
+			<xpath expr="//label[@for='date_from']" position="before">
+				
+				<field name="analytic_account_id" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+			</xpath>
+			<xpath expr="//notebook/page[1]" position="attributes">
+				 <attribute name="invisible">1</attribute>
+			</xpath>
+			<!-- <xpath expr="//notebook/page[1]" position="before">
+				<page string="Budget Matrix">
+					<group name="Sheet" class="hr_timesheet_sheet_summary">
+						<field name="budget_line_ids" 
+							widget="x2many_2d_matrix"
+							field_x_axis="value_x"
+							field_label_x_axis="value_head"
+                            field_y_axis="value_y"
+                            field_value="planned_amount"
+                            
+                            attrs="{'readonly':[('state','!=','draft')]}"
+                        >
+                        	<tree limit="1000000">
+                        		<control>
+										
+										<create name="add_section_control" string="Add a section" context="{'default_display_type': 'name'}"/>
+										
+									</control>
+									<field name="name" invisible="1"/>
+                        		<field name="value_x"/>
+                        		<field name="value_y"/>
+                        		<field name="planned_amount"/>
+                        		<field name="qty"/>
+                        	</tree>
+                        </field>
+						<group class="oe_edit_only" >
+							<field name="general_budget_id" attrs="{'invisible':[('state','!=','draft')]}"/>
+							<field name="analytic_account_id" attrs="{'invisible':['|',('general_budget_id','=',False),('state','!=','draft')], 'required':[('general_budget_id','!=',False)]}"/>
+							<button 
+								name="button_add_budget"
+								type="object"
+								class="oe_highlight"
+								string="Add Line"
+								attrs="{'invisible':[('general_budget_id','=',False)]}"/>
+						</group>
+					</group>
+				</page>				
+			</xpath> -->
+		</field>
+	</record>
+
+	<record id="view_budget_line_search" model="ir.ui.view">
+        <field name="name">budget.line.search</field>
+        <field name="model">budget.lines</field>
+        <field name="arch" type="xml">
+            <search string="Budget Planning">
+              
+                <field name="general_budget_id" />
+                <field name="date_from" />
+                <field name="category_id" />
+                
+                <group expand="1" string="Group By">
+                	
+                    <filter string="Category" name="category_id_grp" context="{'group_by':'category_id'}"/>
+                    <filter string="Month" name="month" context="{'group_by':'date_from:month'}"/>
+                 
+                </group>
+            </search>
+        </field>
+    </record>
+     <record id="budget_lines_tree" model="ir.ui.view">
+		<field name="name">budget.lines.tree</field>
+		<field name="model">budget.lines</field>
+		<field name="arch" type="xml">
+			<tree string="Budget Planning" editable="bottom" create="0">
+				<field name="general_budget_id"/>
+                <field name="analytic_account_id" groups="analytic.group_analytic_accounting"
+                       required="1"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="paid_date" groups="base.group_no_one"/>
+                <field name="qty"/>
+                 <field name="unit_price"/>
+                 <field name="estimated_cost" sum="Estimated Cost" widget="monetary"/>
+                <field name="planned_amount" sum="Planned Amount" widget="monetary"/>
+                <field name="practical_amount" sum="Practical Amount" widget="monetary"/>
+                <field name="theoretical_amount" sum="Theoretical Amount" widget="monetary"/>
+                <field name="percentage"/>
+				
+			</tree>
+		</field>
+	</record>
+
+    <record id="budget_lines_action"
+		model="ir.actions.act_window">
+		<field name="name">Budget Lines</field>
+		<field name="res_model">budget.lines</field>
+		<field name="view_mode">tree</field>
+		<field name="view_id" ref="budget_lines_tree"/>
+		<field name="search_view_id" ref="view_budget_line_search"/>
+        <field name="context">{"search_default_category_id_grp":1,"search_default_month":1,}</field>
+	</record>
+	
+
+
+	<record id="account_budget_post_form_inh" model="ir.ui.view">
+		<field name="name">account.budget.post.form.inh</field>
+		<field name="model">account.budget.post</field>
+		<field name="inherit_id" ref="base_account_budget.view_budget_post_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='name']" position="after">
+				<field name="category_id"/>
+				<field name="product_id"/>
+				<field name="timesheet"/>
+			</xpath>
+		</field>
+	</record>
+
+
+    
+     <record id="budget_post_type_tree" model="ir.ui.view">
+		<field name="name">budget.post.type.tree</field>
+		<field name="model">account.budget.post.type</field>
+		<field name="arch" type="xml">
+			<tree string="Timesheet Type">
+				<field name="name" />
+				
+			</tree>
+		</field>
+	</record>
+	
+	<!-- HR Timesheet type form view -->
+	<record id="budget_post_type_form" model="ir.ui.view">
+		<field name="name">budget.post.type.form</field>
+		<field name="model">account.budget.post.type</field>
+		<field name="arch" type="xml">
+			<form string="Timesheet Type">
+				<sheet>
+					<div>
+						<label for="name"/>
+						<h1>
+							<field name="name"/>
+						</h1>
+					</div>
+					
+				</sheet>
+			</form>
+		</field>
+	</record>
+	
+	<!-- HR Timesheet type action -->
+	<record id="budget_post_type_action"
+		model="ir.actions.act_window">
+		<field name="name">Budgetary Position Type</field>
+		<field name="res_model">account.budget.post.type</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	
+	<menuitem id="menu_budget_post_type"
+		parent="account.account_management_menu" action="budget_post_type_action"
+		 />
+    
+
+</odoo>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+        <record id="partner_ledger_wizard_report" model="ir.ui.view">
+        <field name="name">partner.ledger.wizard.report</field>
+        <field name="model">partner.ledger</field>
+        <field name="arch" type="xml">
+            <form string="Partner Ledger">
+                <group>
+                    <group>
+                        <field name="start_date"/>
+                        <field name="patner_type"/>
+                    </group>
+                    <group>
+                        <field name="end_date"/>
+                        <field name="partner_ids" invisible="1" widget="many2many_tags"/>
+                        <field name="partner_id"/>
+                        <field name="entry_type" widget="radio"/>
+                    </group>
+                </group>
+
+                <footer>
+                    <button name="print_report" type="object" string="Print PDF" class="oe_highlight"/>
+                    <button name="print_report_xls" type="object" string="Print XLS" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_partner_ledger_wizard" model="ir.actions.act_window">
+        <field name="name">Partner Ledger</field>
+        <field name="res_model">partner.ledger</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_partner_ledger_report" name="Partner Ledger" parent="account.account_reports_management_menu" action="action_partner_ledger_wizard" sequence="150" />
+	
+
+	<record id="partner_ledger_xlsx" model="ir.actions.report">
+        <field name="name">Partner Ledger XLSX</field>
+        <field name="model">partner.ledger</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">hak_partner_ledger.hak_partner_ledger_xlsx_report</field>
+        <field name="report_file">hak_partner_ledger.hak_partner_ledger_xlsx_report</field>
+    </record>
+    
+    <record id="partner_ledger_pdf" model="ir.actions.report">
+        <field name="name">Partner Ledger</field>
+        <field name="model">partner.ledger</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hak_partner_ledger.hak_partner_ledger_pdf_report</field>
+        <field name="report_file">hak_partner_ledger.hak_partner_ledger_pdf_report</field>
+        <field name="paperformat_id" ref="hak_partner_ledger.paperformat_partner_ledger_report"/>
+    </record>
+    
+    <template id="hak_partner_ledger_pdf_report">
+ 		<t t-call="web.html_container">
+            <t t-call="hak_partner_ledger.external_layout_standard">
+                <div class="page">
+                    <div class="text-left">
+                    <h3 class="text-center">Partner Ledger </h3>
+<!--                    <t t-foreach="request.env['res.partner'].search([('id', '=', data['partner_id'])])" t-as="prd">-->
+<!--                        <strong>Name: </strong><span t-field="prd.name"/><br/>-->
+<!--                        <strong>Address: </strong><span t-field="prd.street"/>-->
+<!--                    </t>-->
+                        <p><strong>Date: </strong><span t-esc="data['start_date']" t-options="{'widget': 'date'}"/>  <strong> - </strong><span t-esc="data['end_date']" t-options="{'widget': 'date'}"/></p>
+                    </div>
+                </div>
+                <table width="100%" name="account_lines_table" style="border-bottom:1px solid black;">
+                        <tr style="border-bottom:1px solid black;" height="30px">
+                            <td style="border-bottom:1px solid black;"><strong>Date</strong></td>
+                            <td style="border-bottom:1px solid black;"><strong>Invoice Type</strong></td>
+                            <td style="border-bottom:1px solid black;"><strong>Journal</strong></td>
+                            <td style="border-bottom:1px solid black;"><strong>Journal Code</strong></td>
+                            <td style="border-bottom:1px solid black;"><strong>Voucher#</strong></td>
+                            <td style="border-bottom:1px solid black;"><strong>Account</strong></td>
+                            <td style="border-bottom:1px solid black;"><strong>Description</strong></td>
+                            <td style="border-bottom:1px solid black;" class="text-right"><strong>Debit</strong></td>
+                            <td style="border-bottom:1px solid black;" class="text-right"><strong>Credit</strong></td>
+                            <td style="border-bottom:1px solid black;" class="text-right"><strong>Balance</strong></td>
+                        </tr>
+                        <t t-set="rb" t-value="0"/>
+                        <t t-set="debi" t-value="0"/>
+                        <t t-set="crei" t-value="0"/>
+                        <tr t-foreach="openbal" t-as="o" height="30px">
+                               <strong> <td colspan="9" style="font-size:13px;" class="text-left"><strong>Opening Balance</strong></td></strong>
+                               <t t-if="o['opening_bal']">
+                                	<td style="font-size:13px;" class="text-right"><strong><span t-esc="'{0:,.2f}'.format(int(o['opening_bal']))"/></strong></td>
+                               </t>
+                               <t t-else="">
+                                	<td style="font-size:13px;" class="text-right"><strong>0.00</strong></td>
+                               </t>
+                            <t t-if="o['opening_bal']">
+                            <t t-set="rb" t-value="rb + o['opening_bal']"/>
+                            </t>
+                        </tr>
+                       	<tr t-foreach="dat" t-as="d"  height="30px" style="font-size: 13px;" >
+                            <t t-set="rb" t-value="rb + d['debit'] - d['credit'] "/>
+                             <t t-set="debi" t-value="debi + d['debit'] "/>
+                              <t t-set="crei" t-value="crei + d['credit'] "/>
+                           		<td  class="text-left"><span t-esc="d['date']" t-options="{'widget': 'date'}"/></td>
+                           		<t t-set="type" t-value="request.env['invoice.type'].search([('id', '=', d['invoice_type'])], limit=1)"/>
+                           		<td  class="text-left"><span t-esc="type.name"/></td>
+                           		<td  class="text-left"><span t-esc="d['journal']"/></td>
+                           		<t t-set="code" t-value="request.env['journal.code'].search([('id', '=', d['journal_code'])], limit=1)"/>
+                           		<td  class="text-left"><span t-esc="code.name"/></td>
+                           		<td  class="text-left"><span t-esc="d['doc_no']"/></td>
+                                <td  class="text-left"><span t-esc="d['gl_account']"/></td>
+                                <td class="text-left" ><span t-esc="d['line_desc']"/></td>
+                               <td  class="text-right"><t t-esc="'{0:,.2f}'.format(d['debit'])"/></td>
+                                <td class="text-right"><t t-esc="'{0:,.2f}'.format(d['credit'])"/></td>
+                           <td  class="text-right"><t t-esc="'{0:,.2f}'.format(rb)"/></td>
+                        </tr>
+                        <tr height="30px;" style="border-top:1px solid black;font-size: 11px;border-bottom:1px solid black;">
+                            <td  height="30px;" style="border-top:1px solid black;border-bottom:1px solid black;font-size: 13px;" colspan="7" class="text-left"><strong>Closing Balance</strong></td>
+                            <td  height="30px;" style="border-top:1px solid black;border-bottom:1px solid black;font-size: 13px;" class="text-right"><strong><t t-esc="'{0:,.2f}'.format(debi)"/></strong></td>
+                            <td  height="30px;" style="border-top:1px solid black;border-bottom:1px solid black;font-size: 13px;" class="text-right"><strong><t t-esc="'{0:,.2f}'.format(crei)"/></strong></td>
+                            <td  height="30px;" style="border-top:1px solid black;border-bottom:1px solid black;font-size: 13px;" class="text-right"><strong><t t-esc="'{0:,.2f}'.format(rb)"/></strong></td>
+                        </tr>
+                  </table>
+            </t>
+        </t>
+    </template>
+</odoo>

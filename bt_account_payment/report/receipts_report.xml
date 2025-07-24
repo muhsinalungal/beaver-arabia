@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_payment_receipt_document_account">
+         <t t-call="qweb_report_border.external_layout_standard">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div style="font-size:21px !important;">
+             <t t-if="o.payment_type == 'outbound' and o.journal_id.type == 'bank'">
+                <strong>BANK PAYMENT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+             <t t-if="o.payment_type == 'inbound' and o.journal_id.type == 'bank'">
+                <strong>BANK RECEIPT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+            <t t-if="o.payment_type == 'outbound' and o.journal_id.type == 'cash'">
+                <strong>CASH PAYMENT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+             <t t-if="o.payment_type == 'inbound' and o.journal_id.type == 'cash'">
+                <strong>CASH RECEIPT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+             <t t-if="o.payment_type == 'outbound' and o.journal_id.is_petty_cash == True">
+                <strong>CASH PAYMENT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+             <t t-if="o.payment_type == 'inbound' and o.journal_id.is_petty_cash == True">
+                <strong>CASH RECEIPT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+        </div>
+        <br></br>
+            <div class="page" style="font-size:15px;">
+                <div class="row mt64">
+                    <div class="col-6" t-if="o.payment_type">
+                        <t t-if="o.payment_type == 'outbound'">
+                            <strong>Vendor: </strong>
+                        </t>
+                        <t t-if="o.payment_type == 'inbound'">
+                            <strong>Customer: </strong>
+                        </t><span t-field="o.partner_id.name"/>
+                    </div>
+                    <div class="col-6" t-if="o.date">
+                        <strong>Payment Date: </strong> <span t-field="o.date"/>
+                    </div>
+                </div>
+                 <div class="row mb64">
+                    <div class="col-6" t-if="o.journal_code_id.name">
+                        <strong>Journal Code: </strong><span t-field="o.journal_code_id.name" />
+                     </div>
+                    <div class="col-6" t-if="o.journal_id.name">
+                        <strong>Journal: </strong><span t-field="o.journal_id.name"/>
+                     </div>
+                </div>
+               
+                <div class="row">
+                    
+                    <div class="col-6" t-if="o.payment_method">
+                        <strong>Payment Mode: </strong><span t-field="o.payment_method"/>
+                    </div>
+                     <div class="col-6" t-if="o.gl_account_id.name">
+                        <strong>GL Account: </strong><span t-field="o.gl_account_id.name"/>
+                     </div>
+                    
+                </div>
+              <!--   <div class="row">
+                    
+                    <div class="col-6" t-if="o.cost_center_id">
+                        <strong>Cost Center: </strong><span t-field="o.cost_center_id"/>
+                    </div>
+                     <div class="col-6" t-if="o.analytic_account_id">
+                        <strong>Project: </strong><span t-field="o.analytic_account_id.id" />
+                     </div>
+                </div> -->
+
+                <div class="row mb64">
+                     <div class="col-6" t-if="o.destination_account_id.name">
+                        <strong>Destination Account: </strong><span t-field="o.destination_account_id.name"/>
+                     </div>
+                   
+                   <div class="col-6" t-if="o.amount">
+                        <strong>Amount: </strong><span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                     </div>
+                    
+                </div>
+                  <div class="row mb64">
+                     
+                   
+                    <div class="col-6" t-if="o.ref">
+                        <strong>Ref: </strong><span t-field="o.ref"/>
+                     </div>
+                    
+                </div>
+                
+              <!--   <div class="row mt64">
+                    <div class="col-6" t-if="o.partner_type">
+                        <t t-if="o.partner_type == 'customer'">
+                            <strong>Customer: </strong>
+                        </t>
+                        <t t-if="o.partner_type == 'supplier'">
+                            <strong>Vendor: </strong>
+                        </t><span t-field="o.partner_id"/>
+                    </div>
+                    <div class="col-6" t-if="o.date">
+                        <strong>Date: </strong> <span t-field="o.date"/>
+                    </div>
+                </div>
+                <div class="row mb64">
+                    <div class="col-6" >
+                        <strong>Journal Code: </strong><span t-field="o.journal_code_id.name" />
+                     </div>
+                    <div class="col-6" >
+                        <strong>GL Account: </strong><span t-field="o.gl_account_id.name"/>
+                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-6" >
+                        <strong>Destination Account: </strong><span t-field="o.destination_account_id.name"/>
+                     </div>
+                    
+                    <div class="col-6" t-if="o.payment_method">
+                        <strong>Payment Method: </strong><span t-field="o.payment_method"/>
+                    </div>
+                </div>
+                
+                <div class="row mb64">
+                    <div class="col-6" t-if="o.amount">
+                        <strong>Payment Amount: </strong><span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                     </div>
+                    <div class="col-6" t-if="o.ref">
+                        <strong>Ref: </strong><span t-field="o.ref"/>
+                     </div>
+                </div> -->
+                <table class="table table-bordered">
+                    <thead>
+                        <tr >
+                            <th style="border: 1px solid black;"><span>Invoice Date</span></th>
+                            <th style="border: 1px solid black;"><span>Invoice Number</span></th>
+                            <th style="border: 1px solid black;"><span>Reference</span></th>
+                            <th style="border: 1px solid black;" class="text-right"><span>Original Amount</span></th>
+                            <th style="border: 1px solid black;" class="text-right"><span>Amount Paid</span></th>
+                            <th style="border: 1px solid black;" class="text-right"><span>Balance</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="o.move_id._get_reconciled_invoices_partials()" t-as="rec">
+                            <t t-set="amount" t-value="rec[1]"/>
+                            <t t-set="inv" t-value="rec[2].move_id"/>
+                            <t t-if="inv.move_type != 'entry'">
+                                <td style="border: 1px solid black;"><span t-field="inv.invoice_date"/></td>
+                                <td style="border: 1px solid black;"><span t-field="inv.name"/></td>
+                                <td style="border: 1px solid black;"><span t-field="inv.payment_reference"/></td>
+                                <td style="border: 1px solid black;" class="text-right"><span t-field="inv.amount_total"/></td>
+                                <td style="border: 1px solid black;" class="text-right"><span t-esc="amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                                <td style="border: 1px solid black;" class="text-right"><span t-field="inv.amount_residual"/></td>
+                            </t>
+                        </tr>
+                    </tbody>
+                </table>
+                 <div class="footer footer_custom_new" >
+            <div class="last-page" >
+                <!-- <div class="col-6" style="color:black;"> -->
+                    <table style="padding:5px;width: 120%;border-left: 2px;border-right: 2px;"><br></br>  
+                                   <tr>
+                                    <td style="border-left: 2px;" ><div style="padding:8px;border-top: 1px dashed;border-left: 2px; text-align: center; margin-right:10px;width: 40%; ">Prepared By</div></td>
+                                    <td><div style="padding:8px;border-top: 1px dashed;text-align: center; margin-right:10px;width: 40% ">Authorised By</div></td>
+                                    <td style="border-right: 2px;"><div style="padding:8px;border-top: 1px dashed;border-right: 2px;text-align: center;width: 40%">Received by</div></td>
+                                    
+                                  </tr>
+                                  
+                            </table>
+                
+                           
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_payment_receipt_acc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="bt_account_payment.report_payment_receipt_document_account" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>

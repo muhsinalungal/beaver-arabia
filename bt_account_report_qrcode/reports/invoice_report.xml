@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	
+		        
+    <report id="account.account_invoices"
+        string="Vendor Invoices"
+        model="account.move"
+        report_type="qweb-pdf"
+        file="account.report_invoice_with_payments"
+        name="account.report_invoice_with_payments"
+        menu="False" />
+        
+    <report id="account.account_invoices_without_payment"
+        string="Invoices"
+        model="account.move"
+        report_type="qweb-pdf"
+        file="account.report_invoice"
+        name="account.report_invoice"
+        menu="False" />
+    <report id="vendor_account_invoices"
+        string="Vendor Invoices"
+        model="account.move"
+        report_type="qweb-pdf"
+        file="bt_account_report_qrcode.report_vendor_invoice_with_payments"
+        name="bt_account_report_qrcode.report_vendor_invoice_with_payments"
+        menu="True" />
+        
+</odoo>

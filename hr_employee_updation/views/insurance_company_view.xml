@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="insurance_company_tree" model="ir.ui.view">
+		<field name="name">insurance.company.tree</field>
+		<field name="model">insurance.company</field>
+		<field name="arch" type="xml">
+			<tree string="Timesheet Type">
+				<field name="name" />
+			</tree>
+		</field>
+	</record>
+	
+	<record id="insurance_company_form" model="ir.ui.view">
+		<field name="name">insurance.company.form</field>
+		<field name="model">insurance.company</field>
+		<field name="arch" type="xml">
+			<form string="Timesheet Type">
+				<sheet>
+					<group>
+						<field name="name"/>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	
+	<record id="insurance_company_search" model="ir.ui.view">
+		<field name="name">insurance.company.search</field>
+		<field name="model">insurance.company</field>
+		<field name="arch" type="xml">
+			<search string="Insurance Company">
+				<field name="name"/>
+			</search>
+		</field>
+	</record>
+	
+	<record id="insurance_company_action" model="ir.actions.act_window">
+		<field name="name">Insurance Company</field>
+		<field name="res_model">insurance.company</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+	        <p class="oe_view_nocontent_create">
+	        	Click to create a new Insurance Company.
+	        </p>
+        </field>
+	</record>
+	
+	<menuitem id="insurance_company_menu" name="Insurance Company" parent="hr.menu_human_resources_configuration"
+              action="insurance_company_action" sequence="20"/> 
+	
+</odoo>

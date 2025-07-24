@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="estimate_module_category">
+        	 <field name="name">Estimation</field>
+            <field name="description">Estimation</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="estimate_manager_group" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="estimate_module_category"/>
+          
+        </record>
+         <record id="estimate_user_group" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="estimate_module_category"/>
+          
+        </record>
+</data>
+</odoo>

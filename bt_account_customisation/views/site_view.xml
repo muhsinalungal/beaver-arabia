@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_site_tree" model="ir.ui.view">
+        <field name="name">site.tree</field>
+        <field name="model">site.site</field>
+            <field name="arch" type="xml">
+                <tree string="Types" editable="top">
+                    <field name="code" required="1"/>
+                    <field name="name" required="1"/>
+                    <!-- <field name="company_id"/> -->
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_site_site" model="ir.actions.act_window">
+            <field name="name">Sites</field>
+            <field name="res_model">site.site</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new sites.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_site_site" name="Sites" parent="account.menu_analytic_accounting"
+              action="action_site_site"/>
+
+    <record id="view_accomodation_tree" model="ir.ui.view">
+        <field name="name">accomadation.tree</field>
+        <field name="model">hr.accomadation</field>
+            <field name="arch" type="xml">
+                <tree string="Types" editable="top">
+                    <field name="code" required="1"/>
+                    <field name="name" required="1"/>
+                    <!-- <field name="company_id"/> -->
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_hr_accomadation" model="ir.actions.act_window">
+            <field name="name">Accommodation</field>
+            <field name="res_model">hr.accomadation</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Accommodation.
+                </p>
+            </field>
+        </record>
+
+    <menuitem id="menu_hr_accomadation" name="Accommodation" parent="account.menu_analytic_accounting"
+              action="action_hr_accomadation"/>
+
+
+        <record id="view_journal_code_tree" model="ir.ui.view">
+        <field name="name">journal.code</field>
+        <field name="model">journal.code</field>
+            <field name="arch" type="xml">
+                <tree string="Journal Code">
+                    <field name="code" required="1"/>
+                    <field name="name" required="1"/>
+                    <!-- <field name="company_id"/> -->
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_journal_code_form" model="ir.ui.view">
+        <field name="name">journal.code.form</field>
+        <field name="model">journal.code</field>
+            <field name="arch" type="xml">
+                <form string="Journal Code">
+                    <sheet>
+                    <group col="4">
+                        <field name="code" required="1"/>
+                        <field name="name" required="1"/>
+                  </group>
+                    <!-- <field name="company_id"/> -->
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_journal_code" model="ir.actions.act_window">
+            <field name="name">Journal Code</field>
+            <field name="res_model">journal.code</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Jornal Code.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_journal_code" name="Journal Code" parent="account.account_account_menu"
+              action="action_journal_code"/>
+
+    </data>
+</odoo>

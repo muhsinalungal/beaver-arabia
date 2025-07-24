@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record model="journal.code" id="admin">
+        <field name="name">Admin</field>
+        <field name="code">AD</field>
+    </record>
+    <record model="journal.code" id="operations">
+        <field name="name">Operations</field>
+        <field name="code">OP</field>
+    </record>
+   <record model="journal.code" id="internal_projects">
+        <field name="name">Internal Projects</field>
+        <field name="code">IP</field>
+    </record>
+    <record model="journal.code" id="Salary">
+        <field name="name">Salary</field>
+        <field name="code">SL</field>
+    </record>
+    <record model="journal.code" id="thrust_boaring">
+        <field name="name">HDD</field>
+        <field name="code">HD</field>
+    </record>
+    <record model="journal.code" id="micro_tunneling">
+        <field name="name">Micro Tunneling</field>
+        <field name="code">MT</field>
+    </record>
+    <record model="journal.code" id="pipe_jacking">
+        <field name="name">Pipe Jacking</field>
+        <field name="code">PJ</field>
+    </record>
+    <record model="journal.code" id="Auger_Boaring">
+        <field name="name">Auger Boaring</field>
+        <field name="code">AB</field>
+    </record>
+    <record model="journal.code" id="Sheet_Piling">
+        <field name="name">Sheet Piling</field>
+        <field name="code">SP</field>
+    </record>
+    <record model="journal.code" id="Piling">
+        <field name="name">Piling</field>
+        <field name="code">PL</field>
+    </record>
+
+
+     <record id="customer_invoie_seq" model="ir.sequence">
+        <field name="name">customer.invoice.sequence</field>
+        <field name="code">customer.invoice.seq</field>
+        <field name="prefix">C%(y)s%(month)s-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False" />
+    </record>
+    <record id="vendor_invoie_seq" model="ir.sequence">
+        <field name="name">vendor.invoice.sequence</field>
+        <field name="code">vendor.invoice.seq</field>
+        <field name="prefix">V%(y)s%(month)s-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False" />
+    </record>
+    <record id="vendor_debit_invoie_seq" model="ir.sequence">
+        <field name="name">vendor.debit.invoice.sequence</field>
+        <field name="code">debit.invoice.seq</field>
+        <field name="prefix">DN-C%(y)s%(month)s-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False" />
+    </record>
+    <record id="customer_credit_invoie_seq" model="ir.sequence">
+        <field name="name">customer.credit.invoice.sequence</field>
+        <field name="code">customer.credit.invoice.seq</field>
+        <field name="prefix">CN-C%(y)s%(month)s-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False" />
+    </record>
+</odoo>

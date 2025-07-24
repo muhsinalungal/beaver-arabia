@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_import_estimate_form" model="ir.ui.view">
+    	<field name="name">view.import.estimate.form</field>
+        <field name="model">import.estimate</field>
+        <field name="arch" type="xml">
+        	<form string="Import Estimate">
+        		<field name="project_id" invisible="1"/>
+            	<field name="import_file"/>
+              	<footer>
+                	<button string="Import" name="import_data" type="object" class="btn-primary"/> 
+                </footer>
+            </form>
+        </field>
+   	</record>
+	<record id="action_import_estimate" model="ir.actions.act_window">
+	    <field name="name">Import Estimate</field>
+	    <field name="type">ir.actions.act_window</field>
+	    <field name="res_model">import.estimate</field>
+	    <field name="view_mode">form</field>
+	    <field name="view_id" ref="view_import_estimate_form"/>
+	    <field name="target">new</field>
+	    <field name="context">{}</field>
+	</record>
+	
+	
+	<record id="view_import_estimate_line_form" model="ir.ui.view">
+    	<field name="name">view.import.estimate.line.form</field>
+        <field name="model">import.estimate.line</field>
+        <field name="arch" type="xml">
+        	<form string="Import Rate Analysis">
+            	<field name="project_id" invisible="1"/>
+            	<field name="import_file"/>
+              	<footer>
+                	<button string="Import" name="import_data" type="object" class="btn-primary"/> 
+                </footer>
+            </form>
+        </field>
+   	</record>
+	<record id="action_import_estimate_line" model="ir.actions.act_window">
+	    <field name="name">Import Rate Analysis</field>
+	    <field name="type">ir.actions.act_window</field>
+	    <field name="res_model">import.estimate.line</field>
+	    <field name="view_mode">form</field>
+	    <field name="view_id" ref="view_import_estimate_line_form"/>
+	    <field name="target">new</field>
+	    <field name="context">{}</field>
+	</record>
+
+    <record id="view_import_detail_estimate_line_form" model="ir.ui.view">
+        <field name="name">view.import.detail.estimate.line.form</field>
+        <field name="model">import.detail.estimate.line</field>
+        <field name="arch" type="xml">
+            <form string="Import Estimate Details">
+                <field name="project_id" invisible="1"/>
+                <field name="import_file"/>
+                <footer>
+                    <button string="Import" name="import_data" type="object" class="btn-primary"/> 
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_import_detail_estimate_line" model="ir.actions.act_window">
+        <field name="name">Import Estimate Details</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">import.detail.estimate.line</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_import_detail_estimate_line_form"/>
+        <field name="target">new</field>
+        <field name="context">{}</field>
+    </record>
+
+
+    <record id="view_import_wizard_form" model="ir.ui.view">
+        <field name="name">view.import.wizard.form</field>
+        <field name="model">import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import">
+                <field name="project_id" invisible="1"/>
+                <field name="import_option" widget="radio"/>
+                
+                <footer>
+                    
+                 <button name="%(action_import_estimate)d" type="action" string="Upload Estimates"
+                    class="btn-primary" groups=" sales_team.group_sale_salesman" attrs="{'invisible': [('import_option', 'not in', ['estimate'])]}" context="{'project_id':project_id}"/>
+            
+            
+                <button name="%(action_import_estimate_line)d" type="action" string="Upload Rate Analysis"
+                        class="btn-primary" groups=" sales_team.group_sale_salesman" attrs="{'invisible': [('import_option', 'not in', ['rate_analysis'])]}" context="{'project_id':project_id}"/>
+            
+            
+                <button name="%(action_import_detail_estimate_line)d" type="action" string="Upload Detail Estimates" attrs="{'invisible': [('import_option', 'not in', ['detail_estimate'])]}"
+                        class="btn-primary" groups=" sales_team.group_sale_salesman" context="{'project_id':project_id}"/>
+           
+                    
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_import_wizard_form"/>
+        <field name="target">new</field>
+        <field name="context">{'project_id':'project_id'}</field>
+    </record>
+        
+</odoo>

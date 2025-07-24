@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_payment_receipt_document_new">
+       <t t-call="qweb_report_border.external_layout_standard">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div style="font-size:21px !important;">
+             <t t-if="o.payment_type == 'outbound' and o.journal_id.type == 'bank'">
+               <strong>BANK PAYMENT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+             <t t-if="o.payment_type == 'inbound' and o.journal_id.type == 'bank'">
+               <strong>BANK RECEIPT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+            <t t-if="o.payment_type == 'outbound' and o.journal_id.type == 'cash'">
+               <strong>CASH PAYMENT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+             <t t-if="o.payment_type == 'inbound' and o.journal_id.type == 'cash'">
+                <strong>CASH RECEIPT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+             <t t-if="o.payment_type == 'outbound' and o.journal_id.is_petty_cash == True">
+                <strong>CASH PAYMENT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+             <t t-if="o.payment_type == 'inbound' and o.journal_id.is_petty_cash == True">
+               <strong>CASH RECEIPT VOUCHER: <span t-field="o.name"/></strong>
+            </t>
+        </div>
+        <br></br>
+            <div class="page" style="font-size:15px;">
+            	
+             <div class="row mt64">
+                    <div class="col-6" t-if="o.payment_type">
+                        <t t-if="o.payment_type == 'inbound'">
+                            <strong>Receipt From: </strong>
+                        </t>
+                        <t t-if="o.payment_type == 'outbound'">
+                            <strong>Pay To: </strong>
+                        </t><span t-field="o.partner_name"/>
+                    </div>
+                    <div class="col-6" t-if="o.date_done">
+                        <strong>Payment Date: </strong> <span t-field="o.date_done"/>
+                    </div>
+                </div>
+                 <div class="row mb64">
+                    <div class="col-6" t-if="o.journal_code_id.name">
+                        <strong>Journal Code: </strong><span t-field="o.journal_code_id.name" />
+                     </div>
+                      <div class="col-6" t-if="o.gl_account_id.name">
+                        <strong>Journal: </strong><span t-field="o.journal_id.name"/>
+                     </div>
+                   
+                </div>
+               
+                <div class="row">
+                    
+                    <div class="col-6" t-if="o.payment_method">
+                        <strong>Payment Mode: </strong><span t-field="o.payment_method"/>
+                    </div>
+                     <div class="col-6" t-if="o.gl_account_id.name">
+                        <strong>GL Account: </strong><span t-field="o.gl_account_id.name"/>
+                     </div>
+                     
+                </div>
+
+                <div class="row mb64">
+                   
+                    <div class="col-6" t-if="o.ref">
+                        <strong>Ref: </strong><span t-field="o.ref"/>
+                     </div>
+                     <div class="col-6" t-if="o.amount">
+                        <strong>Amount: </strong><span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                     </div>
+                </div>
+                <br>
+                </br>
+                <table class="table table-bordered" width="100%">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid black;"><span>Account</span></th>
+                            <th style="border: 1px solid black;"><span>Description</span></th>
+                            <th style="border: 1px solid black;"><span>Department</span></th>
+                            <th class="text-right" style="border: 1px solid black;"><span>Amount</span></th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="o.line_ids" t-as="rec">
+                           <!--  <t t-set="amount" t-value="rec[1]"/>
+                            <t t-set="inv" t-value="rec[2].move_id"/>
+                            <t t-if="inv.move_type != 'entry'"> -->
+                                <td style="border: 1px solid black;"><span t-field="rec.destination_account_id.name"/></td>
+                                <td style="border: 1px solid black;"><span t-field="rec.name"/></td>
+                                <td style="border: 1px solid black;"><span t-field="rec.cost_center_id.name"/></td>
+                                <td class="text-right" style="border: 1px solid black;"><span t-field="rec.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                                
+                           <!--  </t> -->
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                        <div id="total" class="row">
+                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                <table class="table table-sm" style="page-break-inside: avoid;">
+                                    <t t-if="o.payment_type == 'outbound'">
+                                    <tr class="border-black o_subtotal" style="">
+                                        <td><strong>Total Taxable Amt:</strong></td>
+                                        <td class="text-right">
+                                           <b> <span t-field="o.taxable_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></b>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black o_subtotal" style="">
+                                        <td><strong>Total VAT:</strong></td>
+                                        <td class="text-right">
+                                           <b> <span t-field="o.vat_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></b>
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr class="border-black o_total">
+                                        <td><strong>Net Amount(Incl.Vat)</strong></td>
+                                        <td class="text-right">
+                                           <b> <span class="text-nowrap" t-field="o.total_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></b>
+                                        </td>
+                                    </tr>
+                                    </t>
+                                    <t t-else="">
+                                         <tr class="border-black o_total">
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-right">
+                                          <b>  <span class="text-nowrap" t-field="o.total_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></b>
+                                        </td>
+                                    </tr>
+                                        </t>
+                                   
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+	    					</br>
+	    					<br>
+	    					</br>
+            <div class="footer footer_custom_new">
+            <div class="last-page">
+                <!-- <div class="col-6" style="color:black;"> -->
+                    <table style="padding:5px;width: 120%;"><br></br>  
+                                   <tr>
+                                    <td style="border-left: 2px;" ><div style="padding:8px;border-top: 1px dashed;text-align: center; margin-right:10px;width: 40%; ">Prepared By</div></td>
+                                    <td><div style="padding:8px;border-top: 1px dashed;text-align: center; margin-right:10px;width: 40% ">Authorised By</div></td>
+                                    <td style="border-right: 2px;"><div style="padding:8px;border-top: 1px dashed;text-align: center;width: 40%">Received by</div></td>
+                                    
+                                  </tr>
+                                  
+                            </table>
+                
+		                	<!-- <div class="row">
+		                		<div class="col-6" style="font-weight:bold;">Prepared‬‬ ‫‪By: </div>
+		                		<div class="col-6" style="font-weight:bold;">Authorised ‫‪By: </div>
+								<div class="col-6" style=" font-weight:bold;">Received By:</div>
+	    						
+	    					</div> -->
+	    					<!-- <br>
+	    					</br>
+	    					<br>
+	    					</br>
+	    					<div class="row">
+								<div class="col-6" style=" font-weight:bold;">Signature:__________________</div>
+								<div class="col-6" style=" font-weight:bold;">Signature:__________________</div>
+	    						<div class="col-6" style="font-weight:bold;">Signature:__________________</div>
+	    					</div>
+	    					<div class="row">
+								<div class="col-6" style=" font-weight:bold;">Stamp:</div>
+								<div class="col-6" style=" font-weight:bold;">Stamp:</div>
+	    						<div class="col-6" style="font-weight:bold;">Stamp:</div>
+	    					</div> -->
+	    				<!-- </div> -->
+                    </div>
+                </div>
+					
+
+            </div>
+        </t>
+    </template>
+
+    <template id="report_payment_receipt_new">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="bt_account_payment.report_payment_receipt_document_new" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>

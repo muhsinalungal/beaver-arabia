@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="budget_line_wizard_form" model="ir.ui.view">
+    	<field name="name">Budget Line Wizard Form</field>
+    	<field name="model">budget.line.wizard</field>
+    	<field name="arch" type="xml">
+    		<form string="Add Budget Lines">
+    			<group>
+    				<field name="analytic_account_id"/>
+    			</group>
+    			<group>
+    				<field name="general_budget_ids"/>
+    			</group>
+    			<footer>
+    				<button name="add_budget_lines" string="Add" type="object" class="oe_highlight"/>
+    				or
+    				<button string="Cancel" class="oe_highlight" special="cancel"/>
+    			</footer>
+    		</form>
+    	</field>
+    </record>
+    
+    <record id="budget_line_wizard_action" model="ir.actions.act_window">
+    	<field name="name">Budget Line Wizard Action</field>
+    	<field name="type">ir.actions.act_window</field>
+    	<field name="res_model">budget.line.wizard</field>
+    	<field name="view_mode">form</field>
+    	<field name="target">new</field>
+    </record>
+
+     <record id="create_project_wizard_form" model="ir.ui.view">
+        <field name="name">Create Project Wizard Form</field>
+        <field name="model">create.project.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Create Project">
+                <group>
+                    <field name="name"/>
+                </group>
+                
+                <footer>
+                    <button name="add_budget_lines" string="Create" type="object" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_highlight" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="create_project_wizard_action_wiz" model="ir.actions.act_window">
+        <field name="name">Create Project Wizard Action</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">create.project.wiz</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    
+</odoo>

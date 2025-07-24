@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="form_view_estimate_detail" model="ir.ui.view">
+        <field name="name">estimate.detail.form</field>
+        <field name="model">estimate.detail</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                	<field name="project_id"  />
+                	<field name="name"  />
+                </sheet>
+            </form>
+     	</field>
+  	</record>
+  	
+  	<record id="tree_view_estimate_detail" model="ir.ui.view">
+        <field name="name">estimate.tree</field>
+        <field name="model">estimate.detail</field>
+        <field name="arch" type="xml">
+            <tree create="true" >
+            	<field name="name" />
+                <field name="project_id"/>
+               
+            </tree>
+        </field>
+    </record>
+  	
+  	<record id="action_estimate_detail" model="ir.actions.act_window">
+        <field name="name">Estimate Sheet</field>
+        <field name="res_model">estimate.detail</field>
+        <field name="view_id" ref="tree_view_estimate_detail"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new estimate.
+            </p>
+        </field>
+    </record>
+</odoo>

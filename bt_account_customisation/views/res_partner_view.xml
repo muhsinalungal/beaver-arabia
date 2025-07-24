@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+ 		<record id="res_partner_view_form_inherit_bt" model="ir.ui.view">
+            <field name="name">res.partner.view.form.inherit.bt</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_type']" position="after">
+                    <div style="width:50%">
+                    <group col="2" colspan="6">
+                         <field name="customer_ref" />
+                    </group>
+                </div>
+                </xpath>
+                <xpath expr="//field[@name='property_account_payable_id']" position="after">
+                    <field name="advance_account_id" />
+                </xpath>
+            </field>
+        </record>
+
+         <record id="res_partner_view_tree_inherit_bt" model="ir.ui.view">
+            <field name="name">res.partner.view.tree.inherit.bt</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="customer_ref" />
+                </xpath>
+            </field>
+        </record>
+
+</data>
+</odoo>

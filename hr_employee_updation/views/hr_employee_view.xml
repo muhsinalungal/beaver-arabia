@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="employee_report_menu" name="Reports" sequence="30"
+                  groups="hr.group_hr_manager,hr.group_hr_user"/>
+        <menuitem id="menu_hr_management" name="HR Management" parent="hr.menu_hr_root" sequence="5"
+                  groups="hr.group_hr_manager,hr.group_hr_user"/>
+         <record model="ir.ui.view" id="hr_employee_inherit_tree_inh_view">
+
+            <field name="name">hr.employee.tree.inh.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    
+                        <field name="barcode" string="EMP-ID"/>
+                    
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="hr_employee_inherit_form_view">
+
+            <field name="name">hr.employee.form.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//form/sheet/notebook/page[@name='hr_settings']/group/group[2]/label[1]" position="replace">
+					<p></p>
+				</xpath>
+				<xpath expr="//form/sheet/notebook/page[@name='hr_settings']/group/group[2]/div" position="replace">
+					<p></p>
+				</xpath>
+				<xpath expr="//form/sheet/div[2]/h1" position="after">
+					<h3>
+						<field name="barcode" placeholder="EMP-ID......."/>
+					</h3>
+				</xpath>
+				<xpath expr="//form/sheet/group/group[2]/field[@name='department_id']" position="replace">
+					<field name="divisioned_id"/>
+				</xpath>
+				<xpath expr="//form/sheet/notebook/page[@name='personal_information']/group/group[7]" position="after">
+					<group string="Other Details">
+						<field name="no_sponsorship"/>
+						<field name="vac_days"/>
+						<field name="vac_cy"/>
+						<field name="vehcle"/>
+						<field name="sim_card"/>
+					</group>
+				</xpath>
+				<xpath expr="//form/sheet/notebook/page[@name='personal_information']/group/group[1]/field[@name='address_home_id']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/notebook/page[@name='personal_information']/group/group[1]/field[@name='private_email']" position="before">
+					<span class="o_form_label o_td_label" name="address_name">
+                        <b>Address</b>
+                    </span>
+                    <div class="o_address_format">
+                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                        <field name="city" placeholder="City" class="o_address_city"/>
+                        <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}"
+                             context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                    </div>
+				</xpath>
+				<xpath expr="//form/sheet/notebook/page[@name='personal_information']/group/group[1]/field[@name='private_email']" position="attributes">
+					<attribute name="readonly">False</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/notebook/page[@name='personal_information']/group/group[1]/field[@name='phone']" position="attributes">
+					<attribute name="readonly">False</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/notebook/page[@name='personal_information']/group/group[2]/field[@name='country_id']" position="after">
+					<field name="nationality"/>
+				</xpath>
+				<xpath expr="//form/header" position="inside">
+					<button name="click_to_valid" string="Confirm" type="object" class="oe_highlight" attrs="{'invisible': [('state', '=', 'valid')]}"/>
+					<field name="state" widget="statusbar" statusbar_visible="draft,valid"/>
+				</xpath>
+                <xpath expr="//group[@name='active_group']/field[@name='user_id']" position="after">
+                    <field name="active" invisible="1"/>
+                    <field name="archive" invisible="1"/>
+                </xpath>
+				<xpath expr="//group[@name='active_group']/field[@name='job_id']" position="before">
+					<field name="insurance_company_id"/>
+					<field name="insurance_exp_date"/>
+				</xpath>
+                <xpath expr="//page[@name='personal_information']/group" position="after">
+                    <group name="fam_ids" colspan="4" string="Dependence Details">
+                        <field name="fam_ids">
+                            <tree editable="bottom">
+                                <field name="member_name" required="1"/>
+                                <field name="relation_id" required="1"/>
+                                <field name="member_contact"/>
+                                <field name="birth_date"/>
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
+                 <xpath expr="//field[@name='bank_account_id']" position="replace">
+                        <field name="bank_account_id" context="{'display_partner':True}" />
+                    </xpath>
+                <field name="user_id" position="after">
+                    <field name="joining_date"/>
+                </field>
+                <field name="identification_id" position="replace"/>
+                <field name="passport_id" position="replace"/>
+                <xpath expr="//page[@name='personal_information']/group/group[1]" position="after">
+                    <group name="identification_id" string="Identification ID">
+                        <field name="identification_id" string="Iqama Number/National ID"/>
+                        <field name="id_expiry_date"  string="Iqama Expiry Date" groups="hr.group_hr_user" attrs="{'invisible': [('identification_id', 'in', [None,False])]}"/>
+                        <field name="id_attachment_id" groups="hr.group_hr_user" widget="many2many_binary" class="oe_inline" attrs="{'invisible': [('identification_id', 'in', [None,False])]}"/>
+                    </group>
+                    <group name="passport_id" string="Passport ID">
+                        <field name="passport_id"/>
+                        <field name="passport_expiry_date" groups="hr.group_hr_user" attrs="{'invisible': [('passport_id', 'in', [None,False])]}"/>
+                        <field name="passport_attachment_id" groups="hr.group_hr_user" widget="many2many_binary" class="oe_inline" attrs="{'invisible': [('passport_id', 'in', [None,False])]}"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="hr_gamification.hr_hr_employee_view_form" model="ir.ui.view">
+            <field name="name">hr.employee.view.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='public']" position="after">
+                    <page string="Received Badges" attrs="{'invisible': [('user_id', '=', False)]}">
+                        <div name="badges" groups="hr.group_hr_user">
+                            <field name="has_badges" invisible="1"/>
+                            <button string="Grant a Badge" type="action" name="%(hr_gamification.action_reward_wizard)d"/> to reward this employee for a good action
+                            <div class="oe_view_nocontent" attrs="{'invisible': [('has_badges', '=', True)]}">
+                                <p class="oe_view_nocontent_create">
+                                    Click to grant this employee his first badge
+                                </p><p class="oe_grey">
+                                    Badges are rewards of good work. Give them to people you believe deserve it.
+                                </p>
+                            </div>
+                        </div>
+                        <field name="badge_ids" widget="many2many_kanban" />
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+          <record id="hr_employee_updation_view_search" model="ir.ui.view">
+            <field name="name">hr.employee.updation.view.search</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//filter[@name='inactive']" position="after">
+                        <separator/>
+                        <filter string="In Active" name="archive" domain="[('archive', '=', True)]"/>
+                        <filter string="Active" name="unarchive" domain="[('archive', '=', False)]"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+         <record id="hr.open_view_employee_list_my" model="ir.actions.act_window">
+            <field name="name">Employees</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="domain">[]</field>
+            <field name="context">{'chat_icon': True,'search_default_unarchive':1}</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="hr.view_employee_filter"/>
+            <field name="help" type="html">
+             <p class="o_view_nocontent_smiling_face">
+               Add a new employee
+             </p><p>
+               With just a quick glance on the Odoo employee screen, you
+               can easily find all the information you need for each person;
+               contact data, job position, availability, etc.
+             </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<menuitem id="estimate_menu_root"
+            name="Estimates"
+            web_icon="bt_job_cost_estimation,static/description/icon.png"
+            active="True"
+            sequence="8"/>
+	<menuitem id="estimate_menu"
+            name="Estimates"
+            parent="estimate_menu_root"
+            sequence="1"/>
+    <menuitem id="estimate_config_menu"
+            name="Configuration"
+            parent="estimate_menu_root"
+            sequence="10"/>
+
+    <menuitem id="menu_sale_estimate_job" name="Sale Estimates" action="action_sale_estimate_detail" parent="estimate_menu_root"
+                sequence="9"/>
+    <menuitem id="menu_diameter_measure" name="Diameter Measure" action="action_diameter_measure" parent="estimate_config_menu"
+                sequence="20"/>
+</odoo>

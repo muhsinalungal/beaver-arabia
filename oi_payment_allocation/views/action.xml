@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="act_account_payment_allocation" model="ir.actions.act_window">
+		<field name="name">Payment Allocation</field>
+		<field name="res_model">account.payment.allocation</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="binding_model_id" ref="account.model_account_payment" />
+		<field name="binding_view_types">form</field>
+	</record>
+
+	<record id="act_account_payment_allocation_invoice" model="ir.actions.act_window">
+		<field name="name">Payment Allocation</field>
+		<field name="res_model">account.payment.allocation</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="binding_model_id" ref="account.model_account_move" />
+		<field name="binding_view_types">form</field>
+	</record>
+
+	<record id="act_account_payment_allocation_statement" model="ir.actions.act_window">
+		<field name="name">Payment Allocation</field>
+		<field name="res_model">account.payment.allocation</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="binding_model_id" ref="account.model_account_bank_statement" />
+		<field name="binding_view_types">form</field>
+	</record>
+
+	<record id="act_account_payment_allocation_advance" model="ir.actions.act_window">
+		<field name="name">Payment Allocation</field>
+		<field name="res_model">account.payment.allocation</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_adv_payments_id': active_id}</field>
+		
+		<field name="binding_model_id" ref="bt_account_payment.model_account_advance_payment" />
+		<field name="binding_view_types">form</field>
+	</record>
+	
+	
+
+</odoo>

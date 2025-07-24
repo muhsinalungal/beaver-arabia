@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+	<template id="external_layout_standard">
+         <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"/>
+        </t>
+        <div class="header">
+             <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" class="pull-left" width="10%" style="max-height: 100px;"/>
+             <br></br>	
+             <div class="text-center">
+                <div style="font-size:30px;">
+                    <strong style="font-size:30px;" t-field="company.report_header"/>
+                </div>
+              <strong >  <span class="align-middle"  style="font-size:30px;text-align: center;font-family:Baskerville;" t-field="company.partner_id"
+                      t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/></strong><br></br>
+                      
+            </div>
+            <div class="clearfix mb8"/>
+            <!-- Magic happens here -->
+            <!-- Part of code that makes full page border. If you are overriding the entire header, include this below line in that -->
+            <div width="100%" style="border-bottom: 2px solid black;"></div>
+        </div>
+        <div class="article o_report_layout_standard">
+        	<br></br>
+            <t t-raw="0" />
+        </div>
+    </template>
+ </odoo>

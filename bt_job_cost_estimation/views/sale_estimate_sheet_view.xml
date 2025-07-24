@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	
+    <record id="form_view_project" model="ir.ui.view">
+        <field name="name">estimate.sheet.form</field>
+        <field name="model">estimate.sheet</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirm,approve,reject,cancel" attrs="{'invisible': [('state', '=','versioned')]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <h2><field name="description"/> </h2>
+                    </div>
+                    
+                     <group>
+                     <group>
+                        <label for="diameter"/>
+                                <div name="diameter_div" class="d-flex" style="width:43.5%">
+                                    <field name="diameter"  attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" width="100%"/>
+<!--                                    <span class="oe_inline o_form_label mx-3 oe_read_only"></span>-->
+                                    <!-- Bigger margin on the left because in edit mode the external link button covers the text -->
+<!--                                    <span class="oe_inline o_form_label mr-3 ml-5 oe_edit_only" ></span>-->
+                                    <field name="dia_measure_id" style="width:30%%"  attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                                </div>
+
+                            <label for="wall_thickness"/>
+                            <div>
+                                <field name="wall_thickness" class="oe_inline" style="vertical-align:baseline" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/> 
+                            </div>
+                            <label for="soil_condition"/>
+                            <div>
+                                <field name="soil_condition" class="oe_inline" style="vertical-align:baseline" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/> 
+                            </div>
+                            <label for="method_choosen"/>
+                            <div>
+                                <field name="method_choosen" class="oe_inline" style="vertical-align:baseline" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/> 
+                            </div>
+                            <label for="carrier_pipe_dia"/>
+                            <div>
+                                <field name="carrier_pipe_dia" class="oe_inline" style="vertical-align:baseline" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/> 
+                            </div>
+                         
+                            
+                        </group>
+                         <group>
+                            <label for="no_of_crossing"/>
+                            <div>
+                                <field name="no_of_crossing" class="oe_inline" style="vertical-align:baseline" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/> NOS
+                            </div>
+                            <label for="borring_length"/>
+                            <div>
+                                <field name="borring_length" class="oe_inline" style="vertical-align:baseline" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/> M
+                            </div>
+                            <label for="borring_depth"/>
+                            <div>
+                                <field name="borring_depth" class="oe_inline" style="vertical-align:baseline" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/> M
+                            </div>
+                            <label for="avg_length"/>
+                            <div>
+                                <field name="avg_length" class="oe_inline" style="vertical-align:baseline" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/> M
+                            </div>
+                        </group>
+                        <field name="note" placeholder="Note" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                       
+                    </group>
+                    <notebook>
+                        <page string="Summary Works">
+                            <field name="summary_work_ids" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}"> 
+                                <tree editable="bottom">
+                               
+                                     <field name="product_id" required="1" domain="[('product_tmpl_id.estimate_type', '=', 'work')]"/>
+                                    <field name="name" required="1"/>
+                                    <field name="duration" sum="Total Duration"/>
+                                    
+                                </tree>
+                            </field>
+                     
+                        </page>
+                    </notebook>
+                     <div style="margin-top:-20px;">
+                        <group class="oe_subtotal_footer oe_right" colspan="4" name="total_planning">
+                
+                        <div class="oe_inline o_td_label">
+                            <label for="total_planning" string="Total Planning"/>
+                        </div>
+                        <field name="total_planning" nolabel="1"  class="oe_subtotal_footer_separator"/>
+                         <div class="oe_inline o_td_label">
+                            <label for="project_duration" string="Project Duration"/>
+                        </div>
+                        <field name="project_duration" nolabel="1" force_save="1" class="oe_subtotal_footer_separator" readonly="1"/>
+                        <div class="oe_inline o_td_label"  >
+                            <label for="microtunneling_setup"  string="Microtunneling Setup">
+                            </label>
+                        </div>
+                         
+                        <field name="microtunneling_setup" nolabel="1"  class="oe_subtotal_footer_separator" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" style="width:150px"/>
+                         <div class="oe_inline o_td_label">
+                            <label for="duration_micro" string="Project Duration/Microtunneling Setup"/>
+                        </div>
+                        <field name="duration_micro" nolabel="1"  readonly="1" force_save="1" class="oe_subtotal_footer_separator"/>
+                    </group>
+                    </div>
+
+                     <notebook>
+
+                        <page string="Wages">
+                            <field name="estimate_line_ids" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}" context="{'default_estimate_type':'wages','default_duration':duration_micro}" widget="section_and_note_one2many" > 
+                                <tree editable="bottom">
+                                    <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                                    </control>
+
+                                    <field name="display_type" invisible="1"/>
+                                    <field name="estimate_type" readonly="1" force_save="1" invisible="1"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="project_id" invisible="1"/>
+                                    <field name="product_id" domain="[('product_tmpl_id.estimate_type', '=', 'wages')]"/>
+                                    <field name="name" widget="section_and_note_text" optional="show" string="Description"/>
+                                    <field name="description" invisible="1"/>
+                                    <field name="product_description" invisible="1"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="pricelist_id" invisible="1"/>
+<!--                                    <field name="price_list_price" invisible="1"/>-->
+                                    <field name="pricelist_active" invisible="1"/>
+                                    <field name="price_unit" widget="monetary" />
+                                  
+                                    <field name="duration" sum="Total Duration"/>
+                                    <field name="subtotal" widget="monetary"  force_save="1" sum="Total"/>
+                                    <field name="line_total" invisible="1"/>
+                                    <field name="price_tax" invisible="1"/>
+
+                                </tree>
+                            </field>
+                  
+                        </page>
+                         <page string="Equipments">
+                            <field name="equip_estimate_line_ids" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}" context="{'default_estimate_type':'equipment','default_duration':duration_micro}" widget="section_and_note_one2many" > 
+                                <tree editable="bottom">
+                                <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                                    </control>
+
+                                    <field name="display_type" invisible="1"/>
+                                    <field name="estimate_type" readonly="1" force_save="1" invisible="1"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="project_id" invisible="1"/>
+                                    <field name="product_id" domain="[('product_tmpl_id.estimate_type', '=', 'equipments')]"/>
+                                    <field name="name" widget="section_and_note_text" optional="show" string="Description"/>
+                                    <field name="description" invisible="1"/>
+                                    <field name="product_description" invisible="1"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="pricelist_id" invisible="1"/>
+<!--                                    <field name="price_list_price" invisible="1"/>-->
+                                    <field name="pricelist_active" invisible="1"/>
+                                    <field name="price_unit" widget="monetary" />
+                                  
+                                    <field name="duration" sum="Total Duration"/>
+                                    <field name="subtotal" widget="monetary"  force_save="1" sum="Total"/>
+                                    <field name="line_total" invisible="1"/>
+                                    <field name="price_tax" invisible="1"/>
+
+                                </tree>
+                            </field>
+                      
+                        </page>
+                     <page string="Materials">
+                            <field name="material_estimate_line_ids" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}" context="{'default_estimate_type':'material','default_duration':duration_micro}" widget="section_and_note_one2many" > 
+                                <tree editable="bottom">
+                                    <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                                    </control>
+
+                                    <field name="display_type" invisible="1"/>
+                                    <field name="estimate_type" readonly="1" force_save="1" invisible="1"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="project_id" invisible="1"/>
+                                    <field name="product_id" domain="[('product_tmpl_id.estimate_type', '=', 'material')]"/>
+                                    <field name="name" widget="section_and_note_text" optional="show" string="Description"/>
+                                    <field name="description" invisible="1"/>
+                                    <field name="product_description" invisible="1"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="pricelist_id" invisible="1"/>
+<!--                                    <field name="price_list_price" invisible="1"/>-->
+                                    <field name="pricelist_active" invisible="1"/>
+                                    <field name="price_unit" widget="monetary" />
+                                 
+                                    <field name="duration" sum="Total Duration"/>
+                                    <field name="subtotal" widget="monetary" force_save="1" sum="Total"/>
+                                    <field name="line_total" invisible="1"/>
+                                    <field name="price_tax" invisible="1"/>
+
+
+                                </tree>
+                            </field>
+                      
+                        </page>
+                         <page string="General/Subcontractors">
+                            <field name="general_estimate_line_ids" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}" context="{'default_estimate_type':'general','default_duration':duration_micro}" widget="section_and_note_one2many" > 
+                                <tree editable="bottom">
+                                <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                                    </control>
+
+                                    <field name="display_type" invisible="1"/>
+                                    <field name="estimate_type" readonly="1" force_save="1" invisible="1"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="project_id" invisible="1"/>
+                                    <field name="product_id" domain="[('product_tmpl_id.estimate_type', '=', 'general')]"/>
+                                    <field name="name" widget="section_and_note_text" optional="show" string="Description"/>
+                                    <field name="description" invisible="1"/>
+                                    <field name="product_description" invisible="1"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="pricelist_id" invisible="1"/>
+<!--                                     <field name="price_list_price" invisible="1"/>-->
+                                    <field name="pricelist_active" invisible="1"/>
+                                    <field name="price_unit" widget="monetary" />
+                                 
+                                    <field name="duration" sum="Total Duration"/>
+                                    <field name="subtotal" widget="monetary" force_save="1" sum="Total"/>
+                                    <field name="line_total" invisible="1"/>
+                                    <field name="price_tax" invisible="1"/>
+
+
+                                </tree>
+                            </field>
+                     
+                        </page>
+                       
+                    </notebook>
+                    <div style="margin-top:-20px">
+                    <group class="oe_subtotal_footer oe_right" colspan="4" name="total_cost">
+                  
+                        <div class="oe_inline o_td_label">
+                            <label for="total_cost" string="Total Cost"/>
+                        </div>
+                        <field name="total_cost" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                        <div class="oe_inline o_td_label">
+                            <label for="total_sale" string="Total Sale"/>
+                        </div>
+                        <field name="total_sale" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                         <div class="oe_inline o_td_label">
+                            <label for="contigency_rate" string="Contigency Rate"/>
+                        </div>
+                        <field name="contigency_rate" nolabel="1"  class="oe_subtotal_footer_separator" />
+                         <div class="oe_inline o_td_label">
+                            <label for="contigency" string="Contigency"/>
+                        </div>
+                        <field name="contigency" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" force_save="1"/>
+                        <div class="oe_inline o_td_label">
+                            <label for="final_markup" string="Project Cost"/>
+                        </div>
+                        <field name="final_markup" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" force_save="1"/>
+                        
+                         <div class="oe_inline o_td_label">
+                            <label for="project_po_value" string="Project Po Value"/>
+                        </div>
+                        <field name="project_po_value" nolabel="1" style="width:100px" class="oe_subtotal_footer_separator" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                         <div class="oe_inline o_td_label">
+                            <label for="profit" string="Profit"/>
+                        </div>
+                        <field name="profit" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" force_save="1"/>
+                         <div class="oe_inline o_td_label">
+                            <label for="markup" string="Markup"/>
+                        </div>
+                        <field name="markup" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" force_save="1"/>
+                    </group>
+                </div>
+                <div class="row" style="margin-left: 80px;z-index:99;">
+                <div class="col-12">
+                    <table class="table table-bordered table-sm stub_lines" style="table-layout: fixed;height: 20px;width:600px;" id="hash_config_table">
+                         <tr>
+                                <td class="text-center" style="width: 40%;" scope="col"/>
+                                <td class="text-center" style="width: 30%;" scope="col"><strong>Total Cost</strong></td>
+                                <td class="text-center" style="width: 30%;" scope="col"><strong>Markup(%)</strong></td>
+                                <td class="text-center" style="width: 30%;" scope="col"><strong>Total Sale</strong></td>
+                               
+                                
+                            </tr>
+                        <tbody>
+                                <tr>
+                                    
+                                    <td class="text-center">
+                                       <strong> <span>Wages</span> </strong>
+                                    </td>
+                                    <td class="text-center"> <span><field name="total_wages"/></span></td>
+                                    <td class="text-center"> <span><field name="wages_markup" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/></span></td>
+                                    <td class="text-center"> <span><field name="wages_sale" readonly="1" force_save="1"/></span></td>
+                                    
+                                </tr>
+                                <tr>
+                                    
+                                    <td class="text-center">
+                                       <strong> <span>Equipments</span> </strong>
+                                    </td>
+                                    <td class="text-center"> <span><field name="total_equipment"/></span></td>
+                                    <td class="text-center"> <span><field name="equipment_markup" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/></span></td>
+                                    <td class="text-center"> <span><field name="equipment_sale" readonly="1" force_save="1"/></span></td>
+                                    
+                                </tr>
+                                <tr>
+                                    
+                                    <td class="text-center">
+                                      <strong>  <span>Materials</span> </strong>
+                                    </td>
+                                    <td class="text-center"> <span><field name="total_material"/></span></td>
+                                    <td class="text-center"> <span><field name="material_markup" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/></span></td>
+                                    <td class="text-center"> <span><field name="material_sale" readonly="1" force_save="1"/></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">
+                                      <strong>  <span>General/Subcontractors</span> </strong>
+                                    </td>
+                                    <td class="text-center"> <span><field name="total_general"/></span></td>
+                                    <td class="text-center"> <span><field name="general_markup" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/></span></td>
+                                    <td class="text-center"> <span><field name="general_sale" readonly="1" force_save="1"/></span></td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-12" style="margin-left: 80px;margin-top:10px">
+                    <table class="table table-bordered table-sm stub_lines" style="table-layout: fixed;height: 20px;width:300px;" id="hash_config_table">
+                        <!-- <thead style="display: table-row-group">
+
+                            <tr>
+                                <th class="text-center" style="width: 40%;" scope="col"></th>
+                                <th class="text-center" style="width: 30%;" scope="col">Total Cost</th>
+                                <th class="text-center" style="width: 30%;" scope="col">Markup(%)</th>
+                                <th class="text-center" style="width: 30%;" scope="col">Total Sale</th>
+                            </tr>
+                        </thead> -->
+                        <tbody>
+                                <tr>
+                                    <td class="text-center" style="width: 40%;">
+                                       <strong> <span>Total Meter</span> </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 30%;"> <span><field name="total_meter"/></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="width: 40%;">
+                                       <strong> <span>Rate/LM</span> </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 30%;"> <span><field name="rate_lm"/></span></td>
+                                </tr>
+                                <tr>
+                                     <td class="text-center" style="width: 40%;">
+                                      <strong>  <span>Bid Rate</span> </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 30%;"> <span><field name="bid_rate" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="width: 40%;">
+                                      <strong>  <span>Bid</span> </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 30%;"> <span><field name="bid"/></span></td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+           
+                       
+                    
+                </sheet>
+                <div class="oe_chatter">
+
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="tree_view_project" model="ir.ui.view">
+        <field name="name">estimate.sheet.form</field>
+        <field name="model">estimate.sheet</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="no_of_crossing"/>
+                <field name="avg_length"/>
+                <field name="duration_micro"/>
+                <field name="final_markup"/>
+                <field name="project_po_value"/>
+                <field name="profit" />
+                <field name="markup"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_project" model="ir.actions.act_window">
+        <field name="name">Estimates</field>
+        <field name="res_model">estimate.sheet</field>
+        <field name="view_id" ref="tree_view_project"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Estimation.
+            </p>
+        </field>
+    </record>
+
+     <record id="tree_view_diameter_measure" model="ir.ui.view">
+        <field name="name">diameter.measure.form</field>
+        <field name="model">diameter.measure</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="name" required="1"/>
+                <field name="desc" required="0"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_diameter_measure" model="ir.actions.act_window">
+        <field name="name">Diameter Measure</field>
+        <field name="res_model">diameter.measure</field>
+        <field name="view_id" ref="tree_view_diameter_measure"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Diameter Measure.
+            </p>
+        </field>
+    </record>
+</odoo>

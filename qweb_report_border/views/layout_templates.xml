@@ -1,0 +1,298 @@
+<data>
+    <!-- Including Custom Css File-->
+    <template id="assets_pdf_css" name="Custom Report CSS" inherit_id="web.report_assets_common">
+        <xpath expr="." position="inside">
+            <link href="/qweb_report_border/static/src/css/custom.css" rel="stylesheet"/>
+        </xpath>
+    </template>
+
+    <template id="qweb_report_border.external_layout_background">
+       
+            <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"/>
+        </t>
+           <!--  <div class="pull-right">
+                <h3 class="mt0 text-right" t-field="company.report_header"/>
+            </div> -->
+             <div class="header o_background_header o_background_header_cus">
+            <!-- <div class="full_border"></div> -->
+            <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" class="pull-left"/>
+            <div class="pull-left company_address">
+                <div style="font-size:21px;">
+                    <strong t-field="company.partner_id.name"/>
+                </div>
+                <!-- span t-field="company.partner_id"
+                      t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/> -->
+            </div>
+            <div class="clearfix mb8"/>
+            <!-- Magic happens here -->
+            <!-- Part of code that makes full page border. If you are overriding the entire header, include this below line in that -->
+            <div class="page_border"></div>
+        </div>
+
+        <div class="article o_report_layout_background">
+            <t t-raw="0" />
+        </div>
+
+        <div class="footer o_background_footer footer_custom_new">
+            <div class="text-center">
+                <ul class="list-inline">
+                    <li t-if="company.phone"><i class="fa fa-phone"/> <span t-field="company.phone"/></li>
+                    <li t-if="company.email"><i class="fa fa-at"/> <span t-field="company.email"/></li>
+                    <li t-if="company.website"><i class="fa fa-globe"/> <span t-field="company.website"/></li>
+                    <li t-if="company.vat"><i class="fa fa-building-o"/><t t-esc="company.country_id.vat_label or 'TIN'"/>: <span t-field="company.vat"/></li>
+                </ul>
+                <div t-field="company.report_footer"/>
+                <div class="text-muted">
+                    Page:
+                    <span class="page"/>
+                    of
+                    <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="qweb_report_border.external_layout_boxed">
+        <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"/>
+        </t>
+        <div class="header o_boxed_header">
+            <div class="row mb8">
+                <div class="col-xs-6">
+                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)"/>
+                </div>
+                <div class="col-xs-6 text-right mb4">
+                    <!-- <h4 class="mt0" t-field="company.rml_header"/> -->
+                    <div name="company_address" class="mb4">
+                        <span class="company_address" t-field="company.partner_id"
+                              t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                    </div>
+                </div>
+            </div>
+            <!-- Magic happens here -->
+            <!-- Part of code that makes full page border. If you are overriding the entire header, include this below line in that -->
+            <div class="page_border"></div>
+        </div>
+
+        <div class="article o_report_layout_boxed">
+            <t t-raw="0" />
+        </div>
+
+        <div class="footer o_boxed_footer">
+            <div class="text-center">
+                <ul class="list-inline">
+                    <li t-if="company.phone">Tel: <span t-field="company.phone"/></li>
+                    <li t-if="company.email">Mail: <span t-field="company.email"/></li>
+                    <li t-if="company.website">Web: <span t-field="company.website"/></li>
+                    <li t-if="company.vat"><t t-esc="company.country_id.vat_label or 'TIN'"/>: <span t-field="company.vat"/></li>
+                </ul>
+                <div t-field="company.report_footer"/>
+                <div>
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="qweb_report_border.external_layout_clean">
+        <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"/>
+        </t>
+        <div class="header o_clean_header o_background_header_cus">
+            <div class="row">
+                <div class="col-xs-6">
+                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)"/>
+                </div>
+                <div class="col-xs-5 col-xs-offset-1" name="company_address">
+                    <ul class="list-unstyled">
+                        <strong><li t-if="company.name"><span t-field="company.name"/></li></strong>
+                        <li t-if="company.vat"><t t-esc="company.country_id.vat_label or 'TIN'"/>: <span t-field="company.vat"/></li>
+                        <li t-if="company.phone">Tel: <span t-field="company.phone"/></li>
+                        <li t-if="company.email"><span t-field="company.email"/></li>
+                        <li t-if="company.website"><span t-field="company.website"/></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="article o_report_layout_clean">
+            <t t-raw="0" />
+        </div>
+
+        <div class="footer o_clean_footer footer_custom_new">
+            <div class="row mt8">
+                <div class="col-xs-3">
+                    <span t-field="company.report_footer"/>
+                </div>
+                <div class="col-xs-4 text-right">
+                    <span class="company_address" t-field="company.partner_id"
+                          t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+                </div>
+                <div class="col-xs-4">
+                    <h4 class="mt0 mb0 text-uppercase" t-field="company.report_header"/>
+                </div>
+                <div class="col-xs-1">
+                    <ul class="list-inline pagenumber pull-right text-center">
+                        <li><strong><span class="page"/></strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="qweb_report_border.external_layout_standard">
+         <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"/>
+        </t>
+        <div class="header o_background_header_cus" style="border-bottom: 2px solid black;">
+            <!-- <div class="row">
+                <div class="col-xs-3 mb4">
+                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 45px;"/>
+                </div>
+                <div class="col-xs-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+            </div>
+            <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                <div class="col-xs-12">
+                    <div style="border-bottom: 1px solid black;"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" name="company_address">
+                    <span t-field="company.partner_id"
+                          t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                          style="border-bottom: 1px solid black; display:inline-block;"/>
+                </div>
+            </div> -->
+             <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" class="pull-left" width="10%" style="max-height: 45px;"/>
+            <div class="text-center">
+                <div style="font-size:21px;">
+                    <strong t-field="company.report_header"/>
+                </div>
+
+              <strong >  <span class="align-middle"  style="font-size:23px;text-align: center;font-family:Baskerville;" t-field="company.partner_id"
+                      t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/></strong>
+            </div>
+            <div class="clearfix mb8"/>
+            <!-- Magic happens here -->
+            <!-- Part of code that makes full page border. If you are overriding the entire header, include this below line in that -->
+            <div class="page_border"></div>
+        </div>
+
+        <div class="article o_report_layout_standard">
+            <t t-raw="0" />
+        </div>
+
+        <div class="footer footer_custom_new">
+            <div class="text-center" style="border-top: 2px solid black;">
+                <ul class="list-inline mb4">
+                    <li t-if="company.phone">Phone: <span t-field="company.phone"/></li>
+                    <li t-if="company.email">Email: <span t-field="company.email"/></li>
+                    <li t-if="company.website">Web: <span t-field="company.website"/></li>
+                    <li t-if="company.vat"><t t-esc="company.country_id.vat_label or 'TIN'"/>: <span t-field="company.vat"/></li>
+                </ul>
+
+                <div name="financial_infos">
+                    <span t-field="company.report_footer"/>
+                </div>
+
+                <div class="text-muted">
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="qweb_report_border.external_layout_standard_ls">
+         <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"/>
+        </t>
+        <div class="header o_background_header_cus_ls" style="border-bottom: 2px solid black;">
+            <!-- <div class="row">
+                <div class="col-xs-3 mb4">
+                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 45px;"/>
+                </div>
+                <div class="col-xs-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+            </div>
+            <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                <div class="col-xs-12">
+                    <div style="border-bottom: 1px solid black;"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" name="company_address">
+                    <span t-field="company.partner_id"
+                          t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                          style="border-bottom: 1px solid black; display:inline-block;"/>
+                </div>
+            </div> -->
+             <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" class="pull-left" width="8%" style="max-height: 45px;"/>
+            <div class="text-center">
+                <div style="font-size:21px;">
+                    <strong t-field="company.report_header"/>
+                </div>
+
+              <strong >  <span class="align-middle"  style="font-size:23px;text-align: center;font-family:Baskerville;" t-field="company.partner_id"
+                      t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/></strong>
+            </div>
+            <div class="clearfix mb8"/>
+            <!-- Magic happens here -->
+            <!-- Part of code that makes full page border. If you are overriding the entire header, include this below line in that -->
+            <div class="page_border_ls"></div>
+        </div>
+
+        <div class="article o_report_layout_standard">
+            <t t-raw="0" />
+        </div>
+
+        <div class="footer footer_custom_new_ls">
+            <div class="text-center" style="border-top: 2px solid black;">
+                <ul class="list-inline mb4">
+                    <li t-if="company.phone">Phone: <span t-field="company.phone"/></li>
+                    <li t-if="company.email">Email: <span t-field="company.email"/></li>
+                    <li t-if="company.website">Web: <span t-field="company.website"/></li>
+                    <li t-if="company.vat"><t t-esc="company.country_id.vat_label or 'TIN'"/>: <span t-field="company.vat"/></li>
+                </ul>
+
+                <div name="financial_infos">
+                    <span t-field="company.report_footer"/>
+                </div>
+
+                <div class="text-muted">
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+   <!--  <record id="report_qweb_paperformat_new" model="report.paperformat">
+        <field name="name">Voucher paperformat</field>
+        <field name="default" eval="True" />
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">12</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">10</field>
+        <field name="dpi">110</field>
+    </record>
+ -->
+</data>

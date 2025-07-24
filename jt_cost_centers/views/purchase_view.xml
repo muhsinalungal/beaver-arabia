@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="purchase_order_inherited_cc_form" model="ir.ui.view">
+            <field name="name">purchase.order.inherited.cc.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='company_id']" position="after">
+                        <field name="cost_center_id" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                    </xpath>
+
+                    <xpath expr="//form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='product_uom']"
+                    position="after">
+                        <field name="cost_center_id"  options="{'no_quick_create':True,'no_create_edit':True}"/>
+                    </xpath>
+                </field>
+        </record>
+
+        <record id="purchase_line_cc_inherited_form" model="ir.ui.view">
+            <field name="name">purchase.line.cc.inherited.form</field>
+            <field name="model">purchase.order.line</field>
+            <field name="inherit_id" ref="purchase.purchase_order_line_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group[1]/div/field[@name='product_qty']" position="after">
+                    <field name="cost_center_id" options="{'no_quick_create':True,'no_create_edit':True}"  string="Cost Center"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+
+</odoo>

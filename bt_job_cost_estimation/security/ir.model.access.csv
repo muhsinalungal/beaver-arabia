@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_estimate,sale.estimate,model_sale_estimate,,1,1,1,1
+access_sale_estimate_line,sale.estimate.line,model_sale_estimate_line,,1,1,1,1
+access_estimate_sheet,estimate.sheet,model_estimate_sheet,,1,1,1,1
+access_product_pricelist,product.pricelist,product.model_product_pricelist,sales_team.group_sale_manager,1,1,1,1
+access_product_pricelist_item,product.pricelist.item,product.model_product_pricelist_item,sales_team.group_sale_manager,1,1,1,1
+access_summary_work,summary.work,model_summary_work,,1,1,1,1
+access_diameter_measure,diameter.measure,model_diameter_measure,,1,1,1,1
+access_sale_template,sale.template,model_sale_template,,1,1,1,1
+access_sale_template_line,sale.template.line,model_sale_template_line,,1,1,1,1
+access_work_matrix_line,work.matrix.line,model_work_matrix_line,,1,1,1,1
+access_fixed_cost_line,fixed.cost.line,model_fixed_cost_line,,1,1,1,1

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="mis_report_instance_view_form">
+        <field name="name">Add horizontal option to MIS report instance form</field>
+        <field name="model">mis.report.instance</field>
+        <field name="inherit_id" ref="mis_builder.mis_report_instance_view_form" />
+        <field name="arch" type="xml">
+            <group name="layout" position="inside">
+                <field name="allow_horizontal" invisible="1" />
+                <field
+                    name="horizontal"
+                    attrs="{'invisible': [('allow_horizontal', '=', False)]}"
+                />
+            </group>
+            <xpath expr="//field[@name='comparison_mode']" position="after">
+                <field name="year_wise" invisible="1" />
+                
+                 
+                <field name="dept_wise" invisible="1" />
+                <field name="dept_ids" attrs="{'invisible': [('dept_wise', '=', False)]}" widget="many2many_tags" />
+                 <!-- <field name="project_ids"  widget="many2many_tags" /> -->
+                <field name="month_wise" invisible="1" />
+            </xpath>
+            <xpath expr="//group[1]" position="after">
+                <button name="update_lines" type="object" string="Update Lines" class="btn-primary"/>
+            </xpath>
+            <xpath expr="//group[1]/group[2]/group[1]" position="replace">
+                 <group name="simple_mode" colspan="4">
+                    <field name="date_range_id" invisible="1"/>
+                    <field name="year" invisible="0" attrs="{'invisible': [('quarter_wise', '=', '')]}"/>
+                    <field name="quarter_wise" invisible="0" string="Date Range"/>
+                    <field name="date_from"/>
+                    <field name="date_to" />
+                    <field name="compare_year" attrs="{'invisible': [('head_name', '!=', 'comparitive')]}"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='report_id']" position="after">
+                <field name="head_name"/>
+                <field name="note"/>
+            </xpath>
+            <xpath expr="//field[@name='currency_id']" position="replace">
+                
+            </xpath>
+        </field>
+    </record>
+
+   
+
+     <record model="ir.actions.act_window" id="mis_report_view_action_p_l">
+        <field name="name">Income Statement</field>
+        <field name="view_id" ref="mis_builder.mis_report_instance_view_tree" />
+        <field name="res_model">mis.report.instance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('temporary', '=', False),('report_id', '=', 1)]</field>
+         <field name="context">{'default_report_id':1}</field>
+    </record>
+    <menuitem
+        id="mis_report_conf_menu_financial"
+        parent="account.menu_finance_reports"
+        name="Financial Reports"
+        sequence="89"
+    />
+    <menuitem
+        id="income_stmnt_report_view_menu"
+        parent="mis_report_conf_menu_financial"
+        name="Income Statement"
+        action="mis_report_view_action_p_l"
+        sequence="21"
+    />
+</odoo>

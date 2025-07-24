@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_expense_forcast,project.expense.forcast,model_project_expense_forcast,,1,1,1,1
+access_crossovered_budget_matrix,crossovered.budget.matrix,model_crossovered_budget_matrix,,1,1,1,1
+access_hr_timesheet_type,hr.timesheet.type,model_hr_timesheet_type,,1,1,1,1
+access_timesheet_project_manager_check,timesheet.project.manager.check,model_timesheet_project_manager_check,,1,1,1,1
+access_budget_line_wizard,budget.line.wizard,model_budget_line_wizard,,1,1,1,1
+access_account_budget_post_type,account.budget.post.type,model_account_budget_post_type,,1,1,1,1
+access_create_project_wiz,create.project.wiz,model_create_project_wiz,,1,1,1,1
+access_price_lines,price.lines,model_price_lines,,1,1,1,1
+

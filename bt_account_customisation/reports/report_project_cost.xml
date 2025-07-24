@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_project_cost_template">
+       <t t-call="qweb_report_border.external_layout_standard">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div style="font-size:21px !important;" class="text-center">
+             
+               <strong>Project Cost</strong>
+            
+        </div>
+        <br></br>
+            <div class="page" style="font-size:15px;">
+           
+                <div class="row">
+                    
+                    <div class="col-6">
+                        <strong>Date From:</strong><span t-field="o.date_from"/>
+                    </div>
+                    <div class="col-6" >
+                        <strong>Date To: </strong><span t-field="o.date_to"/>
+                     </div>
+                    
+                   
+                     
+                </div>
+
+              
+                <br>
+                </br>
+                <!--  <tr t-foreach="o.line_ids" t-as="reco">
+                 <div class="act_as_caption account_title" style="width: 100%;">
+                    <span t-field="reco.analytic_id.name"/>
+                    <span t-field="reco.account_id.name"/> -->
+                   
+                
+                <table class="table table-bordered" width="100%">
+                    <thead>
+                        <tr>
+                        	<th style="border: 1px solid black;"><span>Project-Account</span></th>
+                            <!-- <th style="border: 1px solid black;"><span>Account</span></th> -->
+                            <th style="border: 1px solid black;"><span>Cost Center</span></th>
+                            <th class="text-right" style="border: 1px solid black;"><span>Amount</span></th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr t-foreach="o.project_text()" t-as="project_text">
+                            <td style="border: 1px solid black;"><span t-esc="project_text[0].name"/>-<span t-esc="project_text[1].name"/></td>
+                            <td style="border: 1px solid black;"></td>
+                            <td style="border: 1px solid black;"></td>
+                        <tr t-foreach="o.get_line(project_text[0],project_text[1])" t-as="line">
+                           <!--  <t t-set="amount" t-value="rec[1]"/>
+                            <t t-set="inv" t-value="rec[2].move_id"/>
+                            <t t-if="inv.move_type != 'entry'"> -->
+                            	<!--  <td style="border: 1px solid black;"><span t-field="rec.analytic_id.name"/></td>
+                                <td style="border: 1px solid black;"><span t-field="rec.account_id.name"/></td> -->
+                                 <td style="border: 1px solid black;"></td>
+                               
+                                <td style="border: 1px solid black;"><span t-field="line.product_id.name"/></td>
+                                <td class="text-right" style="border: 1px solid black;"><span t-field="line.amount" /></td>
+                                
+                           <!--  </t> -->
+                        </tr>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- </div>
+            </tr> -->
+                
+					
+
+            </div>
+        </t>
+    </template>
+
+    <template id="report_project_cost">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!-- <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/> -->
+                <t t-call="bt_account_customisation.report_project_cost_template" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+     <record id="action_project_cost" model="ir.actions.report">
+            <field name="name">Project Cost</field>
+            <field name="model">project.cost.report.view</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bt_account_customisation.report_project_cost</field>
+            <field name="report_file">bt_account_customisation.report_project_cost</field>
+            <field name="binding_model_id" ref="model_project_cost_report_view"/>
+            <field name="binding_type">report</field>
+        </record>
+</odoo>

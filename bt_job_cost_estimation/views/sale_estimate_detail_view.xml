@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	 <record id="form_view_estimate_detail1" model="ir.ui.view">
+        <field name="name">sale.estimate.details.form</field>
+        <field name="model">sale.estimate.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                        </h1>
+                    </div>
+                    <group colspan="4" col="4">
+                    	 <field name="number"  attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                    	 <field name="project_id" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                    	 <field name="length1" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                    	 <field name="estimate_id"  attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" domain="[('project_id','=',project_id)]"/>
+                    	 <field name="width"  attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                    	 <field name="uom_id"  attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/> 
+                    	 <field name="height"  attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                    	 <field name="quantity" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" />
+                    	 <field name="coefficient" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" />
+                    	 <field name="remarks" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" />
+                    	 <field name="state" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+	
+    <record id="tree_view_estimate_detail1" model="ir.ui.view">
+        <field name="name">Detailed Estimate</field>
+        <field name="model">sale.estimate.details</field>
+        <field name="arch" type="xml">
+            <tree >
+                <field name="project_id" invisible="1"/>
+                <field name="name"/>
+                <field name="uom_id"/>
+                <field name="number"/>
+                <field name="length1" />
+                <field name="width"/>
+                <field name="height"/>
+                <field name="coefficient"/>
+                <field name="quantity"/>
+                <field name="remarks"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_estimate_detail" model="ir.actions.act_window">
+        <field name="name">Detailed Estimate</field>
+        <field name="res_model">sale.estimate.details</field>
+        <field name="view_id" ref="tree_view_estimate_detail1"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new estimate detail.
+            </p>
+        </field>
+    </record>
+    
+    
+</odoo>

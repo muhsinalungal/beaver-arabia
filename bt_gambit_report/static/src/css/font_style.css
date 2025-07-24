@@ -1,0 +1,85 @@
+@font-face {
+  font-family: 'Stencil';
+  src: url(/bt_gambit_report/static/src/fonts/STENCIL.woff);
+
+}
+@font-face {
+  font-family: 'Arial Narrow';
+  src: url(/bt_gambit_report/static/src/fonts/Arial_Narrow.woff);
+
+}
+@font-face {
+  font-family: 'Cg Omega';
+  src: url(/bt_gambit_report/static/src/fonts/CG_Omega_fed.woff);
+
+}
+@font-face {
+  font-family: 'Calibri';
+  src: url(/bt_gambit_report/static/src/fonts/Calibri_Light.woff);
+
+}
+@font-face {
+  font-family: 'Times New Roman';
+  src: url(/bt_gambit_report/static/src/fonts/TimesNewRomanPSMT.woff);
+
+}
+@font-face {
+  font-family: 'Arial';
+  src: url(/bt_gambit_report/static/src/fonts/Arial.woff);
+
+}
+.footer_text
+{
+    font-family:Stencil !important;
+    text-align: center !important;
+    color: #000000 !important;
+    padding-top: 5px !important;
+}
+.table_row
+{
+  height: 40px;
+}
+
+
+.o_main_table_six > tbody > tr:nth-child(4) {
+	line-height: 0px;
+	height: 20px;
+	
+	
+}
+.o_main_table_six > tbody > tr:nth-child(5) {
+	line-height: 0px;
+	height: 20px;
+    
+}
+.o_stub_lines_seven > thead > tr {
+	line-height: 10px;
+	height: 10px;
+}
+.o_main_table_two > tbody > tr:nth-child(1){
+	line-height: 17px;
+	height: 25px;
+}
+
+.o_main_table_two > tbody > tr:nth-child(3){
+	line-height: 17px;
+	height: 25px;
+}
+
+.o_main_table_two > tbody > tr:nth-child(4){
+	line-height: 17px;
+	height: 25px;
+}
+
+.o_main_table_two > tbody > tr:nth-child(5){
+	line-height: 17px;
+	height: 25px;
+}
+
+.o_main_table_two > tbody > tr:nth-child(6){
+	line-height: 17px;
+	height: 25px;
+}
+
+
+
