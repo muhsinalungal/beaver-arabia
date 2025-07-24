@@ -49,7 +49,7 @@
     'website': "https://www.cybrosys.com",
     'company': 'Cybrosys Techno Solutions',
     'maintainer': 'Cybrosys Techno Solutions',
-    'depends': ['base', 'account', 'sale', 'account_check_printing', 'base_account_budget'],
+    'depends': ['base', 'account', 'sale', 'base_account_budget'],
     'data': [
         'security/ir.model.access.csv',
         'security/security.xml',
@@ -67,7 +67,7 @@
         'views/account_group.xml',
         'views/credit_limit_view.xml',
         'views/account_configuration.xml',
-        'views/account_payment_view.xml',
+        # 'views/account_payment_view.xml',
         'views/res_config_view.xml',
         'views/recurring_payments_view.xml',
         'views/account_followup.xml',
